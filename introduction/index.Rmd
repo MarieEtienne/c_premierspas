@@ -7,22 +7,22 @@ date: "Mars 2021"
 csl: "../resources/apa-no-doi-no-issue.csl"
 output:
    xaringan::moon_reader:
-    css: [  'metropolis',  '../../courses_tools/resources/mpe_pres.css']
+    css: [  'metropolis',  '../courses_tools/resources/mpe_pres.css']
     lib_dir: libs
     nature:
       ratio: 16:10
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      beforeInit: '../../courses_tools/resources/collapseoutput.js'
+      beforeInit: '../courses_tools/resources/collapseoutput.js'
     includes:
-      after_body: '../../courses_tools/resources/insert-logo.html'
+      after_body: '../courses_tools/resources/insert-logo.html'
 ---
 
 
 
 ```{r setup, include = FALSE,  eval = TRUE}
-main_dir <-  '../..'
+main_dir <-  '..'
 common_img_dir <- file.path(main_dir,'courses_tools','resources', 'common_figs')
 course_img_dir <- file.path(main_dir,'resources', 'figs')
 BibOptions(check.entries = FALSE,
@@ -65,16 +65,16 @@ knitr::include_graphics(file.path(course_img_dir, "R_stat_sc_donnees.png"))
 
 
 
-```{r Rstudio, child = 'presR.Rmd', cache = TRUE}
+```{r Rstudio, child = 'presR.rmd', cache = TRUE}
 ```
 
-```{r Rstudio, child = 'useR.Rmd', cache = TRUE}
+```{r Rstudio, child = 'useR.rmd', cache = TRUE}
 ```
 
-```{r Rstudio, child = 'presRStudio.Rmd', cache = TRUE}
+```{r Rstudio, child = 'presRStudio.rmd', cache = TRUE}
 ```
 
-```{r Rstudio, child = 'RapportAutomatise.Rmd', cache = TRUE}
+```{r Rstudio, child = 'RapportAutomatise.rmd', cache = TRUE}
 ```
 
 ---
