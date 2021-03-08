@@ -17,9 +17,6 @@ output:
       beforeInit: '../../courses_tools/resources/collapseoutput.js'
     includes:
       after_body: '../../courses_tools/resources/insert-logo.html'
-fontsize: 11pt
-params:
-  child_path: ''
 ---
 
 
@@ -28,7 +25,6 @@ params:
 main_dir <-  '../..'
 common_img_dir <- file.path(main_dir,'courses_tools','resources', 'common_figs')
 course_img_dir <- file.path(main_dir,'resources', 'figs')
-source(file.path(main_dir,'courses_tools','R', 'load_packages.R'))
 BibOptions(check.entries = FALSE,
            bib.style = "authoryear",
            cite.style = "alphabetic",

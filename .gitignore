@@ -3,24 +3,8 @@
 .Rhistory
 .RData
 .Ruserdata
-2019-286formation Inter/*.RData
-
+*_cache*
 *.rdb
 *.rdx
-2019-286formation Inter/*.pdf
-2019-286formation Inter/*.log
-2019-286formation Inter/*.aux
-2019-286formation Inter/*.nav
-2019-286formation Inter/*.toc
-2019-286formation Inter/cache/*
-2019-286formation Inter/*.tex
-2019-286formation Inter/figures/*
 
 
-2019-286formation Inter/Intro_R\.out
-
-2019-286formation Inter/Intro_R\.rmd
-
-2019-286formation Inter/Intro_R\.vrb
-
-Rmd_files/exercice/exercice_reg_aov\.html
