@@ -1,0 +1,116 @@
+---
+title: Statistique avec R - Premiers pas
+subtitle: R et R studio
+author: Mathieu Emily, Marie-Pierre Etienne, Magalie Houée-Bigot, Fran\c{c}ois Husson 
+institute: "https://github.com/MarieEtienne/FormationContinueR"
+date: "Mars 2021"
+csl: "../resources/apa-no-doi-no-issue.csl"
+output:
+   xaringan::moon_reader:
+    css: [  'metropolis',  '../../courses_tools/resources/mpe_pres.css']
+    lib_dir: libs
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: '../../courses_tools/resources/collapseoutput.js'
+    includes:
+      after_body: '../../courses_tools/resources/insert-logo.html'
+---
+
+
+
+```{r setup, include = FALSE,  eval = TRUE}
+main_dir <-  '../..'
+common_img_dir <- file.path(main_dir,'courses_tools','resources', 'common_figs')
+course_img_dir <- file.path(main_dir,'resources', 'figs')
+BibOptions(check.entries = FALSE,
+           bib.style = "authoryear",
+           cite.style = "alphabetic",
+           style = "markdown",
+           hyperlink = FALSE,
+           dashed = FALSE)
+myBib <- ReadBib(file.path( main_dir,'resources','bibliography.bib'), check = FALSE)
+with_sol <- TRUE ## in order to control the output
+with_course <- TRUE
+```
+
+
+
+
+
+# Préambule
+
+Ce cours s'inspire grandement de 
+
+
+- *R for Data science*, `r Citet(myBib, "r4ds")`, [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)
+
+- *R pour la statistique et la science des données*,  `r Citet(myBib, "husson2018r")`, [https://r-stat-sc-donnees.github.io/](https://r-stat-sc-donnees.github.io/)
+
+- *Cours de Julien Chiquet*
+[https://github.com/jchiquet/CourseAdvancedR](https://github.com/jchiquet/CourseAdvancedR)
+
+
+
+
+```{r r4ds, eval = TRUE, echo = FALSE,out.width = "10%"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, "r4ds_cover.jpg"))
+
+knitr::include_graphics(file.path(course_img_dir, "R_stat_sc_donnees.png"))
+```
+
+
+
+
+```{r Rstudio, child = 'presR.Rmd', cache = TRUE}
+```
+
+```{r Rstudio, child = 'useR.Rmd', cache = TRUE}
+```
+
+```{r Rstudio, child = 'presRStudio.Rmd', cache = TRUE}
+```
+
+```{r Rstudio, child = 'RapportAutomatise.Rmd', cache = TRUE}
+```
+
+---
+name: resources
+# Des ressources utiles
+
+---
+template: resources
+## Les anti sèches de RStudio
+
+[R base](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf)
+
+[RStudio](https://thinkr.fr/pdf/rstudio-french-cheatsheet.pdf)
+
+[RMarkdown](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+[Importation](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+[Manipulation](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+
+[Visualisation](https://thinkr.fr/pdf/ggplot2-french-cheatsheet.pdf)
+
+---
+template: resources
+## Des livres
+
+- <img src =`r file.path(course_img_dir, "cover_Rbase.png")` alt = "Rbase" width = "40" height ="60">  A Language and Environment for Statistical Computing;,  `r Citet(myBib, 'Rbase')`, [https://www.R-project.org/](https://www.R-project.org/)
+
+- <img src =`r file.path(course_img_dir, "cover_R4ds.png")` alt = "r4ds" width = "40" height ="60"> R for Data science `r Citet(myBib, 'r4ds')`, [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)
+
+- <img src =`r file.path(course_img_dir, "R_stat_sc_donnees.png")` alt = "Rstat_sc" width = "40" height ="60">  R pour la statistique et la science des données, `r Citet(myBib, 'husson2018r')`, [https://r-stat-sc-donnees.github.io/](https://r-stat-sc-donnees.github.io/) 
+
+---
+
+# Références
+
+```{r refs, echo=FALSE, results="asis", eval = TRUE, cache = FALSE}
+PrintBibliography(myBib)
+```

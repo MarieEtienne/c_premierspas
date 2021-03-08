@@ -1,0 +1,104 @@
+
+
+---
+name: ecosys
+# L'écosystème R
+
+
+---
+template: ecosys
+## Qu'appelle-t-on R?
+
+R est à la fois un **logiciel**, un **langage** et un **environnement** informatique dédié au calcul et à l'analyse statistique.
+
+R est un projet open source (projet GNU)
+
+R est un logiciel multi-plateforme (Linux, Mac, Windows)
+
+
+---
+template: ecosys
+
+## La structure R
+
+R est composé d'un socle (base) et de bibliothèques de fonctions thématiques regroupées sous le nom de **package**
+
+Il est possible de connecter R avec d'autres langages : C, Fortran, Java, Javascript, Python...
+
+Il est possible d'appeler des fonctions R depuis Matlab, Excel, SAS, SPSS...
+
+Des connectiques pour tous les types de bases de données : RODBC, RMySQL,ROracle, RJDBC, RMongo...
+
+
+---
+template: ecosys
+
+## Les packages 
+
+R a été pensé comme un **langage ouvert et modulaire**.  
+
+L'ensemble des fonctionnalités de R est inclus dans des **packages**.
+
+A l'installation de R, les packages de base sont déjà installés dans votre environnement 
+
+R permet à n'importe qui de proposer et déposer son package sur le serveur du **CRAN**. De nombreux chercheurs utilisent R donc les nouvelles méthodes sont implémentées. 
+
+Aujourd'hui, $13903$ packages sont disponibles [https://cran.r-project.org/web/packages/](https://cran.r-project.org/web/packages/) 
+
+Si vous avez besoin d'une fonctionnalité spécifique, vous pouvez avoir besoin d'installer un package!
+
+
+
+---
+template: ecosys
+
+## R histoire
+
+L'ère pré-R
+
+- 1970's développement de S au Bell labs
+- 1980's développement de S-PLUS au AT\&T. Lab
+
+Les débuts
+
+- 1993 développement de R sur le modèle de S par Robert Gentleman et Ross Ihaka au département de statistique de l'université d'Auckland.
+- 1995 dépôts des codes sources sous licence GNU/GPL
+
+Le succès
+
+- 1997 élargissement du groupe
+- 2002 la fondation R dépose ses statuts sous la présidence de Gentleman et Ihaka
+
+Développement entièrement bénévole
+
+- "R development core team" (12aine de personnes)
+- Participation de nombreux chercheurs ($\approx$ 13900 packages)
+
+---
+template: ecosys
+
+## La communauté R
+
+La page web de la **fondation** R
+
+- les statuts, des liens, des références.
+- [http://www.r-project.org/](http://www.r-project.org/)
+
+La page web du **CRAN** (Comprehensive R Arxiv Network)
+
+- binaires d'installation, packages, documentations, . . .
+- [http://cran.r-project.org/](http://cran.r-project.org/)
+
+La **conférence** annuelle des utilisateurs de R :
+
+- l'édition 2019 se déroule début juillet en France (Toulouse)
+- l'édition 2009 s'est déroulée à Agrocampus Ouest 
+
+Depuis 2012, il existe une version française : "les rencontres R".
+
+- l'édition 2018 s'est déroulée à Agrocampus Ouest 
+
+The **R journal** propose des articles sur :
+
+- de nouvelles extensions, des applications, des actualités.
+- [http://journal.r-project.org/](http://journal.r-project.org/)

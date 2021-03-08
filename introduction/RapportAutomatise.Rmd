@@ -1,0 +1,71 @@
+
+---
+name: rapport 
+# Rapports automatisés 
+
+---
+template: rapport
+## Présentation de  R Markdown
+
+L’extension **rmarkdown** permet de générer des documents de manière dynamique en mélangeant texte mis en forme et résultats produits par du code R. 
+
+Les documents générés peuvent être au format HTML, PDF, Word, ...
+
+Créer un R Markdown : 
+
+- New File --> R Markdown...
+- Préciser le nom du document et le format de sortie souhaité
+
+Le fichier créé a une extension .rmd
+
+---
+template: rapport
+## Création du document
+
+```{r rstudio_rmd_create, eval = TRUE, echo = FALSE,out.width = "40%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'creation_rmd.png'))
+```
+
+
+
+---
+template: rapport
+## Eléments d'un document R Markdown
+
+- en-tête délimité par 3 tirets
+- texte du document 
+- blocs de code R
+
+```{r rstudio_rmd_entete, eval = TRUE, echo = FALSE,out.width = "30%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'capture_rmd.png'))
+```
+
+
+
+---
+template: rapport
+## Compiler un document 
+
+On peut à tout moment compiler, ou plutôt "tricoter" (Knit), un document R Markdown pour obtenir et visualiser le document généré. 
+
+Pour cela, il suffit de cliquer sur le bouton Knit et de choisir le format de sortie voulu :
+
+```{r rstudio_rmd_compile, eval = TRUE, echo = FALSE,out.width = "20%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'knit_rmd.png'))
+```
+
+
+*Pour la génération du format PDF, vous devez avoir une installation fonctionnelle de LaTeX sur votre système.*
+
+ce qui peut etre fait assez facilement sur la plupart des systèes à l'aide du package ` TinyTeX` ( [explication ici](https://bookdown.org/yihui/rmarkdown-cookbook/install-latex.html) )
+
+
+
+---
+template: rapport
+## Exercice 
+
+- Créer votre R Markdown pour la formation
