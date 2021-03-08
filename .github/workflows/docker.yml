@@ -1,0 +1,24 @@
+name: slides
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  vm:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo This job does not specify a container.
+          echo It runs directly on the virtual machine.
+        name: Run on VM
+  container:
+    runs-on: ubuntu-latest
+    container: rocker/r-base:latest
+    steps:
+      - run: |
+          echo This job does specify a container.
+          echo It runs in the container instead of the VM.
+        name: Run in container
