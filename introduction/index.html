@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Statistique avec R - Premiers pas</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Mathieu Emily, Marie-Pierre Etienne, Magalie Houée-Bigot, Franois Husson" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../courses_tools/resources/mpe_pres.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistique avec R - Premiers pas
+## R et R studio
+### Mathieu Emily, Marie-Pierre Etienne, Magalie Houée-Bigot, Franois Husson
+### <a href="https://github.com/MarieEtienne/FormationContinueR" class="uri">https://github.com/MarieEtienne/FormationContinueR</a>
+### Mars 2021
+
+---
+
+
+
+
+
+
+
+
+
+
+# Préambule
+
+Ce cours s'inspire grandement de 
+
+
+- *R for Data science*, Wickham and Grolemund [WG16], [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)
+
+- *R pour la statistique et la science des données*,  Cornillon, Guyader, Husson, et al. [Cor+18], [https://r-stat-sc-donnees.github.io/](https://r-stat-sc-donnees.github.io/)
+
+- *Cours de Julien Chiquet*
+[https://github.com/jchiquet/CourseAdvancedR](https://github.com/jchiquet/CourseAdvancedR)
+
+
+
+
+&lt;img src="../../resources/figs/r4ds_cover.jpg" width="10%" /&gt;&lt;img src="../../resources/figs/R_stat_sc_donnees.png" width="10%" /&gt;
+
+
+
+
+
+
+
+---
+name: ecosys
+# L'écosystème R
+
+
+---
+template: ecosys
+## Qu'appelle-t-on R?
+
+R est à la fois un **logiciel**, un **langage** et un **environnement** informatique dédié au calcul et à l'analyse statistique.
+
+R est un projet open source (projet GNU)
+
+R est un logiciel multi-plateforme (Linux, Mac, Windows)
+
+
+---
+template: ecosys
+
+## La structure R
+
+R est composé d'un socle (base) et de bibliothèques de fonctions thématiques regroupées sous le nom de **package**
+
+Il est possible de connecter R avec d'autres langages : C, Fortran, Java, Javascript, Python...
+
+Il est possible d'appeler des fonctions R depuis Matlab, Excel, SAS, SPSS...
+
+Des connectiques pour tous les types de bases de données : RODBC, RMySQL,ROracle, RJDBC, RMongo...
+
+
+---
+template: ecosys
+
+## Les packages 
+
+R a été pensé comme un **langage ouvert et modulaire**.  
+
+L'ensemble des fonctionnalités de R est inclus dans des **packages**.
+
+A l'installation de R, les packages de base sont déjà installés dans votre environnement 
+
+R permet à n'importe qui de proposer et déposer son package sur le serveur du **CRAN**. De nombreux chercheurs utilisent R donc les nouvelles méthodes sont implémentées. 
+
+Aujourd'hui, `\(13903\)` packages sont disponibles [https://cran.r-project.org/web/packages/](https://cran.r-project.org/web/packages/) 
+
+Si vous avez besoin d'une fonctionnalité spécifique, vous pouvez avoir besoin d'installer un package!
+
+
+
+---
+template: ecosys
+
+## R histoire
+
+L'ère pré-R
+
+- 1970's développement de S au Bell labs
+- 1980's développement de S-PLUS au AT\&amp;T. Lab
+
+Les débuts
+
+- 1993 développement de R sur le modèle de S par Robert Gentleman et Ross Ihaka au département de statistique de l'université d'Auckland.
+- 1995 dépôts des codes sources sous licence GNU/GPL
+
+Le succès
+
+- 1997 élargissement du groupe
+- 2002 la fondation R dépose ses statuts sous la présidence de Gentleman et Ihaka
+
+Développement entièrement bénévole
+
+- "R development core team" (12aine de personnes)
+- Participation de nombreux chercheurs ($\approx$ 13900 packages)
+
+---
+template: ecosys
+
+## La communauté R
+
+La page web de la **fondation** R
+
+- les statuts, des liens, des références.
+- [http://www.r-project.org/](http://www.r-project.org/)
+
+La page web du **CRAN** (Comprehensive R Arxiv Network)
+
+- binaires d'installation, packages, documentations, . . .
+- [http://cran.r-project.org/](http://cran.r-project.org/)
+
+La **conférence** annuelle des utilisateurs de R :
+
+- l'édition 2019 se déroule début juillet en France (Toulouse)
+- l'édition 2009 s'est déroulée à Agrocampus Ouest 
+
+Depuis 2012, il existe une version française : "les rencontres R".
+
+- l'édition 2018 s'est déroulée à Agrocampus Ouest 
+
+The **R journal** propose des articles sur :
+
+- de nouvelles extensions, des applications, des actualités.
+- [http://journal.r-project.org/](http://journal.r-project.org/)
+
+
+
+---
+name: user
+# Utiliser R 
+
+---
+template: user
+## Installer R
+
+Allez sur [http://cran.r-project.org/](http://cran.r-project.org/) et choisissez votre système d'exploitation
+
+
+&lt;img src="../../resources/figs/cran.png" width="60%" style="display: block; margin: auto;" /&gt;
+---
+template: user
+##  Lancement de R
+
+Cliquer sur l'icône &lt;img src =../../courses_tools/resources/common_figs/R.ico alt = "R logo" width = "32" height = "32"&gt; pour lancer R, une fenêtre, appelée **Console** s'ouvre : 
+
+--
+
+&lt;img src="../../resources/figs/Start_consoleR.jpg" width="40%" style="display: block; margin: auto;" /&gt;
+
+--
+
+R attend une instruction : ceci est indiqué par &gt; en début de ligne. Cette instruction doit être validée par **Entrée** pour être exécutée.
+
+- instruction correcte, R exécute et redonne la main &gt;
+- instruction incomplète, R retourne `\(+\)`, il faut alors compléter l'instruction ou sortir avec **Echap**
+
+
+---
+template: user
+## R et RStudio
+
+### R 
+
+- Element de base : c'est le coeur de l'outil 
+- Utilisation "bas niveau"
+- Convivialité réduite 
+
+### RStudio
+
+RStudio est un IDE (integrated development environment) pour R.
+
+Principaux avantages de convivialité:
+
+- Editeur de code intégré
+- Débogage
+- Outil de visualisation de l'environnement de travail
+
+
+
+---
+name: userstudio
+# Utiliser R depuis Rstudio  
+---
+template: userstudio
+## Installer RStudio
+
+Allez sur [https://www.rstudio.com/products/RStudio/](https://www.rstudio.com/products/RStudio/)
+
+&lt;img src="../../resources/figs/RStudio.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+template: userstudio
+## Lancement de RStudio 
+
+Cliquer sur l'icône &lt;img src =../../courses_tools/resources/common_figs/RStudioLogo.png alt = "RStudio logo" width = "32" height = "32"&gt;  pour lancer RStudio
+
+&lt;img src="../../resources/figs/RStudioStart.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+template: userstudio
+## Premier contact avec RStudio 
+
+RStudio est divisé en 3 (4) quadrants : 
+
+- Console
+- Espace de travail, historique, importation, ...
+- Visualisation (graphiques), aide, ...
+- Editeur de texte, de codes, ... (4ème quadrant à insérer &lt;img src =../../resources/figs/insertEditor.png alt = "insert script" width = "40" height ="20" &gt; ).
+
+--
+### Console 
+
+La console  permet de faire des calculs
+
+
+```r
+1+1
+```
+
+```
+## [1] 2
+```
+
+--
+Le résultat est affiché sauf si il est stocké dans une variable
+
+
+```r
+a &lt;- 1+1
+```
+
+
+```r
+a + 3
+```
+
+```
+## [1] 5
+```
+
+
+
+---
+template: userstudio
+
+### Environnement de travail 
+
+
+- L'environnement liste résultats des calculs stockés dans des **variables** ou **objets** 
+
+
+```r
+c&lt;-154*36
+c
+```
+
+```
+## [1] 5544
+```
+
+
+&lt;img src="../../resources/figs/RStudio_Environ2.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+template: userstudio
+## Bonnes pratiques
+
+### Faire un script
+
+&lt;img src="../../resources/figs/RStudio_Script1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+--
+
+Le code se tape dans la fenêtre de script et s’exécute directement avec la touche Run ou utiliser le raccourci CTL + Entrée.
+
+- \# pour insérer des commentaires 
+- **Shift+Alt+k** pour les raccourcis clavier
+
+
+---
+template: userstudio
+## Bonnes pratiques
+
+### Faire un script
+
+
+&lt;img src="../../resources/figs/RStudio_Script2.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+--
+
+- Possibilité de sauvegarder le script (.R), 
+- Possibilité de sauvegarder l'environnement de travail (.RData).
+
+
+---
+template: userstudio
+## Bonnes pratiques
+
+### Exercice  
+
+Créer un fichier `script_debut.R` et taper les lignes suivantes
+
+
+```r
+a &lt;- 2
+b &lt;- 3
+a + b
+```
+
+```
+## [1] 5
+```
+
+--
+
+Ajouter une variable `c` qui contient la valeur -2. 
+
+Puis définir la variable `d` valant  `a + b * c`.
+
+Exécuter le script.
+
+-- 
+Pourquoi rien ne s'affiche ?
+
+-- 
+
+```r
+c &lt;- -2
+d &lt;- a + b * c
+```
+
+
+---
+template: userstudio
+## Bonnes pratiques
+### Les Projets dans RStudio
+
+RStudio dispose d'une fonctionnalité très pratique pour organiser son travail en différents projets.
+
+L’idée est de réunir tous les fichiers, documents (données, scripts, ...) relatifs à un même projet dans un répertoire dédié.
+
+--
+
+#### Les avantages
+
+- Facilite l'accès aux fichiers de données à importer : le répertoire de travail de R est défini comme étant le répertoire du projet
+- L'onglet Files de l'interface permet de naviguer dans les fichiers du projet
+- Les objets créés (et sauvegardés dans le fichier .Rdata) lors d’une précédente séance de travail sont chargés en mémoire
+- Les scripts ouverts lors d’une précédente séance de travail sont automatiquement ouverts
+
+
+Lorsque l’on ouvre un projet RStudio, on revient à l’état de notre projet tel qu’il était la dernière fois que l’on a travaillé dessus. 
+
+---
+template: userstudio
+## Bonnes pratiques
+### Créer un projet dans Rstudio
+
+Pour créer un projet, File --&gt; New Project 
+
+
+
+&lt;img src="../../resources/figs/CreateProject.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+
+Choisir *Existing directory* ou *New directory* selon l'existence ou non du dossier du projet. Créer ou sélectionner le dossier, puis cliquer sur *Create project*
+
+Une fois le projet créé, son nom est affiché dans un petit menu déroulant en haut à droite de l’interface de RStudio   &lt;img src =../../resources/figs/MenuProjet_reduit.png alt = "Menu projet" width = "120" height = "30"&gt; (menu qui permet de passer facilement d’un projet à un autre).
+
+---
+template: userstudio
+## Tirer profit de la communauté 
+
+### Installer un package 
+
+Le but de l'installation est de télécharger et placer au bon endroit les codes \texttt{R} contenus dans le package
+
+&lt;img src="../../resources/figs/RStudioInstallPackage.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+- En mode ligne de commande
+
+
+```r
+install.packages('ggplot2')
+```
+
+- Vérifier si le package est disponible et l'installer uniquement si besoin
+
+
+```r
+if ( ! require('FactoMineR')) install.packages('FactoMineR)
+```
+
+
+---
+template: userstudio
+## Tirer profit de la communauté 
+
+### Charger le package
+
+Il  ensuite charger le package dans votre environnement lorsque l'on souhaite l'utiliser.
+
+
+- En mode interactif 
+
+en cochant la case du package dans le menu Packages de RStudio 
+
+- dans la console : fonction library ou require 
+
+
+```r
+library('ggplot2')
+```
+
+Le mode console est le mode compatible avec la production de documents. 
+
+
+
+
+
+---
+template: userstudio
+### Exercice
+
+- Installer le package ` dplyr`
+- Charger le package `dplyr`
+
+En ligne de commande de préférence
+
+---
+template: userstudio
+## L'aide
+
+### En ligne de commande dans la console
+
+
+```r
+help(dplyr) # lance l'aide associée à la commande dplyr
+help.start()  # lande l'aide HTML 
+```
+
+--
+- en mode interactif
+
+&lt;img src="../../resources/figs/help_package.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+---
+template: userstudio
+## L'aide
+
+La plupart des packages propose une documentation intitulée **vignettes**, décrivant l'utilisation du package
+
+Pour accéder à la (aux) vignette(s) d'un package, taper dans la console : 
+
+
+```r
+browseVignettes("dplyr")
+```
+
+Il y a toujours des exemples que l'on peut exécuter directement.
+
+
+
+
+---
+name: rapport 
+# Rapports automatisés 
+
+---
+template: rapport
+## Présentation de  R Markdown
+
+L’extension **rmarkdown** permet de générer des documents de manière dynamique en mélangeant texte mis en forme et résultats produits par du code R. 
+
+Les documents générés peuvent être au format HTML, PDF, Word, ...
+
+Créer un R Markdown : 
+
+- New File --&gt; R Markdown...
+- Préciser le nom du document et le format de sortie souhaité
+
+Le fichier créé a une extension .rmd
+
+---
+template: rapport
+## Création du document
+
+&lt;img src="../../resources/figs/creation_rmd.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+template: rapport
+## Eléments d'un document R Markdown
+
+- en-tête délimité par 3 tirets
+- texte du document 
+- blocs de code R
+
+&lt;img src="../../resources/figs/capture_rmd.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+template: rapport
+## Compiler un document 
+
+On peut à tout moment compiler, ou plutôt "tricoter" (Knit), un document R Markdown pour obtenir et visualiser le document généré. 
+
+Pour cela, il suffit de cliquer sur le bouton Knit et de choisir le format de sortie voulu :
+
+&lt;img src="../../resources/figs/knit_rmd.png" width="20%" style="display: block; margin: auto;" /&gt;
+
+
+*Pour la génération du format PDF, vous devez avoir une installation fonctionnelle de LaTeX sur votre système.*
+
+ce qui peut etre fait assez facilement sur la plupart des systèes à l'aide du package ` TinyTeX` ( [explication ici](https://bookdown.org/yihui/rmarkdown-cookbook/install-latex.html) )
+
+
+
+---
+template: rapport
+## Exercice 
+
+- Créer votre R Markdown pour la formation
+
+---
+name: resources
+# Des ressources utiles
+
+---
+template: resources
+## Les anti sèches de RStudio
+
+[R base](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf)
+
+[RStudio](https://thinkr.fr/pdf/rstudio-french-cheatsheet.pdf)
+
+[RMarkdown](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+[Importation](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+[Manipulation](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+
+[Visualisation](https://thinkr.fr/pdf/ggplot2-french-cheatsheet.pdf)
+
+---
+template: resources
+## Des livres
+
+- &lt;img src =../../resources/figs/cover_Rbase.png alt = "Rbase" width = "40" height ="60"&gt;  A Language and Environment for Statistical Computing;,  R Core Team [Cor17], [https://www.R-project.org/](https://www.R-project.org/)
+
+- &lt;img src =../../resources/figs/cover_R4ds.png alt = "r4ds" width = "40" height ="60"&gt; R for Data science Wickham and Grolemund [WG16], [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)
+
+- &lt;img src =../../resources/figs/R_stat_sc_donnees.png alt = "Rstat_sc" width = "40" height ="60"&gt;  R pour la statistique et la science des données, Cornillon, Guyader, Husson, et al. [Cor+18], [https://r-stat-sc-donnees.github.io/](https://r-stat-sc-donnees.github.io/) 
+
+---
+
+# Références
+
+Cornillon, P., A. Guyader, F. Husson, et al. (2018). _R pour la statistique et la science des données_.
+Presses universitaires de Rennes.
+
+R Core Team (2017). _R: A Language and Environment for Statistical Computing_. R Foundation for
+Statistical Computing. Vienna, Austria. URL: [https://www.R-project.org/](https://www.R-project.org/).
+
+Wickham, H. and G. Grolemund (2016). _R for data science: import, tidy, transform, visualize, and model
+data_. " O'Reilly Media, Inc.".
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="../../courses_tools/resources/collapseoutput.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:10",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<style>
+.logo {
+  background-image: url(img/sticker_sotr.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  width: 66px;
+  height: 78px;
+  z-index: 0;
+}
+</style>
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    // add additional classes to exclude here, e.g.
+    // ':not(.inverse)' +
+    ':not(.hide-logo)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo"></div>';
+  });
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
