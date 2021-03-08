@@ -1,0 +1,32 @@
+name: slides
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: brew install pandoc
+      - uses: r-lib/actions/setup-r@master
+      - name: Install R packages
+        run: |
+          install.packages("remotes")
+          remotes::install_github("ropensci/RefManageR")
+          remotes::install_github("yihui/xaringan"))
+
+
+        shell: Rscript {0}
+      - name: Generate slides
+        run: Rscript courses_tools/R/render.R
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./render
