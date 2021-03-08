@@ -65,16 +65,16 @@ knitr::include_graphics(file.path(course_img_dir, "R_stat_sc_donnees.png"))
 
 
 
-```{r Rstudio, child = 'presR.Rmd', cache = TRUE}
+```{r Rstudio, child = 'presR.rmd', cache = TRUE}
 ```
 
-```{r Rstudio, child = 'useR.Rmd', cache = TRUE}
+```{r Rstudio, child = 'useR.rmd', cache = TRUE}
 ```
 
-```{r Rstudio, child = 'presRStudio.Rmd', cache = TRUE}
+```{r Rstudio, child = 'presRStudio.rmd', cache = TRUE}
 ```
 
-```{r Rstudio, child = 'RapportAutomatise.Rmd', cache = TRUE}
+```{r Rstudio, child = 'RapportAutomatise.rmd', cache = TRUE}
 ```
 
 ---
