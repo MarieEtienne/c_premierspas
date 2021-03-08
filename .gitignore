@@ -2,9 +2,9 @@
 .Rproj.user
 .Rhistory
 .RData
-.Ruserdata
 *_cache*
+.Ruserdata
 *.rdb
 *.rdx
-
+sources/libs
 
