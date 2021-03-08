@@ -1,0 +1,56 @@
+
+---
+name: user
+# Utiliser R 
+
+---
+template: user
+## Installer R
+
+Allez sur [http://cran.r-project.org/](http://cran.r-project.org/) et choisissez votre système d'exploitation
+
+
+```{r cran_img, eval = TRUE, echo = FALSE,out.width = "60%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, "cran.png"))
+```
+---
+template: user
+##  Lancement de R
+
+Cliquer sur l'icône <img src =`r file.path(common_img_dir, "R.ico")` alt = "R logo" width = "32" height = "32"> pour lancer R, une fenêtre, appelée **Console** s'ouvre : 
+
+--
+
+```{r start_r, eval = TRUE, echo = FALSE,out.width = "40%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, "Start_consoleR.jpg"))
+```
+
+--
+
+R attend une instruction : ceci est indiqué par > en début de ligne. Cette instruction doit être validée par **Entrée** pour être exécutée.
+
+- instruction correcte, R exécute et redonne la main >
+- instruction incomplète, R retourne $+$, il faut alors compléter l'instruction ou sortir avec **Echap**
+
+
+---
+template: user
+## R et RStudio
+
+### R 
+
+- Element de base : c'est le coeur de l'outil 
+- Utilisation "bas niveau"
+- Convivialité réduite 
+
+### RStudio
+
+RStudio est un IDE (integrated development environment) pour R.
+
+Principaux avantages de convivialité:
+
+- Editeur de code intégré
+- Débogage
+- Outil de visualisation de l'environnement de travail

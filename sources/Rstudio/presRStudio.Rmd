@@ -1,0 +1,283 @@
+
+---
+name: userstudio
+# Utiliser R depuis Rstudio  
+---
+template: userstudio
+## Installer RStudio
+
+Allez sur [https://www.rstudio.com/products/RStudio/](https://www.rstudio.com/products/RStudio/)
+
+```{r rstudio_img, eval = TRUE, echo = FALSE,out.width = "60%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'RStudio.png'))
+```
+
+---
+template: userstudio
+## Lancement de RStudio 
+
+Cliquer sur l'icône <img src =`r file.path(common_img_dir, "RStudioLogo.png")` alt = "RStudio logo" width = "32" height = "32">  pour lancer RStudio
+
+```{r rstudio_start, eval = TRUE, echo = FALSE,out.width = "60%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'RStudioStart.png'))
+```
+
+---
+template: userstudio
+## Premier contact avec RStudio 
+
+RStudio est divisé en 3 (4) quadrants : 
+
+- Console
+- Espace de travail, historique, importation, ...
+- Visualisation (graphiques), aide, ...
+- Editeur de texte, de codes, ... (4ème quadrant à insérer <img src =`r file.path(course_img_dir, "insertEditor.png")` alt = "insert script" width = "40" height ="20" > ).
+
+--
+### Console 
+
+La console  permet de faire des calculs
+
+```{r calcul_consol1}
+1+1
+```
+
+--
+Le résultat est affiché sauf si il est stocké dans une variable
+
+```{r calcul_consol2}
+a <- 1+1
+```
+
+```{r calcul_consol2_bis}
+a + 3
+```
+
+
+
+---
+template: userstudio
+
+### Environnement de travail 
+
+
+- L'environnement liste résultats des calculs stockés dans des **variables** ou **objets** 
+
+```{r calcul_consol3}
+c<-154*36
+c
+```
+
+
+```{r rstudio_env, eval = TRUE, echo = FALSE,out.width = "60%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'RStudio_Environ2.png'))
+```
+
+---
+template: userstudio
+## Bonnes pratiques
+
+### Faire un script
+
+```{r rstudio_script1, eval = TRUE, echo = FALSE,out.width = "60%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'RStudio_Script1.png'))
+```
+
+--
+
+Le code se tape dans la fenêtre de script et s’exécute directement avec la touche Run ou utiliser le raccourci CTL + Entrée.
+
+- \# pour insérer des commentaires 
+- **Shift+Alt+k** pour les raccourcis clavier
+
+
+---
+template: userstudio
+## Bonnes pratiques
+
+### Faire un script
+
+
+```{r rstudio_script2, eval = TRUE, echo = FALSE, out.width = "60%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'RStudio_Script2.png'))
+```
+
+--
+
+- Possibilité de sauvegarder le script (.R), 
+- Possibilité de sauvegarder l'environnement de travail (.RData).
+
+
+---
+template: userstudio
+## Bonnes pratiques
+
+### Exercice  
+
+Créer un fichier `script_debut.R` et taper les lignes suivantes
+
+```{r rscript2}
+a <- 2
+b <- 3
+a + b
+```
+
+--
+
+Ajouter une variable `c` qui contient la valeur -2. 
+
+Puis définir la variable `d` valant  `a + b * c`.
+
+Exécuter le script.
+
+-- 
+Pourquoi rien ne s'affiche ?
+
+-- 
+```{r rscript3 }
+c <- -2
+d <- a + b * c
+```
+
+
+---
+template: userstudio
+## Bonnes pratiques
+### Les Projets dans RStudio
+
+RStudio dispose d'une fonctionnalité très pratique pour organiser son travail en différents projets.
+
+L’idée est de réunir tous les fichiers, documents (données, scripts, ...) relatifs à un même projet dans un répertoire dédié.
+
+--
+
+#### Les avantages
+
+- Facilite l'accès aux fichiers de données à importer : le répertoire de travail de R est défini comme étant le répertoire du projet
+- L'onglet Files de l'interface permet de naviguer dans les fichiers du projet
+- Les objets créés (et sauvegardés dans le fichier .Rdata) lors d’une précédente séance de travail sont chargés en mémoire
+- Les scripts ouverts lors d’une précédente séance de travail sont automatiquement ouverts
+
+
+Lorsque l’on ouvre un projet RStudio, on revient à l’état de notre projet tel qu’il était la dernière fois que l’on a travaillé dessus. 
+
+---
+template: userstudio
+## Bonnes pratiques
+### Créer un projet dans Rstudio
+
+Pour créer un projet, File --> New Project 
+
+
+
+```{r rstudio_projet1, eval = TRUE, echo = FALSE, out.width = "40%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'CreateProject.png'))
+```
+
+
+
+Choisir *Existing directory* ou *New directory* selon l'existence ou non du dossier du projet. Créer ou sélectionner le dossier, puis cliquer sur *Create project*
+
+Une fois le projet créé, son nom est affiché dans un petit menu déroulant en haut à droite de l’interface de RStudio   <img src =`r file.path(course_img_dir, "MenuProjet_reduit.png")` alt = "Menu projet" width = "120" height = "30"> (menu qui permet de passer facilement d’un projet à un autre).
+
+---
+template: userstudio
+## Tirer profit de la communauté 
+
+### Installer un package 
+
+Le but de l'installation est de télécharger et placer au bon endroit les codes \texttt{R} contenus dans le package
+
+```{r rstudio_install_package, eval = TRUE, echo = FALSE,out.width = "40%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'RStudioInstallPackage.png'))
+```
+
+
+- En mode ligne de commande
+
+```{r install_package1, eval = FALSE}
+install.packages('ggplot2')
+```
+
+- Vérifier si le package est disponible et l'installer uniquement si besoin
+
+```{r install_package_2, eval = FALSE}
+if ( ! require('FactoMineR')) install.packages('FactoMineR)
+```
+
+
+---
+template: userstudio
+## Tirer profit de la communauté 
+
+### Charger le package
+
+Il  ensuite charger le package dans votre environnement lorsque l'on souhaite l'utiliser.
+
+
+- En mode interactif 
+
+en cochant la case du package dans le menu Packages de RStudio 
+
+- dans la console : fonction library ou require 
+
+```{r library_1}
+library('ggplot2')
+```
+
+Le mode console est le mode compatible avec la production de documents. 
+
+
+
+
+
+---
+template: userstudio
+### Exercice
+
+- Installer le package ` dplyr`
+- Charger le package `dplyr`
+
+En ligne de commande de préférence
+
+---
+template: userstudio
+## L'aide
+
+### En ligne de commande dans la console
+
+```{r help_package_1,eval=FALSE}
+help(dplyr) # lance l'aide associée à la commande dplyr
+help.start()  # lande l'aide HTML 
+```
+
+--
+- en mode interactif
+
+```{r rstudio_help, eval = TRUE, echo = FALSE,out.width = "40%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'help_package.png'))
+```
+
+
+---
+template: userstudio
+## L'aide
+
+La plupart des packages propose une documentation intitulée **vignettes**, décrivant l'utilisation du package
+
+Pour accéder à la (aux) vignette(s) d'un package, taper dans la console : 
+
+```{r vignette_package,eval=FALSE}
+browseVignettes("dplyr")
+```
+
+Il y a toujours des exemples que l'on peut exécuter directement.
+
