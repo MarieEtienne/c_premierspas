@@ -1,0 +1,58 @@
+
+```{r, echo = FALSE}
+list.files()
+mon_fichier <- "../../Datasets/SamaresEq.txt"
+SamaresEq_base <- read.table(file = mon_fichier, sep = " ", header = TRUE, dec = '.')
+```
+
+## Manipulation de données - R base
+
+### La structure des tableaux de données dans \R 
+
+Un tableau de données est un objet \texttt{data.frame}. 
+
+- Connaître les dimensions d'un tableau
+
+```{r}
+dim(SamaresEq_base)
+``` 
+
+- Connaître les noms de variables
+
+```{r}
+colnames(SamaresEq_base)
+``` 
+
+- Accéder à une variable
+
+```{r}
+head(SamaresEq_base$Poids, n=5)
+```
+
+- Accéder à une ligne
+
+```{r}
+SamaresEq_base[2, ]
+```
+
+
+- Accéder à plusieurs lignes
+
+```{r}
+SamaresEq_base[c(2, 3, 7), ]
+```
+
+
+
+<!-- selection lignes et colonnes avec les crochets -->
+
+<!-- manipulation avancé dplyr -->
+
+<!-- dplyr MPE -->
+
+<!--     -> selection de variables -->
+<!--     -> selection de lignes -->
+<!--     -> virer -->
+<!--     -> tri sur des NA -->
+<!--     -> jointure -->
+

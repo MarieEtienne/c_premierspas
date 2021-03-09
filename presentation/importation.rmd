@@ -1,0 +1,243 @@
+
+---
+name: importation
+# Importation de données
+
+---
+template: importation
+## Bonnes pratiques pour les fichiers
+
+- Préférer un format `csv`, éviter les formats propriétaires `xlsx`
+
+- Ne mettre que les données dans le fichier, (pas de calculs, de grpahiques ou autres)
+
+- Eviter les accents, espaces et caractères spéciaux dans les noms de fichier et les noms de variables
+
+- Garder une trace de toutes les opérations de pré traitement des données (typiquement dans un fichier `RMarkdown`
+
+---
+template: importation
+## Importer un fichier en mode interactif
+
+- File - Import Dataset - From Text (base) - choix du fichier
+
+- File - Import Dataset - From Text (readr) - choix du fichier
+
+--
+### Illustration 
+
+- Télécharger le fichier `SamaresEq.txt` disponible sur [https://marieetienne.github.io/datasets/SamaresEq.txt](https://marieetienne.github.io/datasets/SamaresEq.txt)
+
+- Importation du fichier `SamaresEq.txt` dans la variable `SamaresEq_base`.
+
+```{r import_samares_base, echo = FALSE}
+SamaresEq_base <- read.table('https://marieetienne.github.io/datasets/SamaresEq.txt', sep = ' ')
+```
+
+Il est de classe `data.frame`.
+```{r class_samares_base}
+class(SamaresEq_base)
+```
+
+
+- Importation du même fichier `SamaresEq.txt` avec l'option From text (readr) dans la variable `SamaresEq_readr`.
+
+
+```{r import_samares_readr, echo = FALSE, message = FALSE, results='hide'}
+(SamaresEq_readr <- readr::read_delim('https://marieetienne.github.io/datasets/SamaresEq.txt', delim = ' '))
+```
+
+```{r class_samares_readr}
+class(SamaresEq_readr)
+```
+
+Il est de classe `data.frame` mais aussi tibble tibble_dataframe etc ....
+
+---
+template: importation
+## Importer un fichier en mode interactif
+
+
+### Exercice
+
+ Refaire la manipulation avec les fichiers
+    - [https://marieetienne.github.io/datasets/growth_data.txt](https://marieetienne.github.io/datasets/growth_data.txt)
+    - [https://marieetienne.github.io/datasets/Manchots.csv](https://marieetienne.github.io/datasets/Manchots.csv)
+
+--
+
+Cette pratique a le défaut de ne pas être directement reproductible. 
+
+On souhaite privilégier, un code écrit,  .care[ reproductible].
+
+
+---
+template: importation
+## Importer un fichier en ligne de commande
+
+### Avec les fonctions de base
+
+```{r import_1, echo = TRUE}
+mon_fichier <- "https://marieetienne.github.io/datasets/SamaresEq.txt"
+SamaresEq_base <- read.table(file = mon_fichier, sep = " ", header = TRUE, dec = '.')
+head(SamaresEq_base, n=3)
+```
+- `file` indique le nom complet du fichier (potentiellement avec le chemin d'accès)
+- `sep` décrit le type de séparateur utilisé dans le fichier
+- `dec` décrit le signe pour les décimales (utile pour les fichiers en Français)
+
+--
+
+### Avec les fonctions de readr
+
+```{r import_2, results='hide', message = FALSE}
+SamaresEq_readr <- read_delim(file = mon_fichier, delim = " ")
+SamaresEq_readr
+```
+- `file` indique le nom complet du fichier (potentiellement avec le chemin d'accès)
+- `delim` décrit le type de séparateur utilisé dans le fichier
+
+
+---
+template: importation
+## Importer un fichier en ligne de commande
+
+### Exercice
+
+- Importer le jeu de données
+ [vin](http://factominer.free.fr/livre/vins.csv)
+ 
+- Créer un fichier `RMarkdown` nommé `Formation_R_exercices.Rmd` et insérer le code pour créer le tableau `vins_base` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read.table`.
+
+-  Insérer le code pour créer le tableau `vins_readr` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read_delim` du package `readr`.
+
+---
+template: importation
+## Importer un fichier en ligne de commande
+
+### Solution 
+
+- Importer le jeu de données
+ [vin](http://factominer.free.fr/livre/vins.csv)
+
+```{r import_exo_1}
+vins_base <- read.table(file = 'http://factominer.free.fr/livre/vins.csv',
+                  sep = ';', header =  TRUE, encoding = 'latin1')
+```
+
+--
+
+* Créer un fichier `RMarkdown` nommé `Formation_R_exercices.Rmd` et insérer le code pour créer le tableau `vins_base` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read.table`
+    + New File --  R Markdown 
+    + Modifier auteur et titre 
+    + save as `Formation_R_exercices.Rmd`
+
+
+*  Insérer le code pour créer le tableau `vins_readr` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read_delim` du package `readr`.
+
+```{r import_exo_2, message = FALSE}
+library(readr)
+vins_readr <- vins <- read_delim("http://factominer.free.fr/livre/vins.csv",
+                                delim = ";",
+                                escape_double = FALSE, locale = locale(encoding = "latin1"),
+                                trim_ws = TRUE)
+```
+
+---
+template: importation
+## Créer un projet 
+
+Il faut indiquer le chemin précis du fichier  si il est présent sur notre ordinateur, ce qui peut être pénible. 
+
+Pour un fichier dans le répertoire  `Mes Documents` de Windows, il faut indiquer à `R` l'endroit par le chemin du type  `C:/Users/.....`  (on peut le voir en faisant SHIFT + clic droit sur le nom du fichier). 
+
+Le projet permet de simplifier l'accès au fichier. 
+
+--
+### Exemple
+
+* Créer un nouveau projet Manipulation_data. 
+* Ajouter le fichier `SamaresEq.txt` dans le répertoire du projet
+
+```{r import_projet, eval = FALSE}
+read.table('SamaresEq.txt`, sep = ' ')
+```
+
+Aide mémoire pour la procédure d'importation [ici](https://marieetienne.github.io/h_import_data.html).
+
+
+---
+template: importation
+## Vérifier l'importation
+* Cliquer sur la variable contenant le jeu de données dans l'explorateur ( éviter pour des fichiers longs)
+
+* Afficher le fichier dans son ensemble ( éviter pour des fichiers longs)
+
+```{r affich1, eval = FALSE}
+SamaresEq_base
+```
+
+--
+
+* Afficher les premières ou dernières lignes
+
+```{r affich2}
+head(SamaresEq_base, n = 2)
+tail(SamaresEq_base, n = 3)
+```
+
+---
+template: importation
+## Vérifier l'importation
+
+
+Dans le cas d'objet `tibble` obtenu avec l'importation du package `readr`, l'affichage du tableau ne donne que les premières lignes
+
+```{r affich3}
+SamaresEq_readr
+```
+
+
+---
+template: importation
+##  Importation d'un jeu de données à l'aide  une requête SQL (base de données)
+- Connexion à une base SQL.
+
+```{r sql1, eval=FALSE}
+library(RODBC)
+# Liste les tables de la base de données connectée
+sqlTables(connect_base, tableType = "TABLE")
+# Liste les champs de la table  DonneesTotales
+sqlColumns(connect_base, sqtable = "DonneesTotales")
+```
+
+- Executer une requête sur la base
+
+```{r sql2, eval=FALSE}
+# execute une requete SQL
+OtoYFT <- sqlQuery( channel = connect_base,
+                    query =
+"
+SELECT * FROM DonneesTotales
+WHERE (DonneesTotales.ProblemeSp = 'Ok' AND DonneesTotales.REC_Sp='Y'
+AND DonneesTotales.Otolithe = 'OT')
+")
+# Liste les champs de la table  DonneesTotales
+sqlColumns(connect_base, sqtable = "DonneesTotales")
+```
+
+
+
+
+<!-- selection lignes et colonnes avec les crochets -->
+
+<!-- manipulation avancé dplyr -->
+
+<!-- dplyr MPE -->
+
+<!--     -> selection de variables -->
+<!--     -> selection de lignes -->
+<!--     -> virer -->
+<!--     -> tri sur des NA -->
+<!--     -> jointure -->
+
