@@ -1,7 +1,7 @@
 ---
 title: Statistique avec R - Premiers pas
-subtitle: R et R studio
-author: Mathieu Emily, Marie-Pierre Etienne, Magalie Houée-Bigot, Fran\c{c}ois Husson 
+subtitle: "Introduction: R et R studio"
+author: Marie-Pierre Etienne
 institute: "https://github.com/MarieEtienne/FormationContinueR"
 date: "Mars 2021"
 csl: "../resources/apa-no-doi-no-issue.csl"
@@ -42,7 +42,9 @@ with_course <- TRUE
 
 # Préambule
 
-Ce cours s'inspire grandement de 
+Ce cours a été conçu au sein de l'équipe de Mathématiques appliquées d'Agrocampus Ouest à Rennes avec la participation de  Mathieu Emily, Magalie Houée-Bigot, Fran\c{c}ois Husson.
+
+Il s'inspire grandement de 
 
 
 - *R for Data science*, `r Citet(myBib, "r4ds")`, [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)
