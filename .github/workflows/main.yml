@@ -9,19 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: rocker/geospatial:latest
+    container: mpetienne/r-courses
 
     steps:
       - name: Checkout repository and submodules
         uses: actions/checkout@v2
         with:
           submodules: recursive
-      - name: Install R packages
-        run: |
-          install.packages("remotes")
-          remotes::install_github("ropensci/RefManageR")
-          remotes::install_github("yihui/xaringan")
-        shell: Rscript {0}
       - name: Generate slides
         run: Rscript courses_tools/R/render.R
       - name: Deploy
