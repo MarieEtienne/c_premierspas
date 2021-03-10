@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R : des premiers pas au modèle linéaire</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Marie-Pierre Etienne" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../courses_tools/resources/mpe_pres.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# R : des premiers pas au modèle linéaire
+## Manipulation de données
+### Marie-Pierre Etienne
+### <a href="https://github.com/MarieEtienne/FormationContinueR" class="uri">https://github.com/MarieEtienne/FormationContinueR</a>
+### Mars 2021
+
+---
+
+
+
+
+
+
+
+
+
+
+
+---
+name: importation
+# Importation de données
+
+---
+template: importation
+## Bonnes pratiques pour les fichiers
+
+- Préférer un format `csv`, éviter les formats propriétaires `xlsx`
+
+- Ne mettre que les données dans le fichier, (pas de calculs, de grpahiques ou autres)
+
+- Eviter les accents, espaces et caractères spéciaux dans les noms de fichier et les noms de variables
+
+- Garder une trace de toutes les opérations de pré traitement des données (typiquement dans un fichier `RMarkdown`
+
+---
+template: importation
+## Importer un fichier en mode interactif
+
+- File - Import Dataset - From Text (base) - choix du fichier
+
+- File - Import Dataset - From Text (readr) - choix du fichier
+
+--
+### Illustration 
+
+- Télécharger le fichier `SamaresEq.txt` disponible sur [https://marieetienne.github.io/datasets/SamaresEq.txt](https://marieetienne.github.io/datasets/SamaresEq.txt)
+
+- Importation du fichier `SamaresEq.txt` dans la variable `SamaresEq_base`.
+
+
+
+Il est de classe `data.frame`.
+
+```r
+class(SamaresEq_base)
+```
+
+```
+## [1] "data.frame"
+```
+
+
+- Importation du même fichier `SamaresEq.txt` avec l'option From text (readr) dans la variable `SamaresEq_readr`.
+
+
+
+
+
+```r
+class(SamaresEq_readr)
+```
+
+```
+## [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame"
+```
+
+Il est de classe `data.frame` mais aussi tibble tibble_dataframe etc ....
+
+---
+template: importation
+## Importer un fichier en mode interactif
+
+
+### Exercice
+
+ Refaire la manipulation avec les fichiers
+    - [https://marieetienne.github.io/datasets/growth_data.txt](https://marieetienne.github.io/datasets/growth_data.txt)
+    - [https://marieetienne.github.io/datasets/Manchots.csv](https://marieetienne.github.io/datasets/Manchots.csv)
+
+--
+
+Cette pratique a le défaut de ne pas être directement reproductible. 
+
+On souhaite privilégier, un code écrit,  .care[ reproductible].
+
+
+---
+template: importation
+## Importer un fichier en ligne de commande
+
+### Avec les fonctions de base
+
+
+```r
+mon_fichier &lt;- "https://marieetienne.github.io/datasets/SamaresEq.txt"
+SamaresEq_base &lt;- read.table(file = mon_fichier, sep = " ", header = TRUE, dec = '.')
+head(SamaresEq_base, n=3)
+```
+
+```
+##   Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+## 1    4 Gornies      6.3     1  11.0 0.73816   0.427  2.31502      18.5
+## 2    4 Gornies      6.3     1  15.0 0.69958   0.489  2.15873      18.5
+## 3    4 Gornies      6.3     1  14.6 0.75847   0.444  2.27595      18.5
+```
+- `file` indique le nom complet du fichier (potentiellement avec le chemin d'accès)
+- `sep` décrit le type de séparateur utilisé dans le fichier
+- `dec` décrit le signe pour les décimales (utile pour les fichiers en Français)
+
+--
+
+### Avec les fonctions de readr
+
+
+```r
+SamaresEq_readr &lt;- read_delim(file = mon_fichier, delim = " ")
+SamaresEq_readr
+```
+- `file` indique le nom complet du fichier (potentiellement avec le chemin d'accès)
+- `delim` décrit le type de séparateur utilisé dans le fichier
+
+
+---
+template: importation
+## Importer un fichier en ligne de commande
+
+### Exercice
+
+- Importer le jeu de données
+ [vin](http://factominer.free.fr/livre/vins.csv)
+ 
+- Créer un fichier `RMarkdown` nommé `Formation_R_exercices.Rmd` et insérer le code pour créer le tableau `vins_base` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read.table`.
+
+-  Insérer le code pour créer le tableau `vins_readr` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read_delim` du package `readr`.
+
+---
+template: importation
+## Importer un fichier en ligne de commande
+
+### Solution 
+
+- Importer le jeu de données
+ [vin](http://factominer.free.fr/livre/vins.csv)
+
+
+```r
+vins_base &lt;- read.table(file = 'http://factominer.free.fr/livre/vins.csv',
+                  sep = ';', header =  TRUE, encoding = 'latin1')
+```
+
+--
+
+* Créer un fichier `RMarkdown` nommé `Formation_R_exercices.Rmd` et insérer le code pour créer le tableau `vins_base` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read.table`
+    + New File --  R Markdown 
+    + Modifier auteur et titre 
+    + save as `Formation_R_exercices.Rmd`
+
+
+*  Insérer le code pour créer le tableau `vins_readr` contenant  le jeu de données  [vin](http://factominer.free.fr/livre/vins.csv) en utilisant la commande `read_delim` du package `readr`.
+
+
+```r
+library(readr)
+vins_readr &lt;- vins &lt;- read_delim("http://factominer.free.fr/livre/vins.csv",
+                                delim = ";",
+                                escape_double = FALSE, locale = locale(encoding = "latin1"),
+                                trim_ws = TRUE)
+```
+
+```
+## Warning: Missing column names filled in: 'X1' [1]
+```
+
+---
+template: importation
+## Créer un projet 
+
+Il faut indiquer le chemin précis du fichier  si il est présent sur notre ordinateur, ce qui peut être pénible. 
+
+Pour un fichier dans le répertoire  `Mes Documents` de Windows, il faut indiquer à `R` l'endroit par le chemin du type  `C:/Users/.....`  (on peut le voir en faisant SHIFT + clic droit sur le nom du fichier). 
+
+Le projet permet de simplifier l'accès au fichier. 
+
+--
+### Exemple
+
+* Créer un nouveau projet Manipulation_data. 
+* Ajouter le fichier `SamaresEq.txt` dans le répertoire du projet
+
+
+```r
+read.table('SamaresEq.txt`, sep = ' ')
+```
+
+Aide mémoire pour la procédure d'importation [ici](https://marieetienne.github.io/h_import_data.html).
+
+
+---
+template: importation
+## Vérifier l'importation
+* Cliquer sur la variable contenant le jeu de données dans l'explorateur ( éviter pour des fichiers longs)
+
+* Afficher le fichier dans son ensemble ( éviter pour des fichiers longs)
+
+
+```r
+SamaresEq_base
+```
+
+--
+
+* Afficher les premières ou dernières lignes
+
+
+```r
+head(SamaresEq_base, n = 2)
+```
+
+```
+##   Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+## 1    4 Gornies      6.3     1    11 0.73816   0.427  2.31502      18.5
+## 2    4 Gornies      6.3     1    15 0.69958   0.489  2.15873      18.5
+```
+
+```r
+tail(SamaresEq_base, n = 3)
+```
+
+```
+##      Site   NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+## 2378    5 StLaurent     11.3    29  41.6 1.00891 0.56836  2.40750        26
+## 2379    5 StLaurent     11.3    29  35.3 0.94044 0.58594  2.29955        26
+## 2380    5 StLaurent     11.3    29  26.7 0.76706 0.48735  2.18422        26
+```
+
+---
+template: importation
+## Vérifier l'importation
+
+
+Dans le cas d'objet `tibble` obtenu avec l'importation du package `readr`, l'affichage du tableau ne donne que les premières lignes
+
+
+```r
+SamaresEq_readr
+```
+
+```
+## # A tibble: 2,380 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+
+
+---
+template: importation
+##  Importation d'un jeu de données à l'aide  une requête SQL (base de données)
+- Connexion à une base SQL.
+
+
+```r
+library(RODBC)
+# Liste les tables de la base de données connectée
+sqlTables(connect_base, tableType = "TABLE")
+# Liste les champs de la table  DonneesTotales
+sqlColumns(connect_base, sqtable = "DonneesTotales")
+```
+
+- Executer une requête sur la base
+
+
+```r
+# execute une requete SQL
+OtoYFT &lt;- sqlQuery( channel = connect_base,
+                    query =
+"
+SELECT * FROM DonneesTotales
+WHERE (DonneesTotales.ProblemeSp = 'Ok' AND DonneesTotales.REC_Sp='Y'
+AND DonneesTotales.Otolithe = 'OT')
+")
+# Liste les champs de la table  DonneesTotales
+sqlColumns(connect_base, sqtable = "DonneesTotales")
+```
+
+
+
+
+&lt;!-- selection lignes et colonnes avec les crochets --&gt;
+
+&lt;!-- manipulation avancé dplyr --&gt;
+
+&lt;!-- dplyr MPE --&gt;
+
+&lt;!--     -&gt; selection de variables --&gt;
+&lt;!--     -&gt; selection de lignes --&gt;
+&lt;!--     -&gt; virer --&gt;
+&lt;!--     -&gt; tri sur des NA --&gt;
+&lt;!--     -&gt; jointure --&gt;
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="../courses_tools/resources/collapseoutput.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:10",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<style>
+.logo {
+  background-image: url(img/sticker_sotr.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  width: 66px;
+  height: 78px;
+  z-index: 0;
+}
+</style>
+
+<script>
+document
+  .querySelectorAll(
+    '.remark-slide-content' +
+    ':not(.title-slide)' +
+    // add additional classes to exclude here, e.g.
+    // ':not(.inverse)' +
+    ':not(.hide-logo)'
+  )
+  .forEach(el => {
+    el.innerHTML += '<div class="logo"></div>';
+  });
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+name: "R premiers pas"
+title: "R : Des premiers pas au modèle linéaire"
+description: |
+  Site pour la formation R premier pas
+base_url: https://marietienne.github.io/c_premier_pas
+output_dir: "render"
+navbar:
+  logo: LogoAgrocampusOuest.jpg
+  title: 'R : des premiers pas au modèle linéaire'
+  left:
+  - text: "Supports"
+    icon: fa-laptop
+    menu:
+      - text: "Introduction"
+        href: _presentation/introduction.html
+      - text: "Manipulation "
+        href: _presentation/manip.html
+      - text: "Visualisation"
+        href: _presentation/visu.html
+      - text: "Modele linéaire, intro"
+        href: _modelelinearei.html
+  - text: "Les données"
+    icone: fa-table
+    href: http://marieetienne.github.io/data.html
+  - text: "Fiches"
+    icon: fa-file-alt
+    menu:
+      - text: "Importation"
+        href: http://marieetienne.github.io/h_import_data.html
+  right:
+  - text: "Github"
+    icon: fa-github
+    href: https://github.com/MarieEtienne
+
+      
+output:
+  html_document:
+    theme: lumen
+    highlight: haddock

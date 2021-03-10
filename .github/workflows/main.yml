@@ -18,6 +18,8 @@ jobs:
           submodules: recursive
       - name: Generate slides
         run: Rscript courses_tools/R/render.R
+      - name: Build site
+        run: Rscript R/build_site.R
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
