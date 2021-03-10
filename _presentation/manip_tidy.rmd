@@ -1,7 +1,6 @@
 
 ```{r, echo = FALSE}
-list.files()
-mon_fichier <- "../../Datasets/SamaresEq.txt"
+mon_fichier <- 'https://marieetienne.github.io/datasets/SamaresEq.txt'
 SamaresEq_base <- read.table(file = mon_fichier, sep = " ", header = TRUE, dec = '.')
 SamaresEq_readr <- read_delim(file = mon_fichier, delim = " ")
 ```
@@ -10,15 +9,15 @@ SamaresEq_readr <- read_delim(file = mon_fichier, delim = " ")
 
 ### Présentation
 
-Le \texttt{tidyverse} est ensemble de packages développés pour {\it faciliter} la manipulation de données dans \R.
+Le `tidyverse` est ensemble de packages développés pour *faciliter*  la manipulation de données dans `R`.
 
--  Installer le package \texttt{tidyverse}.
+-  Installer le package `tidyverse`.
 
 ```{r, eval = FALSE}
 install.packages("tidyverse")
 ```
 
-D'après les créateurs  dans @r4ds
+D'après les créateurs,  dans `r Citet(myBib,'r4ds')`
 
 ![](../resources/common_figs/data-science-explore.png){width="200px"}\
 
