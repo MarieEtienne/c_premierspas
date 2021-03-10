@@ -5,7 +5,7 @@ description: |
 output: 
   html_document:
    toc: false
-   logo: LogoAgrocampusOuest.jpg
+   logo: ../courses_tools/resources/common_figs/LogoAgrocampusOuest.jpg
    number_sections: false
    highlight: tango
    css: style.css
