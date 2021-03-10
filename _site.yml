@@ -29,7 +29,7 @@ navbar:
         href: http://marieetienne.github.io/h_import_data.html
   right:
   - text: "Github"
-    icon: fa-github
+    icon: fab fa-github
     href: https://github.com/MarieEtienne
 
       
