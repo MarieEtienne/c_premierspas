@@ -1,5 +1,5 @@
 ---
-title: Statistique avec R - Premiers pas
+title: "R : des premiers pas au modèle linéaire"
 subtitle: "Manipulation de données"
 author: Marie-Pierre Etienne
 institute: "https://github.com/MarieEtienne/FormationContinueR"
