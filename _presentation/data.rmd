@@ -1,0 +1,30 @@
+
+---
+
+name: data
+# les données dans R
+---
+
+template: data
+## Structuration des données
+
+Les données sont stockées dans des objets de type `data.frame` (ou des généralisations de ce type d'objets).
+
+C'est un tableau dans lequel 
+
+- 1 ligne correspond à une mesure (un individu statistique)
+- 1 colonne correspond à une variable 
+
+--
+### Exemple 
+
+```{r data_gouv_compo}
+gvt_dta <- data.frame(Nom = c("Dupond-Moretti", "Le Drian", "Pompili"),
+           Prenom = c("Eric", "Jean-Yves", "Barbara"),
+           Sexe = c("H", "H", "F"),
+           Age = c(60,74,46),
+           Dpt_Naissance =c(59,56, 62))
+gvt_dta
+```
+
+Le plus souvent ce tableau est importé d'un fichier externe
