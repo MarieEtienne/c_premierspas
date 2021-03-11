@@ -30,7 +30,7 @@ navbar:
   right:
   - text: "Github"
     icon: fab fa-github
-    href: https://github.com/MarieEtienne/c_premierspas
+    href: https://github.com/MarieEtienne/premierspas
 
       
 output:
