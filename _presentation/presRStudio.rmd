@@ -135,10 +135,11 @@ Puis définir la variable `d` valant  `a + b * c`.
 
 Exécuter le script.
 
--- 
+--
+
 Pourquoi rien ne s'affiche ?
 
--- 
+--
 ```{r rscript3 }
 c <- -2
 d <- a + b * c

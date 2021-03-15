@@ -1,5 +1,4 @@
 
----
 
 name: data
 # les données dans R
@@ -27,4 +26,4 @@ gvt_dta <- data.frame(Nom = c("Dupond-Moretti", "Le Drian", "Pompili"),
 gvt_dta
 ```
 
-Le plus souvent ce tableau est importé d'un fichier externe
+Le plus souvent ce tableau est importé depuis fichier externe.

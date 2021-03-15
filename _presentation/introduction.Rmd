@@ -2,7 +2,7 @@
 title: "R : des premiers pas au modèle linéaire"
 subtitle: "Introduction: R et R studio"
 author: Marie-Pierre Etienne
-institute: "https://github.com/MarieEtienne/FormationContinueR"
+institute: "https://marieetienne.github.io/premierspas/"
 date: "Mars 2021"
 csl: "../resources/apa-no-doi-no-issue.csl"
 output:
@@ -42,7 +42,7 @@ with_course <- TRUE
 
 # Préambule
 
-Ce cours a été conçu au sein de l'équipe de Mathématiques appliquées d'Agrocampus Ouest à Rennes avec la participation de  Mathieu Emily, Magalie Houée-Bigot, Fran\c{c}ois Husson.
+Ce cours a été conçu au sein de l'équipe de Mathématiques appliquées d'Agrocampus Ouest à Rennes avec la participation de  Mathieu Emily, Magalie Houée-Bigot, François Husson.
 
 Il s'inspire grandement de 
 

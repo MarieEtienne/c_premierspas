@@ -57,7 +57,7 @@ template: ecosys
 L'ère pré-R
 
 - 1970's développement de S au Bell labs
-- 1980's développement de S-PLUS au AT\&T. Lab
+- 1980's développement de S-PLUS au AT&T. Lab
 
 Les débuts
 
@@ -72,7 +72,7 @@ Le succès
 Développement entièrement bénévole
 
 - "R development core team" (12aine de personnes)
-- Participation de nombreux chercheurs ($\approx$ 13900 packages)
+- Participation de nombreux chercheurs ( $\approx$ 13900 packages)
 
 ---
 template: ecosys
@@ -89,13 +89,14 @@ La page web du **CRAN** (Comprehensive R Arxiv Network)
 - binaires d'installation, packages, documentations, . . .
 - [http://cran.r-project.org/](http://cran.r-project.org/)
 
-La **conférence** annuelle des utilisateurs de R :
+La **conférence** annuelle des utilisateurs de R *useR* :
 
-- l'édition 2019 se déroule début juillet en France (Toulouse)
+- l'édition 2019 s'est déroulée  en France (Toulouse)
 - l'édition 2009 s'est déroulée à Agrocampus Ouest 
 
 Depuis 2012, il existe une version française : "les rencontres R".
 
+- l'édition 2020, reportée à juillet 2021 se déroulera à AgroParistech
 - l'édition 2018 s'est déroulée à Agrocampus Ouest 
 
 The **R journal** propose des articles sur :

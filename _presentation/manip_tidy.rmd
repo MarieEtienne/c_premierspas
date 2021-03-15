@@ -46,31 +46,428 @@ Pour avoir un aperçu du jeu de données on peut utiliser la commande
 glimpse(SamaresEq_readr)
 ```
 
+
 ---
 template: manip_tidy 
-## Opérations sur les individus (les lignes)
+## Opérations sur les variables (les colonnes)
 
-### Accéder à des ligne spécifiques 
+### Sélectionner certaines variables
 
-```{r slice}
-slice(SamaresEq_readr, 24)
-slice(SamaresEq_readr, 24:26)
-slice(SamaresEq_readr, c(1,5,18))
+**select**
 
+Pour modifier les variables présentes dans le jeu de données
+
+* Ne garder que la variable `NomSite`
+
+```{r select1, eval = FALSE}
+select(SamaresEq_readr, NomSite)
+```
+
+* Supprimer les variables `Site` et `Arbre`
+
+```{r select2, eval = FALSE}
+select(SamaresEq_readr, -Site, -Arbre)
 ```
 
 ---
 template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+
+### Créer une nouvelle variable
+
+**mutate** : pour ajouter une colonne 
+
+```{r mutate1}
+mutate(SamaresEq_readr, Disp = Surface / Poids)
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+
+### Combiner des commandes
+
+```{r mutate-select}
+mutate(select(SamaresEq_readr, Surface, Poids) , Disp = Surface / Poids)
+```
+--
+
+.care[***  Ce n'est pas très lisible ***]
+
+---
+
+template: manip_tidy 
 ## L'opérateur `%>%` (CTRL + SHIFT + M)
 
-Avec le tidyverse, on va enchaîner les traitements sur des données. Pour cela, on utilise l'opérateur ` %>% `
+Pour enchaîner les traitements sur des données, on peut utiliser l'opérateur ` %>% `
 
-```{r pipe, eval = FALSE }
+```{r pipe, eval = FALSE, echo = FALSE }
 SamaresEq_readr %>% 
-  slice(5:13) %>% 
-  slice(1:3)
+  select(Surface, Poids) %>% 
+  mutate( Disp = Surface / Poids)
 ```
 
 ---
 
 `r chunk_reveal("pipe", break_type = "auto")`
+
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Exercice
+
+* Ajouter à la table de données `SamaresEq_readr`,  une variable  `Prod` contenant  le produit `Largeur` fois `Longueur` et une variable  `Diff_surf` qui calcule la différence entre la variable précédemment définie et la surface présente dans la table.
+
+*  Ajouter une variable  `Disp` valant la surface divisée par le poids, ainsi qu'une variable `log_Disp` contenant le logarithme de Disp
+
+* Supprimer l'information sur le Numéroe du site  qui est redondante avec le nom du site.
+
+* Sauver le résultat dans une table nommée `SamaresEq_disp`.
+
+---
+
+```{r ex_select, eval = FALSE, echo = FALSE }
+SamaresEq_readr %>% 
+  mutate( Prod = Largeur * Longueur) %>% 
+  mutate( Diff_surf = Prod - Surface) %>% 
+  mutate( Disp = Surface / Poids, log_disp = log(Disp)) %>% 
+  select(-Site) -> SamaresEq_disp
+```
+
+
+`r chunk_reveal("ex_select", break_type = "auto")`
+
+
+
+```{r ex_select-save, eval = TRUE, echo = FALSE }
+SamaresEq_readr %>% 
+  mutate( Prod = Largeur * Longueur) %>% 
+  mutate( Diff_surf = Prod - Surface) %>% 
+  mutate( Disp = Surface / Poids, log_disp = log(Disp)) %>% 
+  select(-Site) -> SamaresEq_disp
+```
+
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Résumer des variables
+
+**summarise** : Calculer des valeurs résumées (nombre d'observation, moyennes, écart types, ...)
+
+
+```{r summarise1, echo = TRUE, eval = TRUE}
+SamaresEq_readr %>% 
+  summarise( longueur_m  = mean(Longueur, na.rm = TRUE)) 
+```
+
+```{r summarise2, echo = TRUE, eval = TRUE}
+SamaresEq_readr %>% 
+  summarise( longueur_moyenne  = mean(Longueur, na.rm = TRUE),
+             nobs = n(),
+             longueur_mediane = median(Longueur)  ) 
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Résumer des variables
+
+**summarise** : Calculer des valeurs résumées (nombre d'observation, moyennes, écart types, ...)
+
+* Calculer le nombre d'observations et les  médianes pour plusieurs variables
+
+```{r summarise3}
+SamaresEq_readr %>% 
+  summarise_at( vars(Largeur, Longueur), list(moy = mean, med = median, ecart_type = sd)) 
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Résumer des variables
+
+**summarise** : Calculer des valeurs résumées (nombre d'observation, moyennes, écart types, ...)
+
+* Calculer les moyennes de toutes les variables quantitatives
+
+```{r summarise4}
+SamaresEq_readr %>% 
+  summarise_if(is.numeric, mean, na.rm=TRUE) 
+```
+--
+
+Les variables site et arbre sont des numéros et non des nombres. Il faut les traiter comme des catégories 
+
+```{r sum_fact, eval = FALSE, echo = FALSE}
+SamaresEq_readr %>%
+  mutate(Site = as.factor(Site), Arbre = as.factor(Site)) %>% 
+  summarise_if(is.numeric, mean, na.rm=TRUE) 
+
+SamaresEq_readr %>%
+  mutate(Site = as.factor(Site), Arbre = as.factor(Arbre)) %>% 
+  summarise_if(is.factor, n_distinct) 
+```
+
+---
+
+`r chunk_reveal("sum_fact", break_type = "auto")`
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Exercice
+
+**summarise**
+
+* Calculer la moyenne et l'écart-type pour les variables `Surface` et `disp`.
+
+
+--
+
+```{r summarise_ex1,eval = FALSE, echo = FALSE}
+SamaresEq_disp %>% 
+  summarise_at( vars(Surface, Disp),  
+                list(ecart_type =  sd, moy = mean), na.rm = TRUE) 
+```
+
+---
+
+`r chunk_reveal("summarise_ex1", break_type = "auto")`
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+* Calculer des moyennes pour chaque groupe 
+
+```{r group_by_1, echo = FALSE, eval = FALSE}
+SamaresEq_disp %>% 
+  group_by( NomSite) %>%
+  summarise( Surface_m = mean (Surface)) %>%
+  print(n = 3)
+```
+
+---
+
+`r chunk_reveal("group_by_1", break_type = "auto")`
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+* Calculer des effectifs pour chaque Site 
+
+```{r group_by_2}
+  SamaresEq_disp %>% 
+  group_by( NomSite) %>%
+  summarise( n_obs = n())  %>%
+  print(n = 3)
+```
+
+* Calculer les effectifs  par Site et par arbre
+
+```{r group_by_3, echo = TRUE, eval = FALSE}
+  SamaresEq_disp %>% 
+  group_by( NomSite, Arbre ) %>%
+  summarise( n_obs = n())  %>%
+  print(n = 3)
+```
+
+---
+
+`r chunk_reveal("group_by_3", break_type = "auto")`
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+### Exercice
+
+
+- Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
+- Pour chaque site, donner le nombre d'arbres échantillonnés.
+
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+### Solution
+
+
+* Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
+
+```{r group_by_ex1}
+  SamaresEq_disp %>% group_by( NomSite, Arbre ) %>%
+  summarise( n_obs = n(), poids_m = mean(Poids))  %>%   print(n = 3)
+```
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+### Solution
+
+* Pour chaque site, donner le nombre d'arbres échantillonnés.
+
+```{r group_by_ex2}
+  SamaresEq_disp %>% group_by( NomSite) %>% summarise( n_Arbre = n_distinct(Arbre))
+```
+
+---
+template: manip_tidy 
+## Sauvegarder des tables de données
+
+### Sauvegarder dans un format texte
+**write_csv**
+
+```{r, echo = TRUE, eval = FALSE}
+write_csv(SamaresEq_disp, path = "SamaresEq_disp.csv")
+```
+
+
+### Sauvegarder dans un format compressé
+**save**
+
+```{r, echo = TRUE, eval = FALSE}
+save("SamaresEq_disp", file =  "SamaresEq_disp.RData")
+```
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+### Accéder à des lignes spécifiques 
+
+```{r slice}
+slice(SamaresEq_readr, 24)
+slice(SamaresEq_readr, 24:26)
+slice(SamaresEq_readr, c(1,5,18))
+```
+
+---
+```{r pipe-bis, eval = FALSE, echo = FALSE }
+SamaresEq_readr %>% 
+  slice(5:13) %>% 
+  slice(1:3)
+```
+
+`r chunk_reveal("pipe-bis", break_type = "auto")`
+
+
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Selectionner les individus qui satisfont une condition
+
+**filter**
+
+```{r}
+SamaresEq_base %>% filter( Surface > 0.75) 
+Grand_samares <- SamaresEq_base %>% filter( Surface > 0.75) 
+class(Grand_samares)
+Grand_samares
+```
+
+
+### Selectionner les individus qui satisfont une condition
+\alert{ \texttt{filter}}
+
+```{r filter1}
+SamaresEq_base %>% as_tibble %>% filter( Surface > 0.75) -> Grand_samares
+class(Grand_samares)
+Grand_samares
+```
+
+```{r filter2}
+SamaresEq_readr %>% as_tibble %>% filter( Surface > 0.75) -> Grand_samares
+class(Grand_samares)
+Grand_samares
+```
+
+
+
+### Exercice
+- Sélectionner toutes les observations du site Gornies
+- Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
+- Sélectionner toutes les observations qui ne proviennent ni du site \texttt{Gornies} ni du site \texttt{StEtienne}.
+
+
+
+### Solution
+\alert{ \texttt{filter}}
+
+- Sélectionner toutes les observations du site Gornies
+
+
+```{r filter_ex_1, eval = FALSE}
+SamaresEq_readr %>% filter(Site == 'Gornies')
+```
+
+
+- Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
+
+```{r filter_ex_2, eval = FALSE}
+SamaresEq_readr %>% filter(Largeur > 0.45 & Longueur < 2.32)
+```
+
+
+- Sélectionner toutes les observations qui ne proviennent ni du site \texttt{Gornies} ni du site \texttt{StEtienne}.
+
+
+
+```{r filter_ex_3}
+SamaresEq_readr %>% filter(  ! NomSite %in% c('Gornies', 'StEtienne') )
+```
+
+
+## Opération sur les variables (les colonnes)
+
+
+### Sélectionner certaines variables
+
+### Exercice
+\alert{ \texttt{select}}
+
+  -A partir de la table de données \texttt{SamaresEq\_base}, créer une table \texttt{SamaresEq\_base\_gornies} qui contient les information concernant la largeur et la longueur de chaque samare uniquement pour les  arbres du Site \texttt{Gornies}
+
+
+### Exercice
+\alert{ \texttt{mutate}}
+
+- A partir de la table de données \texttt{SamaresEq\_readr}, ajouter une variable \texttt{larg\_x\_long} contenant le produit de la largeur et de la longueur et une colonne  \texttt{diff\_surf} qui calcule la différence entre la variable précédemment définie et la surface présente dans la table.
+
+
+
+
+
+
+
+
+<!-- ### Sauvegarder dans un format compressé utile à \R -->
+<!-- \alert{\texttt{save}} -->
+
+<!-- ```{r} -->
+<!-- save(SamaresEq_disp, file =  "../../Datasets/SamaresEq_disp.Rdata") -->
+<!-- ``` -->
+
+<!-- On charge ce type de fichier avec la fonction load -->
+
+<!-- ```{r} -->
+<!-- load("../../Datasets/SamaresEq_disp.Rdata") -->
+<!-- ``` -->
+

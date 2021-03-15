@@ -60,7 +60,7 @@ knitr::include_graphics(file.path(course_img_dir, 'knit_rmd.png'))
 
 *Pour la génération du format PDF, vous devez avoir une installation fonctionnelle de LaTeX sur votre système.*
 
-ce qui peut etre fait assez facilement sur la plupart des systèes à l'aide du package ` TinyTeX` ( [explication ici](https://bookdown.org/yihui/rmarkdown-cookbook/install-latex.html) )
+ce qui peut etre fait assez facilement sur la plupart des systèmes à l'aide du package ` TinyTeX` ( [explication ici](https://bookdown.org/yihui/rmarkdown-cookbook/install-latex.html) )
 
 
 
