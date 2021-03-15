@@ -221,7 +221,7 @@ save(list= c("SamaresEq_base"), file = 'samares_compress.RData')
 
 ### Lire un fichier RData
 
-```{r read_RData}
+```{r read_RData, eval = FALSE}
 load('samares_RDA.RData')
 ```
 
