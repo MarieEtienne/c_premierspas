@@ -401,22 +401,265 @@ sqlColumns(connect_base, sqtable = "DonneesTotales")
 ```
 
 
+---
+# Exercice en forme de bilan
+
+* Installer le package `VGAMdata`
+* Créer un document Rmarkdown intitulé **Exercice Bilan 1** dont vous êtes l'auteur.
+* Ajouter une section : lire des données fournies dans un package
+* Dans cette section ajouter du code R pour charger le jeu de données pirates1 du package `VGAMdata`
+* Ajouter une section : lire des données stockée sous forme d'un fichier `csv`
+* Télécharger le fichier [Pint.txt](https://marieetienne.github.io/datasets/Pin.txt)
+* Importer le jeu de données présents dans le fichier `Pin.txt` dans R. 
+
+* Essayer de charger votre propre fichier dans une 3ème section
 
 
-&lt;!-- selection lignes et colonnes avec les crochets --&gt;
-
-&lt;!-- manipulation avancé dplyr --&gt;
-
-&lt;!-- dplyr MPE --&gt;
-
-&lt;!--     -&gt; selection de variables --&gt;
-&lt;!--     -&gt; selection de lignes --&gt;
-&lt;!--     -&gt; virer --&gt;
-&lt;!--     -&gt; tri sur des NA --&gt;
-&lt;!--     -&gt; jointure --&gt;
 
 
 
+
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## cols(
+##   Site = col_double(),
+##   NomSite = col_character(),
+##   Distance = col_double(),
+##   Arbre = col_double(),
+##   Poids = col_double(),
+##   Surface = col_double(),
+##   Largeur = col_double(),
+##   Longueur = col_double(),
+##   CircArbre = col_double()
+## )
+```
+
+---
+name: manip_tidy
+# Manipulation de données
+
+---
+template: manip_tidy 
+## Un tour dans le tidyverse
+
+
+Le `tidyverse` est ensemble de packages développés pour *faciliter*  la manipulation de données dans `R`.
+
+-  Installer le package `tidyverse`.
+
+
+```r
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+--
+
+D'après les créateurs,  dans Wickham and Grolemund [WG16]
+
+
+&lt;img src="../resources/figs/data-science-explore.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+Objectif : Obtenir un code plus lisible
+
+---
+template: manip_tidy 
+
+## Un apercu du jeu de données 
+
+Pour avoir un aperçu du jeu de données on peut utiliser la commande 
+
+
+```r
+glimpse(SamaresEq_readr)
+```
+
+```
+## Rows: 2,380
+## Columns: 9
+## $ Site      &lt;dbl&gt; 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, …
+## $ NomSite   &lt;chr&gt; "Gornies", "Gornies", "Gornies", "Gornies", "Gornies", "Gorn…
+## $ Distance  &lt;dbl&gt; 6.3, 6.3, 6.3, 6.3, 6.3, 6.3, 6.3, 6.3, 6.3, 6.3, 6.3, 6.3, …
+## $ Arbre     &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ Poids     &lt;dbl&gt; 11.0, 15.0, 14.6, 13.8, 12.2, 11.1, 14.2, 15.6, 15.1, 13.3, …
+## $ Surface   &lt;dbl&gt; 0.73816, 0.69958, 0.75847, 0.77878, 0.62038, 0.53712, 0.6762…
+## $ Largeur   &lt;dbl&gt; 0.42700, 0.48900, 0.44400, 0.47400, 0.40400, 0.33900, 0.4220…
+## $ Longueur  &lt;dbl&gt; 2.31502, 2.15873, 2.27595, 2.25641, 2.03175, 2.04151, 2.2271…
+## $ CircArbre &lt;dbl&gt; 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, …
+```
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+### Accéder à des ligne spécifiques 
+
+
+```r
+slice(SamaresEq_readr, 24)
+```
+
+```
+## # A tibble: 1 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     2  12.3   0.672   0.378     2.47        15
+```
+
+```r
+slice(SamaresEq_readr, 24:26)
+```
+
+```
+## # A tibble: 3 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     2  12.3   0.672   0.378     2.47        15
+## 2     4 Gornies      6.3     2  19.3   0.628   0.404     2.30        15
+## 3     4 Gornies      6.3     2  10.5   0.594   0.366     2.30        15
+```
+
+```r
+slice(SamaresEq_readr, c(1,5,18))
+```
+
+```
+## # A tibble: 3 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+## 2     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+## 3     4 Gornies      6.3     1  10.4   0.603   0.393     2.07      18.5
+```
+
+---
+template: manip_tidy 
+## L'opérateur `%&gt;%` (CTRL + SHIFT + M)
+
+Avec le tidyverse, on va enchaîner les traitements sur des données. Pour cela, on utilise l'opérateur ` %&gt;% `
+
+
+```r
+SamaresEq_readr %&gt;% 
+  slice(5:13) %&gt;% 
+  slice(1:3)
+```
+
+---
+
+count: false
+ 
+
+.panel1-pipe-auto[
+
+```r
+*SamaresEq_readr
+```
+]
+ 
+.panel2-pipe-auto[
+
+```
+## # A tibble: 2,380 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-pipe-auto[
+
+```r
+SamaresEq_readr %&gt;%
+* slice(5:13)
+```
+]
+ 
+.panel2-pipe-auto[
+
+```
+## # A tibble: 9 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+## 2     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+## 3     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+## 4     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+## 5     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 6     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## 7     4 Gornies      6.3     1  12.5   0.730   0.462     2.13      18.5
+## 8     4 Gornies      6.3     1  13.7   0.782   0.474     2.24      18.5
+## 9     4 Gornies      6.3     1  17.1   0.898   0.474     2.50      18.5
+```
+]
+
+---
+count: false
+ 
+
+.panel1-pipe-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  slice(5:13) %&gt;%
+* slice(1:3)
+```
+]
+ 
+.panel2-pipe-auto[
+
+```
+## # A tibble: 3 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+## 2     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+## 3     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+```
+]
+
+&lt;style&gt;
+.panel1-pipe-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-pipe-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-pipe-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
 
 
 

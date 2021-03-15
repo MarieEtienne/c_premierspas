@@ -47,7 +47,6 @@ with_course <- TRUE
 ```
 
 
-
-```{r Manip, child = 'manip_tidy.rmd', cache = TRUE, eval = FALSE}
+```{r Manip, child = 'manip_tidy.rmd', cache = TRUE}
 ```
 

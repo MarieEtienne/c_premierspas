@@ -20,6 +20,7 @@ Le `tidyverse` est ensemble de packages développés pour *faciliter*  la manipu
 
 ```{r, eval = FALSE}
 install.packages("tidyverse")
+library(tidyverse)
 ```
 
 --
@@ -29,7 +30,7 @@ D'après les créateurs,  dans `r Citet(myBib,'r4ds')`
 
 ```{r rstudio_img, eval = TRUE, echo = FALSE,out.width = "60%", fig.align="center"}
 # All defaults
-knitr::include_graphics(file.path(course_img_dir, 'data-science-explore.png.png'))
+knitr::include_graphics(file.path(course_img_dir, 'data-science-explore.png'))
 ```
 
 Objectif : Obtenir un code plus lisible
@@ -37,266 +38,39 @@ Objectif : Obtenir un code plus lisible
 ---
 template: manip_tidy 
 
+## Un apercu du jeu de données 
 
+Pour avoir un aperçu du jeu de données on peut utiliser la commande 
+
+```{r glimpse}
+glimpse(SamaresEq_readr)
+```
+
+---
+template: manip_tidy 
 ## Opérations sur les individus (les lignes)
 
-###  Selectionner les individus qui satisfont une condition
-\alert{ \texttt{filter}}
+### Accéder à des ligne spécifiques 
 
-```{r}
-SamaresEq_base %>% filter( Surface > 0.75) 
-Grand_samares <- SamaresEq_base %>% filter( Surface > 0.75) 
-class(Grand_samares)
-Grand_samares
+```{r slice}
+slice(SamaresEq_readr, 24)
+slice(SamaresEq_readr, 24:26)
+slice(SamaresEq_readr, c(1,5,18))
+
 ```
 
+---
+template: manip_tidy 
+## L'opérateur `%>%` (CTRL + SHIFT + M)
 
-### Selectionner les individus qui satisfont une condition
-\alert{ \texttt{filter}}
+Avec le tidyverse, on va enchaîner les traitements sur des données. Pour cela, on utilise l'opérateur ` %>% `
 
-```{r filter1}
-SamaresEq_base %>% as_tibble %>% filter( Surface > 0.75) -> Grand_samares
-class(Grand_samares)
-Grand_samares
-```
-
-```{r filter2}
-SamaresEq_readr %>% as_tibble %>% filter( Surface > 0.75) -> Grand_samares
-class(Grand_samares)
-Grand_samares
-```
-
-
-
-### Exercice
-- Sélectionner toutes les observations du site Gornies
-- Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
-- Sélectionner toutes les observations qui ne proviennent ni du site \texttt{Gornies} ni du site \texttt{StEtienne}.
-
-
-
-### Solution
-\alert{ \texttt{filter}}
-
-- Sélectionner toutes les observations du site Gornies
-
-
-```{r filter_ex_1, eval = FALSE}
-SamaresEq_readr %>% filter(Site == 'Gornies')
-```
-
-
-- Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
-
-```{r filter_ex_2, eval = FALSE}
-SamaresEq_readr %>% filter(Largeur > 0.45 & Longueur < 2.32)
-```
-
-
-- Sélectionner toutes les observations qui ne proviennent ni du site \texttt{Gornies} ni du site \texttt{StEtienne}.
-
-
-
-```{r filter_ex_3}
-SamaresEq_readr %>% filter(  ! NomSite %in% c('Gornies', 'StEtienne') )
-```
-
-
-## Opération sur les variables (les colonnes)
-
-
-### Sélectionner certaines variables
-
-\alert{ \texttt{select}}
-
-Pour modifier les variables présentes dans le jeu de données
-
-- Ne garder que la variable \texttt{NomSite}
-
-```{r select1, eval = FALSE}
-SamaresEq_base %>% select(NomSite)
-```
-
-- Supprimer la variable  \texttt{Site} et \texttt{Arbre}
-
-```{r select2, eval = FALSE}
-SamaresEq_base %>% select(-Site, -Arbre)
-```
-
-
-### Exercice
-\alert{ \texttt{select}}
-
-  -A partir de la table de données \texttt{SamaresEq\_base}, créer une table \texttt{SamaresEq\_base\_gornies} qui contient les information concernant la largeur et la longueur de chaque samare uniquement pour les  arbres du Site \texttt{Gornies}
-
-
-### Solution
-\alert{ \texttt{select}}
-
-  -A partir de la table de données \texttt{SamaresEq\_base}, créer une table \texttt{SamaresEq\_base\_gornies} qui contient les information concernant la largeur et la longueur de chaque samare uniquement pour les  arbres du Site \texttt{Gornies}
-
-```{r select_ex1, eval = FALSE}
-SamaresEq_base %>% filter( NomSite = 'Gornies') %>%  select(-Site, -Arbre) -> SamaresEq_base_gornies
-head(SamaresEq_base)
-```
-
-
-###  Créer des nouvelles variables
-\alert{ \texttt{mutate}}
-
-```{r mutate1}
+```{r pipe, eval = FALSE }
 SamaresEq_readr %>% 
-  mutate(dispersion = Surface / Poids, 
-         log_disp = log( dispersion )) -> SamaresEq_disp
-SamaresEq_disp %>% select(-Site, -Arbre, -Distance, -CircArbre)
+  slice(5:13) %>% 
+  slice(1:3)
 ```
 
-### Exercice
-\alert{ \texttt{mutate}}
+---
 
-- A partir de la table de données \texttt{SamaresEq\_readr}, ajouter une variable \texttt{larg\_x\_long} contenant le produit de la largeur et de la longueur et une colonne  \texttt{diff\_surf} qui calcule la différence entre la variable précédemment définie et la surface présente dans la table.
-
-
-
-
-### Solution
-\alert{ \texttt{select}}
-
-- A partir de la table de données \texttt{SamaresEq\_readr}, ajouter une variable \texttt{larg\_x\_long} contenant le produit de la largeur et de la longueur et une variable  \texttt{diff\_surf} qui calcule la différence entre la variable précédemment définie et la surface présente dans la table.
-
-```{r mutate_ex1, eval = FALSE}
-SamaresEq_readr %>% mutate(larg_x_long = Largeur * Longueur,
-                           diff_surf = larg_x_long - Surface)  %>%
-  select(-Site, -Arbre, -Distance, -CircArbre)
-```
-
-On peut limiter l'affichage
-
-```{r mutate_ex2}
-SamaresEq_readr %>% mutate(larg_x_long = Largeur * Longueur,
-                           diff_surf = larg_x_long - Surface)  %>%
-  select(-Site, -Arbre, -Distance, -CircArbre)  %>%
-  print(n = 3)
-
-```
-
-### Résumer des variables
-\alert{ \texttt{summarise}}
-
-- Calculer des moyennes
-
-```{r summarise1}
-SamaresEq_readr %>% 
-  summarise( longueur_m  = mean(Longueur, na.rm = TRUE)) 
-
-```
-
-- Calculer le nombre d'observations, les  médianes pour plusieurs variables
-
-```{r summarise2}
-SamaresEq_readr %>% 
-  summarise_at( vars(Largeur, Longueur), funs(n(), median)) 
-
-```
-
-### Résumer des variables
-\alert{ \texttt{summarise}}
-
-- Calculer les moyennes de toutes les variables quantitatives
-
-```{r summarise3}
-SamaresEq_readr %>% 
-  summarise_if(is.numeric, mean, na.rm=TRUE) 
-```
-
-### Exercice
-\alert{ \texttt{summarise}}
-
-- Calculer la moyenne et l'écart-type pour les variables \texttt{Surface} et \texttt{disp}.
-
-
-
-### Exercice
-\alert{ \texttt{summarise}}
-
-- Calculer la moyenne et l'écart-type pour les variables \texttt{Surface} et \texttt{dispersion}.
-
-
-```{r summarise_ex1}
-SamaresEq_disp %>% 
-  summarise_at( vars(Surface, dispersion),  funs( sd, mean), na.rm = TRUE) 
-```
-
-
-## Des traitements  par sous groupes
-
-### Calculer des moyennes pour chaque groupe 
-\alert{ \texttt{group\_by}}
-
-
-- Calculer la dispersion moyenne pour chaque site
-
-```{r group_by_1}
-SamaresEq_disp %>% group_by( NomSite) %>%
-  summarise( Surface_m = mean (Surface)) %>%
-  print(n = 3)
-```
-
-###  Calculer des effectifs pour chaque groupe 
-\alert{ \texttt{group\_by}}
-
-
-- Calculer les effectifs  par Site et par arbre
-
-```{r group_by_2}
-  SamaresEq_disp %>% group_by( NomSite, Arbre ) %>%
-  summarise( n_obs = n())  %>%   print(n = 3)
-```
-
-### Exercice
-
-
-- Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
-- Pour chaque site, donner le nombre d'arbres échantillonnés.
-
-
-### Solution
-
-
-- Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
-
-```{r group_by_ex1}
-  SamaresEq_disp %>% group_by( NomSite, Arbre ) %>%
-  summarise( n_obs = n(), poids_m = mean(Poids))  %>%   print(n = 3)
-```
-
-
-- Pour chaque site, donner le nombre d'arbres échantillonnés.
-
-```{r group_by_ex2}
-  SamaresEq_disp %>% group_by( NomSite) %>% summarise( n_Arbre = n_distinct(Arbre))
-```
-
-## Sauvegarder des tables de données
-
-### Sauvegarder dans un format texte
-\alert{\texttt{write\_csv}}
-
-```{r}
-write_csv(SamaresEq_disp, path = "../../Datasets/SamaresEq_disp.csv")
-```
-
-
-<!-- ### Sauvegarder dans un format compressé utile à \R -->
-<!-- \alert{\texttt{save}} -->
-
-<!-- ```{r} -->
-<!-- save(SamaresEq_disp, file =  "../../Datasets/SamaresEq_disp.Rdata") -->
-<!-- ``` -->
-
-<!-- On charge ce type de fichier avec la fonction load -->
-
-<!-- ```{r} -->
-<!-- load("../../Datasets/SamaresEq_disp.Rdata") -->
-<!-- ``` -->
-
+`r chunk_reveal("pipe", break_type = "auto")`
