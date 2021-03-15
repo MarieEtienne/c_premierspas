@@ -31,6 +31,47 @@ class: center, middle, inverse, title-slide
 
 
 ---
+
+name: data
+# les données dans R
+---
+
+template: data
+## Structuration des données
+
+Les données sont stockées dans des objets de type `data.frame` (ou des généralisations de ce type d'objets).
+
+C'est un tableau dans lequel 
+
+- 1 ligne correspond à une mesure (un individu statistique)
+- 1 colonne correspond à une variable 
+
+--
+### Exemple 
+
+
+```r
+gvt_dta &lt;- data.frame(Nom = c("Dupond-Moretti", "Le Drian", "Pompili"),
+           Prenom = c("Eric", "Jean-Yves", "Barbara"),
+           Sexe = c("H", "H", "F"),
+           Age = c(60,74,46),
+           Dpt_Naissance =c(59,56, 62))
+gvt_dta
+```
+
+```
+##              Nom    Prenom Sexe Age Dpt_Naissance
+## 1 Dupond-Moretti      Eric    H  60            59
+## 2       Le Drian Jean-Yves    H  74            56
+## 3        Pompili   Barbara    F  46            62
+```
+
+Le plus souvent ce tableau est importé d'un fichier externe
+
+
+
+
+---
 name: importation
 # Importation de données
 
@@ -57,7 +98,8 @@ template: importation
 --
 ### Illustration 
 
-- Télécharger le fichier `SamaresEq.txt` disponible sur [https://marieetienne.github.io/datasets/SamaresEq.txt](https://marieetienne.github.io/datasets/SamaresEq.txt)
+- Télécharger le fichier `SamaresEq.txt` disponible sur
+[https://marieetienne.github.io/datasets/SamaresEq.txt](https://marieetienne.github.io/datasets/SamaresEq.txt)
 
 - Importation du fichier `SamaresEq.txt` dans la variable `SamaresEq_base`.
 
@@ -98,8 +140,8 @@ template: importation
 ### Exercice
 
  Refaire la manipulation avec les fichiers
-    - [https://marieetienne.github.io/datasets/growth_data.txt](https://marieetienne.github.io/datasets/growth_data.txt)
-    - [https://marieetienne.github.io/datasets/Manchots.csv](https://marieetienne.github.io/datasets/Manchots.csv)
+* [https://marieetienne.github.io/datasets/growth_data.txt](https://marieetienne.github.io/datasets/growth_data.txt)
+* [https://marieetienne.github.io/datasets/Manchots.csv](https://marieetienne.github.io/datasets/Manchots.csv)
 
 --
 
@@ -284,6 +326,47 @@ SamaresEq_readr
 ##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
 ## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
 ## # … with 2,370 more rows
+```
+
+
+---
+template: importation
+##  Sauver un jeu de données
+
+Lorsqu'on aura manipulé/modifié un jeu de données on peut vouloir sauver le résultat 
+
+### En fichier csv
+
+
+```r
+write_csv(SamaresEq_base, file = 'samares_sauve.csv')
+```
+--
+### Sous forme compressée
+
+
+```r
+save(list= c("SamaresEq_base"), file = 'samares_compress.RData')
+```
+
+--
+
+### Lire un fichier RData
+
+
+```r
+load('samares_RDA.RData')
+```
+
+--
+
+### Lire des données fournies avec un package
+
+
+```r
+# install.packages('palmerpenguins')
+library(palmerpenguins)
+data(penguins)
 ```
 
 

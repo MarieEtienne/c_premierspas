@@ -26,7 +26,8 @@ template: importation
 --
 ### Illustration 
 
-- Télécharger le fichier `SamaresEq.txt` disponible sur [https://marieetienne.github.io/datasets/SamaresEq.txt](https://marieetienne.github.io/datasets/SamaresEq.txt)
+- Télécharger le fichier `SamaresEq.txt` disponible sur
+[https://marieetienne.github.io/datasets/SamaresEq.txt](https://marieetienne.github.io/datasets/SamaresEq.txt)
 
 - Importation du fichier `SamaresEq.txt` dans la variable `SamaresEq_base`.
 
@@ -61,8 +62,8 @@ template: importation
 ### Exercice
 
  Refaire la manipulation avec les fichiers
-    - [https://marieetienne.github.io/datasets/growth_data.txt](https://marieetienne.github.io/datasets/growth_data.txt)
-    - [https://marieetienne.github.io/datasets/Manchots.csv](https://marieetienne.github.io/datasets/Manchots.csv)
+* [https://marieetienne.github.io/datasets/growth_data.txt](https://marieetienne.github.io/datasets/growth_data.txt)
+* [https://marieetienne.github.io/datasets/Manchots.csv](https://marieetienne.github.io/datasets/Manchots.csv)
 
 --
 
@@ -200,6 +201,43 @@ SamaresEq_readr
 
 ---
 template: importation
+##  Sauver un jeu de données
+
+Lorsqu'on aura manipulé/modifié un jeu de données on peut vouloir sauver le résultat 
+
+### En fichier csv
+
+```{r save_output}
+write_csv(SamaresEq_base, file = 'samares_sauve.csv')
+```
+--
+### Sous forme compressée
+
+```{r save_output_Rdata}
+save(list= c("SamaresEq_base"), file = 'samares_compress.RData')
+```
+
+--
+
+### Lire un fichier RData
+
+```{r read_RData}
+load('samares_RDA.RData')
+```
+
+--
+
+### Lire des données fournies avec un package
+
+```{r data_package}
+# install.packages('palmerpenguins')
+library(palmerpenguins)
+data(penguins)
+```
+
+
+---
+template: importation
 ##  Importation d'un jeu de données à l'aide  une requête SQL (base de données)
 - Connexion à une base SQL.
 
@@ -227,17 +265,17 @@ sqlColumns(connect_base, sqtable = "DonneesTotales")
 ```
 
 
+---
+# Exercice en forme de bilan
 
+* Installer le package `VGAMdata`
+* Créer un document Rmarkdown intitulé **Exercice Bilan 1** dont vous êtes l'auteur.
+* Ajouter une section : lire des données fournies dans un package
+* Dans cette section ajouter du code R pour charger le jeu de données pirates1 du package `VGAMdata`
+* Ajouter une section : lire des données stockée sous forme d'un fichier `csv`
+* Télécharger le fichier [Pint.txt](https://marieetienne.github.io/datasets/Pin.txt)
+* Importer le jeu de données présents dans le fichier `Pin.txt` dans R. 
 
-<!-- selection lignes et colonnes avec les crochets -->
+* Essayer de charger votre propre fichier dans une 3ème section
 
-<!-- manipulation avancé dplyr -->
-
-<!-- dplyr MPE -->
-
-<!--     -> selection de variables -->
-<!--     -> selection de lignes -->
-<!--     -> virer -->
-<!--     -> tri sur des NA -->
-<!--     -> jointure -->
 

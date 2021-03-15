@@ -5,9 +5,14 @@ SamaresEq_base <- read.table(file = mon_fichier, sep = " ", header = TRUE, dec =
 SamaresEq_readr <- read_delim(file = mon_fichier, delim = " ")
 ```
 
+---
+name: manip_tidy
+# Manipulation de données
+
+---
+template: manip_tidy 
 ## Un tour dans le tidyverse
 
-### Présentation
 
 Le `tidyverse` est ensemble de packages développés pour *faciliter*  la manipulation de données dans `R`.
 
@@ -17,17 +22,20 @@ Le `tidyverse` est ensemble de packages développés pour *faciliter*  la manipu
 install.packages("tidyverse")
 ```
 
+--
+
 D'après les créateurs,  dans `r Citet(myBib,'r4ds')`
 
-![](../resources/common_figs/data-science-explore.png){width="200px"}\
 
-Charger le packahe \texttt{tidyverse}
-
-```{r, message = FALSE}
-library(tidyverse)
+```{r rstudio_img, eval = TRUE, echo = FALSE,out.width = "60%", fig.align="center"}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir, 'data-science-explore.png.png'))
 ```
 
 Objectif : Obtenir un code plus lisible
+
+---
+template: manip_tidy 
 
 
 ## Opérations sur les individus (les lignes)
@@ -36,7 +44,8 @@ Objectif : Obtenir un code plus lisible
 \alert{ \texttt{filter}}
 
 ```{r}
-SamaresEq_base %>% filter( Surface > 0.75) -> Grand_samares
+SamaresEq_base %>% filter( Surface > 0.75) 
+Grand_samares <- SamaresEq_base %>% filter( Surface > 0.75) 
 class(Grand_samares)
 Grand_samares
 ```

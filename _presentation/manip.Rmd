@@ -39,6 +39,10 @@ with_course <- TRUE
 
 
 
+```{r Manip, child = 'data.rmd', cache = TRUE}
+```
+
+
 ```{r Manip, child = 'importation.rmd', cache = TRUE}
 ```
 
