@@ -376,85 +376,110 @@ template: manip_tidy
 
 **filter**
 
-```{r}
-SamaresEq_base %>% filter( Surface > 0.75) 
-Grand_samares <- SamaresEq_base %>% filter( Surface > 0.75) 
-class(Grand_samares)
-Grand_samares
-```
-
-
-### Selectionner les individus qui satisfont une condition
-\alert{ \texttt{filter}}
+* Sélectionner les samares ayant une surface supérieure à 0.75 
 
 ```{r filter1}
-SamaresEq_base %>% as_tibble %>% filter( Surface > 0.75) -> Grand_samares
-class(Grand_samares)
-Grand_samares
+SamaresEq_readr %>% filter( Surface > 0.75) 
+SamaresEq_readr %>% filter( Site == 3) 
+
+Grand_samares <- SamaresEq_base %>% filter( Surface > 0.75) 
+Grand_samares %>% print(n=10)
 ```
 
-```{r filter2}
-SamaresEq_readr %>% as_tibble %>% filter( Surface > 0.75) -> Grand_samares
-class(Grand_samares)
-Grand_samares
-```
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Selectionner les individus qui satisfont une condition
+
+**arrange**
 
 
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
 
 ### Exercice
-- Sélectionner toutes les observations du site Gornies
-- Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
-- Sélectionner toutes les observations qui ne proviennent ni du site \texttt{Gornies} ni du site \texttt{StEtienne}.
+* Sélectionner toutes les observations du site Gornies
+* Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
+* Sélectionner toutes les observations qui ne proviennent ni du site `Gornies` ni du site `StEtienne`.
 
 
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
 
 ### Solution
 \alert{ \texttt{filter}}
 
-- Sélectionner toutes les observations du site Gornies
-
+* Sélectionner toutes les observations du site Gornies
 
 ```{r filter_ex_1, eval = FALSE}
 SamaresEq_readr %>% filter(Site == 'Gornies')
 ```
 
+--
 
-- Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
+* Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
 
 ```{r filter_ex_2, eval = FALSE}
 SamaresEq_readr %>% filter(Largeur > 0.45 & Longueur < 2.32)
 ```
 
+--
 
-- Sélectionner toutes les observations qui ne proviennent ni du site \texttt{Gornies} ni du site \texttt{StEtienne}.
-
-
+* Sélectionner toutes les observations qui ne proviennent ni du site `Gornies` ni du site `StEtienne`.
 
 ```{r filter_ex_3}
 SamaresEq_readr %>% filter(  ! NomSite %in% c('Gornies', 'StEtienne') )
 ```
 
 
-## Opération sur les variables (les colonnes)
 
+---
+template: manip_tidy 
+## Exercice sous forme de bilan
 
-### Sélectionner certaines variables
+Créer un fichier Rmarkdown qui réalise les tâches suivantes 
 
-### Exercice
-\alert{ \texttt{select}}
+** Importer le jeu de données sur la [biomasse](https://marieetienne.github.io/datasets/Biomass_diversity.csv) et le stocker dans une variable biomasse_dta
 
-  -A partir de la table de données \texttt{SamaresEq\_base}, créer une table \texttt{SamaresEq\_base\_gornies} qui contient les information concernant la largeur et la longueur de chaque samare uniquement pour les  arbres du Site \texttt{Gornies}
+** Calculer le nombre d'années de mesures de rendement par pays et par années
 
+** Calculer le rendement moyen par pays et par année
 
-### Exercice
-\alert{ \texttt{mutate}}
+** Créer une table `biomass_france` ne contenant que les données des expériences en France
 
-- A partir de la table de données \texttt{SamaresEq\_readr}, ajouter une variable \texttt{larg\_x\_long} contenant le produit de la largeur et de la longueur et une colonne  \texttt{diff\_surf} qui calcule la différence entre la variable précédemment définie et la surface présente dans la table.
+** Créer une table `biomass_france_post2005`  contenant les données des expériences en France en 2005 ou 2006 
 
+** (plus dur) Compter le nombre d'années de mesure par pays 
 
+```{r biomass-sol, eval = FALSE, echo = FALSE}
+biomass_dta <- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %>% 
+  group_by(COUNTRY, YEAR) %>% 
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+biomass_france <- biomass_dta %>% 
+  filter(COUNTRY == 'France') 
+biomass_france_post2005 <- biomass_dta %>% 
+  filter(COUNTRY == 'FRANCE', YEAR >= 2005) 
+ biomass_dta %>% 
+   group_by(COUNTRY) %>% 
+   summarise(n_year = n_distinct(YEAR))
+```
+---
 
+`r chunk_reveal("biomass-sol", break_type = "auto")`
 
+---
 
+template: manip_tidy 
+## Manipulation du tableau entier 
+
+**pivot_wider**
+
+**pivot_longer**
 
 
 
