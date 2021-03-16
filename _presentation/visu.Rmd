@@ -87,7 +87,7 @@ template: intro
 
 ```{r smockers, eval = TRUE, echo = FALSE}
 # All defaults
-knitr::include_graphics(file.path(course_img_dir,"images/smockers.png"))
+knitr::include_graphics(file.path(course_img_dir,"smockers.png"))
 ```
 
 
@@ -102,7 +102,7 @@ count: false
 
 ```{r gf, eval = TRUE, echo = FALSE, out.width = '90%', out.height = '40%'   }
 # All defaults
-knitr::include_graphics(file.path(course_img_dir,"images/corona_gf.png"))
+knitr::include_graphics(file.path(course_img_dir,"corona_gf.png"))
 ```
 
 
@@ -118,7 +118,7 @@ count: false
 
 ```{r jc, eval = TRUE, echo = FALSE}
 # All defaults
-knitr::include_graphics(file.path(course_img_dir,"images/corona_j_castex.png"))
+knitr::include_graphics(file.path(course_img_dir,"corona_j_castex.png"))
 ```
 
 ---
