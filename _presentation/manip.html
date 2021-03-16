@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 # R : des premiers pas au modèle linéaire
 ## Manipulation de données
 ### Marie-Pierre Etienne
-### <a href="https://github.com/MarieEtienne/FormationContinueR" class="uri">https://github.com/MarieEtienne/FormationContinueR</a>
+### <a href="https://marieetienne.github.io/premierspas/" class="uri">https://marieetienne.github.io/premierspas/</a>
 ### Mars 2021
 
 ---
@@ -30,7 +30,6 @@ class: center, middle, inverse, title-slide
 
 
 
----
 
 name: data
 # les données dans R
@@ -66,7 +65,7 @@ gvt_dta
 ## 3        Pompili   Barbara    F  46            62
 ```
 
-Le plus souvent ce tableau est importé d'un fichier externe
+Le plus souvent ce tableau est importé depuis fichier externe.
 
 
 
@@ -490,62 +489,100 @@ glimpse(SamaresEq_readr)
 ## $ CircArbre &lt;dbl&gt; 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, 18.5, …
 ```
 
+
 ---
 template: manip_tidy 
-## Opérations sur les individus (les lignes)
+## Opérations sur les variables (les colonnes)
 
-### Accéder à des ligne spécifiques 
+### Sélectionner certaines variables
+
+**select**
+
+Pour modifier les variables présentes dans le jeu de données
+
+* Ne garder que la variable `NomSite`
+
+
+```r
+select(SamaresEq_readr, NomSite)
+```
+
+* Supprimer les variables `Site` et `Arbre`
 
 
 ```r
-slice(SamaresEq_readr, 24)
-```
-
-```
-## # A tibble: 1 x 9
-##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
-##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1     4 Gornies      6.3     2  12.3   0.672   0.378     2.47        15
-```
-
-```r
-slice(SamaresEq_readr, 24:26)
-```
-
-```
-## # A tibble: 3 x 9
-##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
-##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1     4 Gornies      6.3     2  12.3   0.672   0.378     2.47        15
-## 2     4 Gornies      6.3     2  19.3   0.628   0.404     2.30        15
-## 3     4 Gornies      6.3     2  10.5   0.594   0.366     2.30        15
-```
-
-```r
-slice(SamaresEq_readr, c(1,5,18))
-```
-
-```
-## # A tibble: 3 x 9
-##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
-##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
-## 2     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
-## 3     4 Gornies      6.3     1  10.4   0.603   0.393     2.07      18.5
+select(SamaresEq_readr, -Site, -Arbre)
 ```
 
 ---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+
+### Créer une nouvelle variable
+
+**mutate** : pour ajouter une colonne 
+
+
+```r
+mutate(SamaresEq_readr, Disp = Surface / Poids)
+```
+
+```
+## # A tibble: 2,380 x 10
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre   Disp
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.0671
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 0.0466
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 0.0520
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 0.0564
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.0509
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.0484
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.0476
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.0454
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.0406
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.0569
+## # … with 2,370 more rows
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+
+### Combiner des commandes
+
+
+```r
+mutate(select(SamaresEq_readr, Surface, Poids) , Disp = Surface / Poids)
+```
+
+```
+## # A tibble: 2,380 x 3
+##    Surface Poids   Disp
+##      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1   0.738  11   0.0671
+##  2   0.700  15   0.0466
+##  3   0.758  14.6 0.0520
+##  4   0.779  13.8 0.0564
+##  5   0.620  12.2 0.0509
+##  6   0.537  11.1 0.0484
+##  7   0.676  14.2 0.0476
+##  8   0.708  15.6 0.0454
+##  9   0.613  15.1 0.0406
+## 10   0.756  13.3 0.0569
+## # … with 2,370 more rows
+```
+--
+
+.care[***  Ce n'est pas très lisible ***]
+
+---
+
 template: manip_tidy 
 ## L'opérateur `%&gt;%` (CTRL + SHIFT + M)
 
-Avec le tidyverse, on va enchaîner les traitements sur des données. Pour cela, on utilise l'opérateur ` %&gt;% `
+Pour enchaîner les traitements sur des données, on peut utiliser l'opérateur ` %&gt;% `
 
 
-```r
-SamaresEq_readr %&gt;% 
-  slice(5:13) %&gt;% 
-  slice(1:3)
-```
 
 ---
 
@@ -587,25 +624,27 @@ count: false
 
 ```r
 SamaresEq_readr %&gt;%
-* slice(5:13)
+* select(Surface, Poids)
 ```
 ]
  
 .panel2-pipe-auto[
 
 ```
-## # A tibble: 9 x 9
-##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
-##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
-## 2     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
-## 3     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
-## 4     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
-## 5     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
-## 6     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
-## 7     4 Gornies      6.3     1  12.5   0.730   0.462     2.13      18.5
-## 8     4 Gornies      6.3     1  13.7   0.782   0.474     2.24      18.5
-## 9     4 Gornies      6.3     1  17.1   0.898   0.474     2.50      18.5
+## # A tibble: 2,380 x 2
+##    Surface Poids
+##      &lt;dbl&gt; &lt;dbl&gt;
+##  1   0.738  11  
+##  2   0.700  15  
+##  3   0.758  14.6
+##  4   0.779  13.8
+##  5   0.620  12.2
+##  6   0.537  11.1
+##  7   0.676  14.2
+##  8   0.708  15.6
+##  9   0.613  15.1
+## 10   0.756  13.3
+## # … with 2,370 more rows
 ```
 ]
 
@@ -617,20 +656,28 @@ count: false
 
 ```r
 SamaresEq_readr %&gt;%
-  slice(5:13) %&gt;%
-* slice(1:3)
+  select(Surface, Poids) %&gt;%
+* mutate( Disp = Surface / Poids)
 ```
 ]
  
 .panel2-pipe-auto[
 
 ```
-## # A tibble: 3 x 9
-##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
-##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-## 1     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
-## 2     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
-## 3     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+## # A tibble: 2,380 x 3
+##    Surface Poids   Disp
+##      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1   0.738  11   0.0671
+##  2   0.700  15   0.0466
+##  3   0.758  14.6 0.0520
+##  4   0.779  13.8 0.0564
+##  5   0.620  12.2 0.0509
+##  6   0.537  11.1 0.0484
+##  7   0.676  14.2 0.0476
+##  8   0.708  15.6 0.0454
+##  9   0.613  15.1 0.0406
+## 10   0.756  13.3 0.0569
+## # … with 2,370 more rows
 ```
 ]
 
@@ -661,6 +708,2106 @@ SamaresEq_readr %&gt;%
 }
 &lt;/style&gt;
 
+
+
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Exercice
+
+* Ajouter à la table de données `SamaresEq_readr`,  une variable  `Prod` contenant  le produit `Largeur` fois `Longueur` et une variable  `Diff_surf` qui calcule la différence entre la variable précédemment définie et la surface présente dans la table.
+
+*  Ajouter une variable  `Disp` valant la surface divisée par le poids, ainsi qu'une variable `log_Disp` contenant le logarithme de Disp
+
+* Supprimer l'information sur le Numéroe du site  qui est redondante avec le nom du site.
+
+* Sauver le résultat dans une table nommée `SamaresEq_disp`.
+
+---
+
+
+
+
+count: false
+ 
+
+.panel1-ex_select-auto[
+
+```r
+*SamaresEq_readr
+```
+]
+ 
+.panel2-ex_select-auto[
+
+```
+## # A tibble: 2,380 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ex_select-auto[
+
+```r
+SamaresEq_readr %&gt;%
+* mutate( Prod = Largeur * Longueur)
+```
+]
+ 
+.panel2-ex_select-auto[
+
+```
+## # A tibble: 2,380 x 10
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ex_select-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  mutate( Prod = Largeur * Longueur) %&gt;%
+* mutate( Diff_surf = Prod - Surface)
+```
+]
+ 
+.panel2-ex_select-auto[
+
+```
+## # A tibble: 2,380 x 11
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows, and 1 more variable: Diff_surf &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ex_select-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  mutate( Prod = Largeur * Longueur) %&gt;%
+  mutate( Diff_surf = Prod - Surface) %&gt;%
+* mutate( Disp = Surface / Poids, log_disp = log(Disp))
+```
+]
+ 
+.panel2-ex_select-auto[
+
+```
+## # A tibble: 2,380 x 13
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows, and 3 more variables: Diff_surf &lt;dbl&gt;, Disp &lt;dbl&gt;,
+## #   log_disp &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-ex_select-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  mutate( Prod = Largeur * Longueur) %&gt;%
+  mutate( Diff_surf = Prod - Surface) %&gt;%
+  mutate( Disp = Surface / Poids, log_disp = log(Disp)) %&gt;%
+* select(-Site) -&gt; SamaresEq_disp
+```
+]
+ 
+.panel2-ex_select-auto[
+
+]
+
+&lt;style&gt;
+.panel1-ex_select-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-ex_select-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-ex_select-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+
+
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Résumer des variables
+
+**summarise** : Calculer des valeurs résumées (nombre d'observation, moyennes, écart types, ...)
+
+
+
+```r
+SamaresEq_readr %&gt;% 
+  summarise( longueur_m  = mean(Longueur, na.rm = TRUE)) 
+```
+
+```
+## # A tibble: 1 x 1
+##   longueur_m
+##        &lt;dbl&gt;
+## 1       2.49
+```
+
+
+```r
+SamaresEq_readr %&gt;% 
+  summarise( longueur_moyenne  = mean(Longueur, na.rm = TRUE),
+             nobs = n(),
+             longueur_mediane = median(Longueur)  ) 
+```
+
+```
+## # A tibble: 1 x 3
+##   longueur_moyenne  nobs longueur_mediane
+##              &lt;dbl&gt; &lt;int&gt;            &lt;dbl&gt;
+## 1             2.49  2380             2.48
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Résumer des variables
+
+**summarise** : Calculer des valeurs résumées (nombre d'observation, moyennes, écart types, ...)
+
+* Calculer le nombre d'observations et les  médianes pour plusieurs variables
+
+
+```r
+SamaresEq_readr %&gt;% 
+  summarise_at( vars(Largeur, Longueur), list(moy = mean, med = median, ecart_type = sd)) 
+```
+
+```
+## # A tibble: 1 x 6
+##   Largeur_moy Longueur_moy Largeur_med Longueur_med Largeur_ecart_type
+##         &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;
+## 1       0.451         2.49       0.445         2.48             0.0706
+## # … with 1 more variable: Longueur_ecart_type &lt;dbl&gt;
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Résumer des variables
+
+**summarise** : Calculer des valeurs résumées (nombre d'observation, moyennes, écart types, ...)
+
+* Calculer les moyennes de toutes les variables quantitatives
+
+
+```r
+SamaresEq_readr %&gt;% 
+  summarise_if(is.numeric, mean, na.rm=TRUE) 
+```
+
+```
+## # A tibble: 1 x 8
+##    Site Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1  3.98     8.99  10.9  26.6   0.823   0.451     2.49      26.2
+```
+--
+
+Les variables site et arbre sont des numéros et non des nombres. Il faut les traiter comme des catégories 
+
+
+
+---
+
+count: false
+ 
+
+.panel1-sum_fact-auto[
+
+```r
+*SamaresEq_readr
+```
+]
+ 
+.panel2-sum_fact-auto[
+
+```
+## # A tibble: 2,380 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-sum_fact-auto[
+
+```r
+SamaresEq_readr %&gt;%
+* mutate(Site = as.factor(Site), Arbre = as.factor(Site))
+```
+]
+ 
+.panel2-sum_fact-auto[
+
+```
+## # A tibble: 2,380 x 9
+##    Site  NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;fct&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1 4     Gornies      6.3 4      11     0.738   0.427     2.32      18.5
+##  2 4     Gornies      6.3 4      15     0.700   0.489     2.16      18.5
+##  3 4     Gornies      6.3 4      14.6   0.758   0.444     2.28      18.5
+##  4 4     Gornies      6.3 4      13.8   0.779   0.474     2.26      18.5
+##  5 4     Gornies      6.3 4      12.2   0.620   0.404     2.03      18.5
+##  6 4     Gornies      6.3 4      11.1   0.537   0.339     2.04      18.5
+##  7 4     Gornies      6.3 4      14.2   0.676   0.422     2.23      18.5
+##  8 4     Gornies      6.3 4      15.6   0.708   0.452     2.15      18.5
+##  9 4     Gornies      6.3 4      15.1   0.613   0.377     2.15      18.5
+## 10 4     Gornies      6.3 4      13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-sum_fact-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  mutate(Site = as.factor(Site), Arbre = as.factor(Site)) %&gt;%
+* summarise_if(is.numeric, mean, na.rm=TRUE)
+```
+]
+ 
+.panel2-sum_fact-auto[
+
+```
+## # A tibble: 1 x 6
+##   Distance Poids Surface Largeur Longueur CircArbre
+##      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     8.99  26.6   0.823   0.451     2.49      26.2
+```
+]
+
+---
+count: false
+ 
+
+.panel1-sum_fact-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  mutate(Site = as.factor(Site), Arbre = as.factor(Site)) %&gt;%
+  summarise_if(is.numeric, mean, na.rm=TRUE)
+
+*SamaresEq_readr
+```
+]
+ 
+.panel2-sum_fact-auto[
+
+```
+## # A tibble: 1 x 6
+##   Distance Poids Surface Largeur Longueur CircArbre
+##      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     8.99  26.6   0.823   0.451     2.49      26.2
+```
+
+```
+## # A tibble: 2,380 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-sum_fact-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  mutate(Site = as.factor(Site), Arbre = as.factor(Site)) %&gt;%
+  summarise_if(is.numeric, mean, na.rm=TRUE)
+
+SamaresEq_readr %&gt;%
+* mutate(Site = as.factor(Site), Arbre = as.factor(Arbre))
+```
+]
+ 
+.panel2-sum_fact-auto[
+
+```
+## # A tibble: 1 x 6
+##   Distance Poids Surface Largeur Longueur CircArbre
+##      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     8.99  26.6   0.823   0.451     2.49      26.2
+```
+
+```
+## # A tibble: 2,380 x 9
+##    Site  NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;fct&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1 4     Gornies      6.3 1      11     0.738   0.427     2.32      18.5
+##  2 4     Gornies      6.3 1      15     0.700   0.489     2.16      18.5
+##  3 4     Gornies      6.3 1      14.6   0.758   0.444     2.28      18.5
+##  4 4     Gornies      6.3 1      13.8   0.779   0.474     2.26      18.5
+##  5 4     Gornies      6.3 1      12.2   0.620   0.404     2.03      18.5
+##  6 4     Gornies      6.3 1      11.1   0.537   0.339     2.04      18.5
+##  7 4     Gornies      6.3 1      14.2   0.676   0.422     2.23      18.5
+##  8 4     Gornies      6.3 1      15.6   0.708   0.452     2.15      18.5
+##  9 4     Gornies      6.3 1      15.1   0.613   0.377     2.15      18.5
+## 10 4     Gornies      6.3 1      13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-sum_fact-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  mutate(Site = as.factor(Site), Arbre = as.factor(Site)) %&gt;%
+  summarise_if(is.numeric, mean, na.rm=TRUE)
+
+SamaresEq_readr %&gt;%
+  mutate(Site = as.factor(Site), Arbre = as.factor(Arbre)) %&gt;%
+* summarise_if(is.factor, n_distinct)
+```
+]
+ 
+.panel2-sum_fact-auto[
+
+```
+## # A tibble: 1 x 6
+##   Distance Poids Surface Largeur Longueur CircArbre
+##      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     8.99  26.6   0.823   0.451     2.49      26.2
+```
+
+```
+## # A tibble: 1 x 2
+##    Site Arbre
+##   &lt;int&gt; &lt;int&gt;
+## 1     7    29
+```
+]
+
+&lt;style&gt;
+.panel1-sum_fact-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-sum_fact-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-sum_fact-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+### Exercice
+
+**summarise**
+
+* Calculer la moyenne et l'écart-type pour les variables `Surface` et `disp`.
+
+
+--
+
+
+
+---
+
+count: false
+ 
+
+.panel1-summarise_ex1-auto[
+
+```r
+*SamaresEq_disp
+```
+]
+ 
+.panel2-summarise_ex1-auto[
+
+```
+## # A tibble: 2,380 x 12
+##    NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows, and 3 more variables: Diff_surf &lt;dbl&gt;, Disp &lt;dbl&gt;,
+## #   log_disp &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-summarise_ex1-auto[
+
+```r
+SamaresEq_disp %&gt;%
+* summarise_at( vars(Surface, Disp),
+*               list(ecart_type =  sd, moy = mean), na.rm = TRUE)
+```
+]
+ 
+.panel2-summarise_ex1-auto[
+
+```
+## # A tibble: 1 x 4
+##   Surface_ecart_type Disp_ecart_type Surface_moy Disp_moy
+##                &lt;dbl&gt;           &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+## 1              0.179         0.00948       0.823   0.0330
+```
+]
+
+&lt;style&gt;
+.panel1-summarise_ex1-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-summarise_ex1-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-summarise_ex1-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+* Calculer des moyennes pour chaque groupe 
+
+
+
+---
+
+count: false
+ 
+
+.panel1-group_by_1-auto[
+
+```r
+*SamaresEq_disp
+```
+]
+ 
+.panel2-group_by_1-auto[
+
+```
+## # A tibble: 2,380 x 12
+##    NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows, and 3 more variables: Diff_surf &lt;dbl&gt;, Disp &lt;dbl&gt;,
+## #   log_disp &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-group_by_1-auto[
+
+```r
+SamaresEq_disp %&gt;%
+* group_by( NomSite)
+```
+]
+ 
+.panel2-group_by_1-auto[
+
+```
+## # A tibble: 2,380 x 12
+## # Groups:   NomSite [7]
+##    NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows, and 3 more variables: Diff_surf &lt;dbl&gt;, Disp &lt;dbl&gt;,
+## #   log_disp &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-group_by_1-auto[
+
+```r
+SamaresEq_disp %&gt;%
+  group_by( NomSite) %&gt;%
+* summarise( Surface_m = mean (Surface))
+```
+]
+ 
+.panel2-group_by_1-auto[
+
+```
+## # A tibble: 7 x 2
+##   NomSite    Surface_m
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 Gornies        0.849
+## 2 Grenou_1       0.810
+## 3 Grenou_2       0.853
+## 4 Grenou_3       0.808
+## 5 StBauzille     0.742
+## 6 StEtienne      0.897
+## 7 StLaurent      0.818
+```
+]
+
+---
+count: false
+ 
+
+.panel1-group_by_1-auto[
+
+```r
+SamaresEq_disp %&gt;%
+  group_by( NomSite) %&gt;%
+  summarise( Surface_m = mean (Surface)) %&gt;%
+* print(n = 3)
+```
+]
+ 
+.panel2-group_by_1-auto[
+
+```
+## # A tibble: 7 x 2
+##   NomSite  Surface_m
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Gornies      0.849
+## 2 Grenou_1     0.810
+## 3 Grenou_2     0.853
+## # … with 4 more rows
+```
+]
+
+&lt;style&gt;
+.panel1-group_by_1-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-group_by_1-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-group_by_1-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+* Calculer des effectifs pour chaque Site 
+
+
+```r
+  SamaresEq_disp %&gt;% 
+  group_by( NomSite) %&gt;%
+  summarise( n_obs = n())  %&gt;%
+  print(n = 3)
+```
+
+```
+## # A tibble: 7 x 2
+##   NomSite  n_obs
+##   &lt;chr&gt;    &lt;int&gt;
+## 1 Gornies    580
+## 2 Grenou_1   280
+## 3 Grenou_2   300
+## # … with 4 more rows
+```
+
+* Calculer les effectifs  par Site et par arbre
+
+
+```r
+  SamaresEq_disp %&gt;% 
+  group_by( NomSite, Arbre ) %&gt;%
+  summarise( n_obs = n())  %&gt;%
+  print(n = 3)
+```
+
+---
+
+count: false
+ 
+
+.panel1-group_by_3-auto[
+
+```r
+* SamaresEq_disp
+```
+]
+ 
+.panel2-group_by_3-auto[
+
+```
+## # A tibble: 2,380 x 12
+##    NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows, and 3 more variables: Diff_surf &lt;dbl&gt;, Disp &lt;dbl&gt;,
+## #   log_disp &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-group_by_3-auto[
+
+```r
+  SamaresEq_disp %&gt;%
+* group_by( NomSite, Arbre )
+```
+]
+ 
+.panel2-group_by_3-auto[
+
+```
+## # A tibble: 2,380 x 12
+## # Groups:   NomSite, Arbre [119]
+##    NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre  Prod
+##    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+##  1 Gornies      6.3     1  11     0.738   0.427     2.32      18.5 0.989
+##  2 Gornies      6.3     1  15     0.700   0.489     2.16      18.5 1.06 
+##  3 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5 1.01 
+##  4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5 1.07 
+##  5 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5 0.821
+##  6 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5 0.692
+##  7 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5 0.940
+##  8 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5 0.971
+##  9 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5 0.810
+## 10 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5 0.961
+## # … with 2,370 more rows, and 3 more variables: Diff_surf &lt;dbl&gt;, Disp &lt;dbl&gt;,
+## #   log_disp &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-group_by_3-auto[
+
+```r
+  SamaresEq_disp %&gt;%
+  group_by( NomSite, Arbre ) %&gt;%
+* summarise( n_obs = n())
+```
+]
+ 
+.panel2-group_by_3-auto[
+
+```
+## # A tibble: 119 x 3
+## # Groups:   NomSite [7]
+##    NomSite Arbre n_obs
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
+##  1 Gornies     1    20
+##  2 Gornies     2    20
+##  3 Gornies     3    20
+##  4 Gornies     4    20
+##  5 Gornies     5    20
+##  6 Gornies     6    20
+##  7 Gornies     7    20
+##  8 Gornies     8    20
+##  9 Gornies     9    20
+## 10 Gornies    10    20
+## # … with 109 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-group_by_3-auto[
+
+```r
+  SamaresEq_disp %&gt;%
+  group_by( NomSite, Arbre ) %&gt;%
+  summarise( n_obs = n())  %&gt;%
+* print(n = 3)
+```
+]
+ 
+.panel2-group_by_3-auto[
+
+```
+## # A tibble: 119 x 3
+## # Groups:   NomSite [7]
+##   NomSite Arbre n_obs
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;
+## 1 Gornies     1    20
+## 2 Gornies     2    20
+## 3 Gornies     3    20
+## # … with 116 more rows
+```
+]
+
+&lt;style&gt;
+.panel1-group_by_3-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-group_by_3-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-group_by_3-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+### Exercice
+
+
+- Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
+- Pour chaque site, donner le nombre d'arbres échantillonnés.
+
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+### Solution
+
+
+* Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
+
+
+```r
+  SamaresEq_disp %&gt;% group_by( NomSite, Arbre ) %&gt;%
+  summarise( n_obs = n(), poids_m = mean(Poids))  %&gt;%   print(n = 3)
+```
+
+```
+## `summarise()` has grouped output by 'NomSite'. You can override using the `.groups` argument.
+```
+
+```
+## # A tibble: 119 x 4
+## # Groups:   NomSite [7]
+##   NomSite Arbre n_obs poids_m
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 Gornies     1    20    13.4
+## 2 Gornies     2    20    11.5
+## 3 Gornies     3    20    24.6
+## # … with 116 more rows
+```
+
+---
+template: manip_tidy 
+## Des traitements  par sous groupes
+
+**group_by**
+
+### Solution
+
+* Pour chaque site, donner le nombre d'arbres échantillonnés.
+
+
+```r
+  SamaresEq_disp %&gt;% group_by( NomSite) %&gt;% summarise( n_Arbre = n_distinct(Arbre))
+```
+
+```
+## # A tibble: 7 x 2
+##   NomSite    n_Arbre
+##   &lt;chr&gt;        &lt;int&gt;
+## 1 Gornies         29
+## 2 Grenou_1        14
+## 3 Grenou_2        15
+## 4 Grenou_3        10
+## 5 StBauzille      15
+## 6 StEtienne        7
+## 7 StLaurent       29
+```
+
+---
+template: manip_tidy 
+## Sauvegarder des tables de données
+
+### Sauvegarder dans un format texte
+**write_csv**
+
+
+```r
+write_csv(SamaresEq_disp, path = "SamaresEq_disp.csv")
+```
+
+
+### Sauvegarder dans un format compressé
+**save**
+
+
+```r
+save("SamaresEq_disp", file =  "SamaresEq_disp.RData")
+```
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+### Accéder à des lignes spécifiques 
+
+
+```r
+slice(SamaresEq_readr, 24)
+```
+
+```
+## # A tibble: 1 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     2  12.3   0.672   0.378     2.47        15
+```
+
+```r
+slice(SamaresEq_readr, 24:26)
+```
+
+```
+## # A tibble: 3 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     2  12.3   0.672   0.378     2.47        15
+## 2     4 Gornies      6.3     2  19.3   0.628   0.404     2.30        15
+## 3     4 Gornies      6.3     2  10.5   0.594   0.366     2.30        15
+```
+
+```r
+slice(SamaresEq_readr, c(1,5,18))
+```
+
+```
+## # A tibble: 3 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+## 2     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+## 3     4 Gornies      6.3     1  10.4   0.603   0.393     2.07      18.5
+```
+
+---
+
+
+count: false
+ 
+
+.panel1-pipe-bis-auto[
+
+```r
+*SamaresEq_readr
+```
+]
+ 
+.panel2-pipe-bis-auto[
+
+```
+## # A tibble: 2,380 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11     0.738   0.427     2.32      18.5
+##  2     4 Gornies      6.3     1  15     0.700   0.489     2.16      18.5
+##  3     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  4     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  5     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+##  6     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+##  7     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+##  8     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+##  9     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 10     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## # … with 2,370 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-pipe-bis-auto[
+
+```r
+SamaresEq_readr %&gt;%
+* slice(5:13)
+```
+]
+ 
+.panel2-pipe-bis-auto[
+
+```
+## # A tibble: 9 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+## 2     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+## 3     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+## 4     4 Gornies      6.3     1  15.6   0.708   0.452     2.15      18.5
+## 5     4 Gornies      6.3     1  15.1   0.613   0.377     2.15      18.5
+## 6     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+## 7     4 Gornies      6.3     1  12.5   0.730   0.462     2.13      18.5
+## 8     4 Gornies      6.3     1  13.7   0.782   0.474     2.24      18.5
+## 9     4 Gornies      6.3     1  17.1   0.898   0.474     2.50      18.5
+```
+]
+
+---
+count: false
+ 
+
+.panel1-pipe-bis-auto[
+
+```r
+SamaresEq_readr %&gt;%
+  slice(5:13) %&gt;%
+* slice(1:3)
+```
+]
+ 
+.panel2-pipe-bis-auto[
+
+```
+## # A tibble: 3 x 9
+##    Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1     4 Gornies      6.3     1  12.2   0.620   0.404     2.03      18.5
+## 2     4 Gornies      6.3     1  11.1   0.537   0.339     2.04      18.5
+## 3     4 Gornies      6.3     1  14.2   0.676   0.422     2.23      18.5
+```
+]
+
+&lt;style&gt;
+.panel1-pipe-bis-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-pipe-bis-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-pipe-bis-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Selectionner les individus qui satisfont une condition
+
+**filter**
+
+* Sélectionner les samares ayant une surface supérieure à 0.75 
+
+
+```r
+SamaresEq_readr %&gt;% filter( Surface &gt; 0.75) 
+```
+
+```
+## # A tibble: 1,517 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  2     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  3     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+##  4     4 Gornies      6.3     1  13.7   0.782   0.474     2.24      18.5
+##  5     4 Gornies      6.3     1  17.1   0.898   0.474     2.50      18.5
+##  6     4 Gornies      6.3     1  15.3   0.790   0.483     2.13      18.5
+##  7     4 Gornies      6.3     1  18.3   0.833   0.411     2.64      18.5
+##  8     4 Gornies      6.3     2  12.2   0.827   0.446     2.71      15  
+##  9     4 Gornies      6.3     2  15.8   0.774   0.437     2.71      15  
+## 10     4 Gornies      6.3     3  27.1   0.775   0.466     2.14      21  
+## # … with 1,507 more rows
+```
+
+```r
+SamaresEq_readr %&gt;% filter( Site == 3) 
+```
+
+```
+## # A tibble: 200 x 9
+##     Site NomSite  Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     3 Grenou_3        1     1  16.4   0.599   0.355     2.17        40
+##  2     3 Grenou_3        1     1  18.5   0.756   0.401     2.53        40
+##  3     3 Grenou_3        1     1  14.3   0.698   0.413     2.39        40
+##  4     3 Grenou_3        1     1  16.4   0.7     0.393     2.50        40
+##  5     3 Grenou_3        1     1  16.8   0.484   0.246     2.69        40
+##  6     3 Grenou_3        1     1  17.6   0.735   0.392     2.63        40
+##  7     3 Grenou_3        1     1  13.3   0.411   0.252     2.76        40
+##  8     3 Grenou_3        1     1  14.9   0.726   0.437     2.53        40
+##  9     3 Grenou_3        1     1  16.9   0.584   0.375     2.05        40
+## 10     3 Grenou_3        1     1  17.3   0.770   0.407     2.49        40
+## # … with 190 more rows
+```
+
+```r
+Grand_samares &lt;- SamaresEq_readr %&gt;% filter( Surface &gt; 0.75) 
+Grand_samares %&gt;% print(n=10)
+```
+
+```
+## # A tibble: 1,517 x 9
+##     Site NomSite Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  14.6   0.758   0.444     2.28      18.5
+##  2     4 Gornies      6.3     1  13.8   0.779   0.474     2.26      18.5
+##  3     4 Gornies      6.3     1  13.3   0.756   0.447     2.15      18.5
+##  4     4 Gornies      6.3     1  13.7   0.782   0.474     2.24      18.5
+##  5     4 Gornies      6.3     1  17.1   0.898   0.474     2.50      18.5
+##  6     4 Gornies      6.3     1  15.3   0.790   0.483     2.13      18.5
+##  7     4 Gornies      6.3     1  18.3   0.833   0.411     2.64      18.5
+##  8     4 Gornies      6.3     2  12.2   0.827   0.446     2.71      15  
+##  9     4 Gornies      6.3     2  15.8   0.774   0.437     2.71      15  
+## 10     4 Gornies      6.3     3  27.1   0.775   0.466     2.14      21  
+## # … with 1,507 more rows
+```
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Selectionner les individus qui satisfont une condition
+
+**arrange**
+
+
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+### Exercice
+* Sélectionner toutes les observations du site Gornies
+* Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
+* Sélectionner toutes les observations qui ne proviennent ni du site `Gornies` ni du site `StEtienne`.
+
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+### Solution
+\alert{ \texttt{filter}}
+
+* Sélectionner toutes les observations du site Gornies
+
+
+```r
+SamaresEq_readr %&gt;% filter(Site == 'Gornies')
+```
+
+--
+
+* Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
+
+
+```r
+SamaresEq_readr %&gt;% filter(Largeur &gt; 0.45 &amp; Longueur &lt; 2.32)
+```
+
+--
+
+* Sélectionner toutes les observations qui ne proviennent ni du site `Gornies` ni du site `StEtienne`.
+
+
+```r
+SamaresEq_readr %&gt;% filter(  ! NomSite %in% c('Gornies', 'StEtienne') )
+```
+
+```
+## # A tibble: 1,660 x 9
+##     Site NomSite  Distance Arbre Poids Surface Largeur Longueur CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1     1 Grenou_1        0     1  16.8   0.839   0.458     2.46        57
+##  2     1 Grenou_1        0     1  25.4   0.809   0.433     2.48        57
+##  3     1 Grenou_1        0     1  21.7   0.774   0.441     2.36        57
+##  4     1 Grenou_1        0     1  14.9   0.860   0.453     2.64        57
+##  5     1 Grenou_1        0     1  21     0.814   0.469     2.42        57
+##  6     1 Grenou_1        0     1  20.1   0.828   0.465     2.41        57
+##  7     1 Grenou_1        0     1  26.8   0.986   0.484     2.68        57
+##  8     1 Grenou_1        0     1  21.4   0.871   0.454     2.72        57
+##  9     1 Grenou_1        0     1  18.9   0.835   0.429     2.71        57
+## 10     1 Grenou_1        0     1  18.4   0.828   0.469     2.45        57
+## # … with 1,650 more rows
+```
+
+
+
+---
+template: manip_tidy 
+## Exercice sous forme de bilan
+
+Créer un fichier Rmarkdown qui réalise les tâches suivantes 
+
+** Importer le jeu de données sur la [biomasse](https://marieetienne.github.io/datasets/Biomass_diversity.csv) et le stocker dans une variable biomasse_dta
+
+** Calculer le nombre d'années de mesures de rendement par pays et par années
+
+** Calculer le rendement moyen par pays et par année
+
+** Créer une table `biomass_france` ne contenant que les données des expériences en France
+
+** Créer une table `biomass_france_post2005`  contenant les données des expériences en France en 2005 ou 2006 
+
+** (plus dur) Compter le nombre d'années de mesure par pays 
+
+
+---
+
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+*biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+*biomass_dta
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 864 x 7
+##    COUNTRY    YEAR  PLOT     G     L HARV_YIELD     H
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1 Belgium    2003    12     1     0      2.69      1
+##  2 Iceland_a  2003    12     1     0      2.82      1
+##  3 Sweden_a   2003    12     1     0      2.61      1
+##  4 Belgium    2004    12     1     0      3.44      1
+##  5 France     2004    12     1     0      3.09      1
+##  6 Iceland_a  2004    12     1     0      1.88      1
+##  7 Norway_a   2004    12     1     0      1.38      1
+##  8 Sweden_a   2004    12     1     0      1.03      1
+##  9 Sweden_b   2004    12     1     0      0.832     1
+## 10 Belgium    2005    12     1     0      3.30      1
+## # … with 854 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+* group_by(COUNTRY, YEAR)
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 864 x 7
+## # Groups:   COUNTRY, YEAR [18]
+##    COUNTRY    YEAR  PLOT     G     L HARV_YIELD     H
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1 Belgium    2003    12     1     0      2.69      1
+##  2 Iceland_a  2003    12     1     0      2.82      1
+##  3 Sweden_a   2003    12     1     0      2.61      1
+##  4 Belgium    2004    12     1     0      3.44      1
+##  5 France     2004    12     1     0      3.09      1
+##  6 Iceland_a  2004    12     1     0      1.88      1
+##  7 Norway_a   2004    12     1     0      1.38      1
+##  8 Sweden_a   2004    12     1     0      1.03      1
+##  9 Sweden_b   2004    12     1     0      0.832     1
+## 10 Belgium    2005    12     1     0      3.30      1
+## # … with 854 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+* summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+*biomass_france &lt;- biomass_dta
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+biomass_france &lt;- biomass_dta %&gt;%
+* filter(COUNTRY == 'France')
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+biomass_france &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'France')
+*biomass_france_post2005 &lt;- biomass_dta
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+biomass_france &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'France')
+biomass_france_post2005 &lt;- biomass_dta %&gt;%
+* filter(COUNTRY == 'FRANCE', YEAR &gt;= 2005)
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+biomass_france &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'France')
+biomass_france_post2005 &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'FRANCE', YEAR &gt;= 2005)
+*biomass_dta
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+
+```
+## # A tibble: 864 x 7
+##    COUNTRY    YEAR  PLOT     G     L HARV_YIELD     H
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1 Belgium    2003    12     1     0      2.69      1
+##  2 Iceland_a  2003    12     1     0      2.82      1
+##  3 Sweden_a   2003    12     1     0      2.61      1
+##  4 Belgium    2004    12     1     0      3.44      1
+##  5 France     2004    12     1     0      3.09      1
+##  6 Iceland_a  2004    12     1     0      1.88      1
+##  7 Norway_a   2004    12     1     0      1.38      1
+##  8 Sweden_a   2004    12     1     0      1.03      1
+##  9 Sweden_b   2004    12     1     0      0.832     1
+## 10 Belgium    2005    12     1     0      3.30      1
+## # … with 854 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+biomass_france &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'France')
+biomass_france_post2005 &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'FRANCE', YEAR &gt;= 2005)
+ biomass_dta %&gt;%
+*  group_by(COUNTRY)
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+
+```
+## # A tibble: 864 x 7
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  PLOT     G     L HARV_YIELD     H
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+##  1 Belgium    2003    12     1     0      2.69      1
+##  2 Iceland_a  2003    12     1     0      2.82      1
+##  3 Sweden_a   2003    12     1     0      2.61      1
+##  4 Belgium    2004    12     1     0      3.44      1
+##  5 France     2004    12     1     0      3.09      1
+##  6 Iceland_a  2004    12     1     0      1.88      1
+##  7 Norway_a   2004    12     1     0      1.38      1
+##  8 Sweden_a   2004    12     1     0      1.03      1
+##  9 Sweden_b   2004    12     1     0      0.832     1
+## 10 Belgium    2005    12     1     0      3.30      1
+## # … with 854 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-biomass-sol-auto[
+
+```r
+biomass_dta &lt;- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+biomass_dta %&gt;%
+  group_by(COUNTRY, YEAR) %&gt;%
+  summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
+biomass_france &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'France')
+biomass_france_post2005 &lt;- biomass_dta %&gt;%
+  filter(COUNTRY == 'FRANCE', YEAR &gt;= 2005)
+ biomass_dta %&gt;%
+   group_by(COUNTRY) %&gt;%
+*  summarise(n_year = n_distinct(YEAR))
+```
+]
+ 
+.panel2-biomass-sol-auto[
+
+```
+## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   COUNTRY = col_character(),
+##   YEAR = col_double(),
+##   PLOT = col_double(),
+##   G = col_double(),
+##   L = col_double(),
+##   HARV_YIELD = col_double(),
+##   H = col_double()
+## )
+```
+
+```
+## # A tibble: 18 x 4
+## # Groups:   COUNTRY [6]
+##    COUNTRY    YEAR  nobs rend_moy
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;
+##  1 Belgium    2003    48     3.58
+##  2 Belgium    2004    48     6.07
+##  3 Belgium    2005    48     4.15
+##  4 France     2004    48     3.05
+##  5 France     2005    48     4.83
+##  6 France     2006    48     3.88
+##  7 Iceland_a  2003    48     2.10
+##  8 Iceland_a  2004    48     1.51
+##  9 Iceland_a  2005    48     1.47
+## 10 Norway_a   2004    48     4.36
+## 11 Norway_a   2005    48     3.27
+## 12 Norway_a   2006    48     3.17
+## 13 Sweden_a   2003    48     3.52
+## 14 Sweden_a   2004    48     3.34
+## 15 Sweden_a   2005    48     2.79
+## 16 Sweden_b   2004    48     3.07
+## 17 Sweden_b   2005    48     2.43
+## 18 Sweden_b   2006    48     1.71
+```
+
+```
+## # A tibble: 6 x 2
+##   COUNTRY   n_year
+##   &lt;chr&gt;      &lt;int&gt;
+## 1 Belgium        3
+## 2 France         3
+## 3 Iceland_a      3
+## 4 Norway_a       3
+## 5 Sweden_a       3
+## 6 Sweden_b       3
+```
+]
+
+&lt;style&gt;
+.panel1-biomass-sol-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-biomass-sol-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-biomass-sol-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+
+template: manip_tidy 
+## Manipulation du tableau entier 
+
+**pivot_wider**
+
+**pivot_longer**
+
+
+
+&lt;!-- ### Sauvegarder dans un format compressé utile à \R --&gt;
+&lt;!-- \alert{\texttt{save}} --&gt;
+
+&lt;!-- ```{r} --&gt;
+&lt;!-- save(SamaresEq_disp, file =  "../../Datasets/SamaresEq_disp.Rdata") --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- On charge ce type de fichier avec la fonction load --&gt;
+
+&lt;!-- ```{r} --&gt;
+&lt;!-- load("../../Datasets/SamaresEq_disp.Rdata") --&gt;
+&lt;!-- ``` --&gt;
 
 
     </textarea>
