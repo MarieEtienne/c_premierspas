@@ -9,7 +9,7 @@ SamaresEq_base <- read.table(file = mon_fichier, sep = " ", header = TRUE, dec =
 
 ### La structure des tableaux de données dans \R 
 
-Un tableau de données est un objet \texttt{data.frame}. 
+Un tableau de données est un objet `data.frame`. 
 
 - Connaître les dimensions d'un tableau
 

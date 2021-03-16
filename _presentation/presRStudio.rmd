@@ -193,7 +193,7 @@ template: userstudio
 
 ### Installer un package 
 
-Le but de l'installation est de télécharger et placer au bon endroit les codes \texttt{R} contenus dans le package
+Le but de l'installation est de télécharger et placer au bon endroit les codes `R` contenus dans le package
 
 ```{r rstudio_install_package, eval = TRUE, echo = FALSE,out.width = "40%", fig.align="center"}
 # All defaults

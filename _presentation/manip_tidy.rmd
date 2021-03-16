@@ -379,11 +379,13 @@ template: manip_tidy
 * Sélectionner les samares ayant une surface supérieure à 0.75 
 
 ```{r filter1}
-SamaresEq_readr %>% filter( Surface > 0.75) 
-SamaresEq_readr %>% filter( Site == 3) 
-
+SamaresEq_readr %>% 
+  filter( Surface > 0.75) %>% 
+  print(n=4)
+SamaresEq_readr %>% 
+  filter( Site == 3) %>% 
+  print(n=4)
 Grand_samares <- SamaresEq_readr %>% filter( Surface > 0.75) 
-Grand_samares %>% print(n=10)
 ```
 
 ---
@@ -411,7 +413,7 @@ template: manip_tidy
 ## Opérations sur les individus (les lignes)
 
 ### Solution
-\alert{ \texttt{filter}}
+**filter**
 
 * Sélectionner toutes les observations du site Gornies
 
