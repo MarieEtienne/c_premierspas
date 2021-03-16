@@ -13,6 +13,7 @@ RUN R -e "install.packages(c('palmerpenguins'))"
 RUN R -e "install.packages(c('cowplot'))"
 RUN R -e "install.packages(c('ggpubr'))"
 RUN R -e "install.packages('GGally')"
+RUN R -e "install.packages('gganimate')"
 
 
 
