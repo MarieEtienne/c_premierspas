@@ -11,7 +11,7 @@ RUN R -e "remotes::install_github('gadenbuie/xaringanExtra')"
 RUN R -e "remotes::install_github('EvaMaeRey/flipbookr')"
 RUN R -e "install.packages(c('palmerpenguins'))"
 RUN R -e "install.packages(c('cowplot'))"
-
+RUN R -e "install.packages(c('ggpubr'))"
 
 
 
