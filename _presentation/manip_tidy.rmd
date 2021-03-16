@@ -382,7 +382,7 @@ template: manip_tidy
 SamaresEq_readr %>% filter( Surface > 0.75) 
 SamaresEq_readr %>% filter( Site == 3) 
 
-Grand_samares <- SamaresEq_base %>% filter( Surface > 0.75) 
+Grand_samares <- SamaresEq_readr %>% filter( Surface > 0.75) 
 Grand_samares %>% print(n=10)
 ```
 
