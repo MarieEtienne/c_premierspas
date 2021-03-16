@@ -38,14 +38,121 @@ with_course <- TRUE
 
 
 
+name: intro
+count: false
+
 # Introduction
 
+---
+template: intro 
+
+## Pourquoi la visualisation des données est importante ?
+
+<br>  <br> 
+
+
+- La chronique de Constance par Constance dans  Par Jupiter 
+
+<br>
+
+<audio controls>
+  <source src="resources/audio/2020_10_27_Constance_Par_Jupiter.mp3" type="audio/mpeg">
+  <source src="2020_10_27_Constance_Par_Jupiter" type="audio/ogg"/>
+</audio>
+
+---
+template: intro 
+
+## Un exemple inspirant : le réchauffement climatique en une image 
+
+```{r le_monde_graph, eval = TRUE, echo = FALSE}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir,"lemonde_rechauffement.png"))
+```
+
+
+[Extrait du journal Le Monde le 3 janvier 2020](https://www.lemonde.fr/les-decodeurs/article/2020/01/03/2019-est-la-troisieme-annee-la-plus-chaude-en-france-visualisez-la-hausse-dans-votre-ville_6024699_4355770.html?xtor=CS2-33281034-%5BKW%5D-%5Bgratuit%5D-%5Barticleacquisition%5D&utm_campaign=keywee_acquisition&utm_medium=PaidSocial&utm_source=Facebook&kwp_0=1527732&kwp_4=4629376&kwp_1=1961091)
+
+--
+
+<p class="question"> Qu'est ce qui est efficace dans cette visualisation ? </p>
+
+
+---
+template: intro 
+
+## Le musée des horreurs
+
+- [Le pourcentage de fumeurs aux Pays-Bas](https://viz.wtf/image/630887965804150786)
+
+```{r smockers, eval = TRUE, echo = FALSE}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir,"images/smockers.png"))
+```
+
+
+---
+template: intro 
+count: false
+
+## Le musée des horreurs
+
+- [Le Tumblr WTFViz](https://viz.wtf/)
+- [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
+
+```{r gf, eval = TRUE, echo = FALSE, out.width = '90%', out.height = '40%'   }
+# All defaults
+knitr::include_graphics(file.path(course_img_dir,"images/corona_gf.png"))
+```
+
+
+---
+template: intro 
+count: false
+
+## Le musée des horreurs
+
+- [Le Tumblr WTFViz](https://viz.wtf/)
+- [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
+- [Le coronavirus par Jean Castex](https://www.ouest-france.fr/sante/virus/coronavirus/covid-19-couvre-feu-que-voulaient-dire-les-droles-de-graphiques-montres-par-jean-castex-7016245)
+
+```{r jc, eval = TRUE, echo = FALSE}
+# All defaults
+knitr::include_graphics(file.path(course_img_dir,"images/corona_j_castex.png"))
+```
+
+---
+template: intro 
+
+## Quels sont les éléments d'une visualisation efficace ?
+
+- $$ $$
+- $$ $$ 
+- $$ $$
+- $$ $$
+- $$ $$ 
+- $$ $$
+- $$ $$
+
+--
+
+.care[ Objectif du jour :]
+Acquérir des outils pour gérer ces différents aspects
+
+---
+template: intro 
+
+
+## Some resources
+
+- [Data visualization with R](https://rkabacoff.github.io/datavis/)
 - [R for Data Science](https://r4ds.had.co.nz/) `r Citep(myBib, "wickham2017R")`
 - [R Graphics Cookbook](http://www.cookbook-r.com/)
-- [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/index.html) `r Citep(myBib, "wickham2016ggplot2")` 
-- [Geocomputation with R](https://geocompr.robinlovelace.net/) `r Citep(myBib, "lovelace2019geocomputation")`
+- [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/index.html) `r Citep(myBib, "wickham2016ggplot2")`
+- [R graph gallery](https://www.r-graph-gallery.com/ggplot2-package.html)
 - [Tutoriel de Raphaelle Momal et Marie Perrot Dockes](https://stateofther.github.io/post/fancy-plotting/)
-
+- [Don’t cha wish your ggplot had colours like me?](https://www.dataembassy.co.nz/Liza-colours-in-R#22)
+- [Valoriser ses données avec R](https://mtes-mct.github.io/parcours-r/m5/) (formation du  Ministere de la Transition Écologique et Solidaire (MTES)  et du Ministère de la Cohésion des Territoires et des relations avec les collectivités territoriales (MCTRCT))
 
 ```{r graph_bib, out.height = "150px", eval = TRUE, echo = FALSE}
 book1 <- ggdraw() + draw_image("https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png")
@@ -68,7 +175,7 @@ gg stands for Grammar of Graphics  and  ggplot2  is *based on the Grammar of Gra
 - *Facetting can be used to plot for different subsets of the data.* 
 *The combination of these independent components are what make up a graphic.*  `r Citep(myBib, "ickham2016ggplot2")`.
 
-
+---
 # ggplot presentation
 
 gg stands for Grammar of Graphics  and  ggplot2  is *based on the Grammar of Graphics `r Citep(myBib, "wilkinson2005gramma")`, that allows you to compose graphs by combining independent components* `r Citep(myBib, "wickham2016ggplot2")`.
@@ -82,8 +189,7 @@ gg stands for Grammar of Graphics  and  ggplot2  is *based on the Grammar of Gra
 *The combination of these independent components are what make up a graphic.*  `r Citep(myBib, "ickham2016ggplot2")`.
 
 
-For coherence, we will make use of the `tidyverse` suite. Be sure to understand the `%>%` operator.
-
+For coherence, we will make use of the `tidyverse` suite. 
 
 ```{r load_tidyverse, message = FALSE, eval = TRUE, echo = TRUE}
 library(tidyverse)
@@ -92,38 +198,32 @@ library(tidyverse)
 
 ---
 
-
-# Presentation based on 
-
-
-- [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/index.html) `r Citep(myBib, "wickham2016ggplot2")` 
-- [Geocomputation with R](https://geocompr.robinlovelace.net/) `r Citep(myBib, "lovelace2019geocomputation")`
-- [Tutoriel de Raphaelle Momal et Marie Perrot Dockes](https://stateofther.github.io/post/fancy-plotting/)
-- [Drawing beautiful maps programmatically with R](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html)
-- [Don’t cha wish your ggplot had colours like me?](https://www.dataembassy.co.nz/Liza-colours-in-R#22)
-
 ---
-
 name: exemple
+
 # Premier exemple : les manchots de Palmers
 
---- 
+---
 template: exemple
 
 ## Un peu de révision 
 
 * Installer le package `palmerpenguins`
-* Charger ce package
+* Charger ce package.
 
 --
+
 Ce package contient un jeu de données qu'on peut charger à l'aide de 
 
 ```{r palmer_data, eval = TRUE, echo = TRUE}
 #remotes::install_github("allisonhorst/palmerpenguins")
 data(penguins,package = "palmerpenguins")
 ```
+
 * Renommer les colonnes en `bill_l`,  `bill_d`, `flip_l`, `bm` pour raccourcir les noms et stocker le résultat dans la table penguins
+
 -- 
+
 ```{r palmer_data_rename, eval = TRUE, echo = TRUE}
 
 penguins <- penguins %>%
