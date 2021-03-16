@@ -65,7 +65,7 @@ template: intro
 
 ## Un exemple inspirant : le réchauffement climatique en une image 
 
-```{r le_monde_graph, eval = TRUE, echo = FALSE, out.width = '60%'}
+```{r le_monde_graph, eval = TRUE, echo = FALSE, out.height = '50%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"lemonde_rechauffement.png"))
 ```
@@ -85,7 +85,7 @@ template: intro
 
 - [Le pourcentage de fumeurs aux Pays-Bas](https://viz.wtf/image/630887965804150786)
 
-```{r smockers, eval = TRUE, echo = FALSE, out.width = '60%'}
+```{r smockers, eval = TRUE, echo = FALSE, out.height = '50%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"smockers.png"))
 ```
@@ -100,7 +100,7 @@ count: false
 - [Le Tumblr WTFViz](https://viz.wtf/)
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 
-```{r gf, eval = TRUE, echo = FALSE, out.width = '60%'}
+```{r gf, eval = TRUE, echo = FALSE, out.height = '50%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"corona_gf.png"))
 ```
@@ -116,7 +116,7 @@ count: false
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 - [Le coronavirus par Jean Castex](https://www.ouest-france.fr/sante/virus/coronavirus/covid-19-couvre-feu-que-voulaient-dire-les-droles-de-graphiques-montres-par-jean-castex-7016245)
 
-```{r jc, eval = TRUE, echo = FALSE, out.width = '60%'}
+```{r jc, eval = TRUE, echo = FALSE, out.height = '50%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"corona_j_castex.png"))
 ```
