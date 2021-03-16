@@ -1,7 +1,6 @@
 
 ```{r, echo = FALSE}
 mon_fichier <- 'https://marieetienne.github.io/datasets/SamaresEq.txt'
-SamaresEq_base <- read.table(file = mon_fichier, sep = " ", header = TRUE, dec = '.')
 SamaresEq_readr <- read_delim(file = mon_fichier, delim = " ")
 ```
 
@@ -382,10 +381,24 @@ template: manip_tidy
 SamaresEq_readr %>% 
   filter( Surface > 0.75) %>% 
   print(n=4)
+
+```
+
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Selectionner les individus qui satisfont une condition
+
+**filter**
+
+* Sélectionner les samares du site 3
+
+```{r filter2}
 SamaresEq_readr %>% 
   filter( Site == 3) %>% 
   print(n=4)
-Grand_samares <- SamaresEq_readr %>% filter( Surface > 0.75) 
 ```
 
 ---
@@ -394,9 +407,65 @@ template: manip_tidy
 
 ###  Selectionner les individus qui satisfont une condition
 
+**filter**
+
+* Sélectionner les samares du site 3 ayant une longueur supérieure à 0.75 et une largeur inférieure à 0.35
+
+```{r filter3}
+SamaresEq_readr %>% 
+  filter( Site == 3, Longueur > 0.75, Largeur <0.35) %>% 
+  print(n=4)
+```
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Ordonner les lignes
+
 **arrange**
 
+Trier par ordre croissant de largeur
 
+```{r arrange1}
+SamaresEq_readr %>% 
+  arrange(Largeur) %>% 
+  print(n=5)
+```
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Ordonner les lignes
+
+**arrange**
+
+* Trier par ordre décroissant de larheur
+
+
+```{r arrange2}
+SamaresEq_readr %>% 
+  arrange(-Largeur) %>% 
+  print(n=5 )
+```
+
+---
+template: manip_tidy 
+## Opérations sur les individus (les lignes)
+
+###  Ordonner les lignes
+
+**arrange**
+
+* Trier par ordre décroissant de Largeur au sein des groupes
+
+
+```{r arrange3}
+SamaresEq_readr %>%  
+  group_by(NomSite) %>% 
+  arrange(-Largeur, .by_group = TRUE) 
+```
 
 ---
 template: manip_tidy 
@@ -406,7 +475,7 @@ template: manip_tidy
 * Sélectionner toutes les observations du site Gornies
 * Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
 * Sélectionner toutes les observations qui ne proviennent ni du site `Gornies` ni du site `StEtienne`.
-
+* Compter pour chaque site le nombre de samares ayant une largeur inférieur à 0.37 et une longueur supérieure à 0.7
 
 ---
 template: manip_tidy 
@@ -437,7 +506,20 @@ SamaresEq_readr %>% filter(Largeur > 0.45 & Longueur < 2.32)
 SamaresEq_readr %>% filter(  ! NomSite %in% c('Gornies', 'StEtienne') )
 ```
 
+--
 
+* Compter pour chaque site le nombre de samares ayant une largeur inférieur à 0.37 et une longueur supérieure à 0.7
+
+```{r filter_ex_4, eval = FALSE, echo =FALSE}
+SamaresEq_readr %>% 
+  filter(Largeur < 0.37, Longueur > 0.7) %>%
+  group_by(Site) %>% 
+  summarise( nobs = n())
+```
+
+---
+
+`r chunk_reveal("filter_ex_4", break_type = "auto")`
 
 ---
 template: manip_tidy 
@@ -457,44 +539,102 @@ Créer un fichier Rmarkdown qui réalise les tâches suivantes
 
 ** (plus dur) Compter le nombre d'années de mesure par pays 
 
-```{r biomass-sol, eval = FALSE, echo = FALSE}
+```{r biomass-sol1, eval = FALSE, echo = FALSE}
 biomass_dta <- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
 biomass_dta %>% 
   group_by(COUNTRY, YEAR) %>% 
   summarise(nobs = n(), rend_moy = mean(HARV_YIELD, na.rm = TRUE))
-biomass_france <- biomass_dta %>% 
-  filter(COUNTRY == 'France') 
-biomass_france_post2005 <- biomass_dta %>% 
-  filter(COUNTRY == 'FRANCE', YEAR >= 2005) 
+```
+
+```{r biomass-sol1-save, echo = FALSE}
+biomass_dta <- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
+```
+
+
+```{r biomass-sol2, echo = FALSE, eval = FALSE}
+biomass_dta %>% 
+  filter(COUNTRY == 'France') -> biomass_france 
+ biomass_dta %>% 
+  filter(COUNTRY == 'FRANCE', YEAR >= 2005) -> biomass_france_post2005
  biomass_dta %>% 
    group_by(COUNTRY) %>% 
    summarise(n_year = n_distinct(YEAR))
 ```
+
+`r chunk_reveal("biomass-sol1", break_type = "auto")`
+
+
 ---
 
-`r chunk_reveal("biomass-sol", break_type = "auto")`
+
+`r chunk_reveal("biomass-sol2", break_type = "auto")`
+---
+
+template: manip_tidy 
+## Manipulation du tableau entier 
+
+**pivot_wider**, **pivot_longer**
+
+Une jolie visualisation de l'opération de pivotage  est disponible sur [cette page chinoise ](https://bookdown.org/Maxine/r4ds/pivoting.html)  
+
+
+**pivot_wider**
+
+```{r pivot_wider, echo = FALSE, eval = FALSE}
+SamaresEq_readr %>% 
+  select(NomSite, Arbre, Poids) %>% 
+  group_by(NomSite, Arbre) %>% 
+  mutate(nSamares = 1:n()) %>% 
+  pivot_wider(names_from = nSamares, values_from = Poids, names_prefix = "nSam") -> 
+  SamaresEq_wide
+```
+```{r pivot_wider-save, echo = FALSE}
+SamaresEq_readr %>% 
+  select(NomSite, Arbre, Poids) %>% 
+  group_by(NomSite, Arbre) %>% 
+  mutate(nSamares = 1:n()) %>% 
+  pivot_wider(names_from = nSamares, values_from = Poids, names_prefix = "nSam") -> 
+  SamaresEq_wide
+```
+
+---
+
+`r chunk_reveal("pivot_wider", break_type = "auto")`
 
 ---
 
 template: manip_tidy 
 ## Manipulation du tableau entier 
 
-**pivot_wider**
+**pivot_wider**, **pivot_longer**
+
+
+Une jolie visualisation de l'opération de pivotage  est disponible sur [cette page chinoise ](https://bookdown.org/Maxine/r4ds/pivoting.html)  
 
 **pivot_longer**
 
 
 
-<!-- ### Sauvegarder dans un format compressé utile à \R -->
-<!-- \alert{\texttt{save}} -->
+```{r pivot_longer, echo = FALSE, eval = FALSE}
+SamaresEq_wide %>% 
+  pivot_longer(cols= starts_with('nSam'), names_to = 'nSamares', values_to = 'Poids') 
+```
+---
 
-<!-- ```{r} -->
-<!-- save(SamaresEq_disp, file =  "../../Datasets/SamaresEq_disp.Rdata") -->
-<!-- ``` -->
+`r chunk_reveal("pivot_longer", break_type = "auto")`
 
-<!-- On charge ce type de fichier avec la fonction load -->
 
-<!-- ```{r} -->
-<!-- load("../../Datasets/SamaresEq_disp.Rdata") -->
-<!-- ``` -->
+---
+# Pour aller plus loin
 
+
+* *R for Data science*, `r Citet(myBib, "r4ds")`, [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)
+* [Data Wrangling with R](https://cengel.github.io/R-data-wrangling/)
+* [Rstudio webinar](https://rstudio.com/resources/webinars/data-wrangling-with-r-and-rstudio/)
+
+---
+# References
+
+```{r refs, echo=FALSE, results="asis", eval = TRUE, cache = FALSE}
+PrintBibliography(myBib)
+```
