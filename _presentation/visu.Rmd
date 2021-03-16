@@ -65,7 +65,7 @@ template: intro
 
 ## Un exemple inspirant : le réchauffement climatique en une image 
 
-```{r le_monde_graph, eval = TRUE, echo = FALSE}
+```{r le_monde_graph, eval = TRUE, echo = FALSE, out.width = '60%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"lemonde_rechauffement.png"))
 ```
@@ -85,7 +85,7 @@ template: intro
 
 - [Le pourcentage de fumeurs aux Pays-Bas](https://viz.wtf/image/630887965804150786)
 
-```{r smockers, eval = TRUE, echo = FALSE}
+```{r smockers, eval = TRUE, echo = FALSE, out.width = '60%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"smockers.png"))
 ```
@@ -100,7 +100,7 @@ count: false
 - [Le Tumblr WTFViz](https://viz.wtf/)
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 
-```{r gf, eval = TRUE, echo = FALSE, out.width = '90%', out.height = '40%'   }
+```{r gf, eval = TRUE, echo = FALSE, out.width = '60%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"corona_gf.png"))
 ```
@@ -116,7 +116,7 @@ count: false
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 - [Le coronavirus par Jean Castex](https://www.ouest-france.fr/sante/virus/coronavirus/covid-19-couvre-feu-que-voulaient-dire-les-droles-de-graphiques-montres-par-jean-castex-7016245)
 
-```{r jc, eval = TRUE, echo = FALSE}
+```{r jc, eval = TRUE, echo = FALSE, out.width = '60%'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"corona_j_castex.png"))
 ```
@@ -197,8 +197,6 @@ library(tidyverse)
 
 
 ---
-
----
 name: exemple
 
 # Premier exemple : les manchots de Palmers
@@ -222,7 +220,7 @@ data(penguins,package = "palmerpenguins")
 
 * Renommer les colonnes en `bill_l`,  `bill_d`, `flip_l`, `bm` pour raccourcir les noms et stocker le résultat dans la table penguins
 
--- 
+--
 
 ```{r palmer_data_rename, eval = TRUE, echo = TRUE}
 
@@ -254,9 +252,9 @@ penguins %>%
 
 ---
 name: scatter_slide
-# A scatter plot
+## A scatter plot
 
-```{r simple_scatter, eval = FALSE, echo = FALSE}
+```{r simple_scatter, eval = FALSE, echo = FALSE, message = FALSE}
 penguins %>% 
   ggplot() + 
   aes( x= bill_l, y=bill_d) + 
@@ -273,7 +271,7 @@ count: false
 
 ## with colors 
 
-```{r scatter_plot_species, eval = FALSE, echo = FALSE}
+```{r scatter_plot_species, eval = FALSE, echo = FALSE, message = FALSE}
 penguins %>% 
   ggplot() +
   aes( x= bill_l, y=bill_d) +
@@ -290,7 +288,7 @@ template: scatter_slide
 count: false
 
 
-```{r gg1_save, eval = TRUE, echo = TRUE}
+```{r gg1_save, eval = TRUE, echo = TRUE, message = FALSE, , out.width = '60%'}
 gg <- penguins %>% 
   ggplot() +
   aes( x= bill_l, y=bill_d) +
@@ -304,7 +302,7 @@ gg <- penguins %>%
 
 ---
 
-```{r scatter_viridis, eval = FALSE, echo = FALSE}
+```{r scatter_viridis, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg + 
   scale_color_viridis_d()
 ```
@@ -327,7 +325,7 @@ color_darj <- wesanderson::wes_palette(name = "Darjeeling1")
 
 ---
 
-```{r scatter_wesanderson, eval = FALSE, echo = FALSE}
+```{r scatter_wesanderson, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg + 
   scale_color_manual(values = color_darj)
 ```
@@ -353,7 +351,7 @@ Propose a fancy graph to visualize the relation between flipper and body mass. D
 
 --
 
-```{r exo_relation_cor, eval =  TRUE, echo = with_sol}
+```{r exo_relation_cor, eval =  TRUE, echo = with_sol, out.width = '60%'}
 penguins %>% ggplot() +
   aes(x= bm, y = flip_l, col = as_factor(year) ) + 
   geom_point() + 
@@ -377,14 +375,14 @@ count: true
 
 ## with nice labels
 
-```{r scatter_labels_gg, eval = TRUE, echo = TRUE}
+```{r scatter_labels_gg, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg <- gg + scale_color_manual(values = color_darj) 
 ```
 
 
 ---
 
-```{r scatter_labels, eval = FALSE, echo = FALSE}
+```{r scatter_labels, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg  +
   labs( x = 'Bill length in mm') +
   labs(y = 'Bill depth in mm') +
@@ -413,7 +411,7 @@ count: true
 
 ---
 
-```{r scatter_themelight, eval = FALSE, echo = FALSE}
+```{r scatter_themelight, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg  +
   labs( x = 'Bill length in mm') +
   labs(y = 'Bill depth in mm') +
@@ -433,7 +431,7 @@ count: false
 
 ---
 
-```{r scatter_thememinimal, eval = FALSE, echo = FALSE}
+```{r scatter_thememinimal, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg + scale_color_manual(values = color_darj) +
   labs( x = 'Bill length in mm',  
         y = 'Bill depth in mm',  color = "Species") +
@@ -451,7 +449,7 @@ count: false
 ## and a pre set general theme
 
 
-```{r scatter_set_theme, eval = TRUE, echo = TRUE}
+```{r scatter_set_theme, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg <- gg + scale_color_manual(values = color_darj) +
   labs( x = 'Bill length in mm',  y = 'Bill depth in mm',  color = "Species") +
   theme_light()
@@ -467,13 +465,13 @@ The default theme might not be the best option
 
 
 
-```{r preset_theme, eval = TRUE, echo = FALSE}
+```{r preset_theme, eval = TRUE, echo = FALSE, out.width = '60%'}
 gg
 ```
 
 ---
 
-```{r scatter_below, eval = FALSE, echo = FALSE}
+```{r scatter_below, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg + 
   theme(legend.position="bottom")
 ```
@@ -489,7 +487,7 @@ count: false
 The legend position can also be specified by a vector ` c(x,y)`.  Their values should be between 0 and 1. c(0,0) corresponds to the “bottom left” and c(1,1) corresponds to the “top right” position. We may want to change the size.
 
 
-```{r scatter_within, eval = TRUE, echo = TRUE}
+```{r scatter_within, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg + 
   theme(legend.position=c(.9, .6))
 ```
@@ -501,7 +499,7 @@ count: false
 
 ## and a custom  theme
 
-```{r scatter_custom, eval = TRUE, echo = TRUE}
+```{r scatter_custom, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg + theme(legend.position=c(.9, .6),
            text = element_text(size = 10, face = "italic"),
            axis.text.x = element_text(angle=90, hjust=1),
@@ -516,7 +514,7 @@ count: true
 
 ## and fitted statistical models
 
-```{r, eval = FALSE, echo = FALSE}
+```{r, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg
 ```
 
@@ -524,7 +522,7 @@ gg
 ---
 
 
-```{r stat_info_lm, eval = FALSE, echo = FALSE}
+```{r stat_info_lm, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg + 
   geom_smooth(method = 'lm', se = FALSE) +
   geom_smooth(method = 'loess', se = TRUE)
@@ -547,7 +545,7 @@ Propose a fancy graph to visualize the relation between flipper and body mass. D
 
 --
 
-```{r exo_relation_cor2, eval =  TRUE, echo = with_sol}
+```{r exo_relation_cor2, eval =  TRUE, echo = with_sol, out.width = '60%'}
 penguins %>% ggplot() + 
   aes(x= bm, y = flip_l, col = as_factor(year) ) + 
   geom_point() + geom_smooth(method = 'lm') +
@@ -563,7 +561,7 @@ penguins %>% ggplot() +
 
 To keep the theme preferences for all plots to come
 
-```{r theme_setup, eval = FALSE, echo = FALSE}
+```{r theme_setup, eval = FALSE, echo = FALSE, out.width = '60%'}
 
 penguins %>% 
   ggplot() +
@@ -578,7 +576,7 @@ penguins %>%
 
 
 
-```{r theme_setup_2, eval = FALSE, echo = FALSE}
+```{r theme_setup_2, eval = FALSE, echo = FALSE, out.width = '60%'}
 
 theme_set(theme_light())
 theme_update(legend.position="bottom") #BREAK
@@ -598,7 +596,7 @@ penguins %>%
 # Many other type of plots 
 
 
-```{r simple_hist, eval = FALSE, echo = FALSE}
+```{r simple_hist, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%
   ggplot() + aes(x = bill_l) + geom_histogram(position = 'identity') +
   labs( x = 'Bill length in mm') +
@@ -614,7 +612,7 @@ penguins %>%
 
 Add the color according to species and use the `Zissou1` palette from `wesanderson` package.
 
-```{r color_hist,   echo = TRUE, eval = FALSE}
+```{r color_hist,   echo = TRUE, eval = FALSE, out.width = '60%'}
  penguins %>%  ...
 ```
 
@@ -622,7 +620,7 @@ Add the color according to species and use the `Zissou1` palette from `wesanders
 ---
 
 
-```{r color_hist_cor, eval = FALSE, echo = FALSE}
+```{r color_hist_cor, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%
   ggplot() + aes(x = bill_l, fill = species) + geom_histogram() +
   labs( x = 'Bill length in mm') +
@@ -640,7 +638,7 @@ penguins %>%
 ## Comparing plots
 
 
-```{r color_hist_facet, eval = FALSE, echo = FALSE}
+```{r color_hist_facet, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%
   ggplot() + aes(x = bill_l, fill = species) + 
   geom_histogram() +
@@ -664,7 +662,7 @@ penguins %>%
 
 Change the previous graph to add a fitted density line
 
-```{r color_hist_dens_ex, eval = FALSE, echo = TRUE}
+```{r color_hist_dens_ex, eval = FALSE, echo = TRUE, out.width = '60%'}
 
 penguins %>% ...
 ```
@@ -673,7 +671,7 @@ penguins %>% ...
 ---
 
 
-```{r color_hist_dens_cor, eval = FALSE, echo = FALSE}
+```{r color_hist_dens_cor, eval = FALSE, echo = FALSE, out.width = '60%'}
 
  penguins %>%  ggplot() + aes(x = bill_l, y = ..density..) +
   facet_wrap(~species) + 
@@ -695,7 +693,7 @@ penguins %>% ...
 
 ## Boxplot
 
-```{r color_boxplot, eval = TRUE, echo = TRUE}
+```{r color_boxplot, eval = TRUE, echo = TRUE, out.width = '60%'}
  penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
   geom_boxplot(alpha=0.5, aes( fill = species)) +
   labs( y = 'Bill length in mm') + #BREAK
@@ -705,7 +703,7 @@ penguins %>% ...
 
 ---
 
-```{r color_boxplot_2, eval = FALSE, echo = FALSE}
+```{r color_boxplot_2, eval = FALSE, echo = FALSE, out.width = '60%'}
  penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
   geom_violin(alpha=0.5, aes( fill = species)) +
   labs( y = 'Bill length in mm') + #BREAK
@@ -718,7 +716,7 @@ penguins %>% ...
 ---
 
 
-```{r color_boxplot_3, eval = FALSE, echo = FALSE}
+```{r color_boxplot_3, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
   geom_boxplot(alpha=0.5, aes( fill = species)) +
   geom_jitter(color="black", size=0.4, alpha=0.8) +
@@ -734,7 +732,7 @@ penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
 # Handling superscript and subscript
 
 
-```{r color_boxplot_sup_sub, echo = TRUE, eval = TRUE}
+```{r color_boxplot_sup_sub, echo = TRUE, eval = TRUE, out.width = '60%'}
 penguins %>%  mutate(mu = bill_l * bill_d) %>% 
   ggplot() + aes(y= mu ) +
   geom_boxplot(alpha=0.5, aes( fill = species)) +
@@ -755,7 +753,7 @@ The `ggpubr`  package is very helpful for publication.
 template: useful_package
 count: false
 
-```{r ggpubr_p1, eval = TRUE, echo = TRUE}
+```{r ggpubr_p1, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg_p1 <- gg
 gg_p1
 ``` 
@@ -765,7 +763,7 @@ gg_p1
 template: useful_package
 count: false
 
-```{r ggpubr_p2, eval = TRUE, echo = TRUE}
+```{r ggpubr_p2, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg_p2 <- penguins %>%
   ggplot()  + aes(x = bill_l, y = ..density..) + geom_histogram(alpha=0.5, aes( fill = species)) +
    geom_density(aes(col = species)) +
@@ -780,7 +778,7 @@ gg_p2
 template: useful_package
 count: false
 
-```{r ggpubr_p3, eval = TRUE, echo = TRUE}
+```{r ggpubr_p3, eval = TRUE, echo = TRUE, out.width = '60%'}
 ##install.packages('ggpubr')
 ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1)
 ```
@@ -789,7 +787,7 @@ ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1)
 template: useful_package
 count: false
 
-```{r ggpubr_p4, eval = TRUE, echo = TRUE}
+```{r ggpubr_p4, eval = TRUE, echo = TRUE, out.width = '60%'}
 ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1, common.legend = TRUE)
 ```
 
@@ -804,7 +802,7 @@ The `GGally`  package contains plenty of very useful and nice functions
 template: bivariate_explore
 count: false
 
-```{r ggpairs, eval = TRUE, echo = TRUE}
+```{r ggpairs, eval = TRUE, echo = TRUE, out.width = '60%'}
 ##install.packages('GGally')
 library(GGally)
 penguins %>% ggpairs(columns = c(1,3,4,5), mapping = aes(col = species)) +
@@ -816,7 +814,7 @@ scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) + theme(text
 template: bivariate_explore
 count: false
 
-```{r ggpairs_fancy, eval = TRUE, echo = TRUE}
+```{r ggpairs_fancy, eval = TRUE, echo = TRUE, out.width = '60%'}
 penguins %>% ggpairs(columns = c(1,3,4,5), mapping = aes(col = species),
                      upper = list(continuous = wrap( "cor",size = 2)),
                      lower = list(continuous = wrap('points', size = .5))) +
@@ -833,7 +831,7 @@ name: gganimate
 The `gganimate`  package produces animated graph (html only).
 
 
-```{r ani_final, eval = T, echo = T}
+```{r ani_final, eval = T, echo = T, out.width = '60%'}
 library(gganimate)
 gg  +
   transition_states(year)  +
@@ -869,6 +867,6 @@ gg  %>%  ggplotly()
 # References
 
 
-```{r refs, echo=FALSE, results="asis", eval = TRUE, cache = FALSE}
+```{r refs, echo=FALSE, results="asis", eval = TRUE, cache = FALSE, out.width = '60%'}
 PrintBibliography(myBib)
 ```
