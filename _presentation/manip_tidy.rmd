@@ -84,6 +84,19 @@ mutate(SamaresEq_readr, Disp = Surface / Poids)
 template: manip_tidy 
 ## Opérations sur les variables (les colonnes)
 
+### Renommer des variables
+
+**rename** : pour ajouter une colonne 
+
+```{r rename}
+SamaresEq_readr %>% 
+  rename( Surf = Surface, long = Longueur, larg = Largeur)
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+
 ### Combiner des commandes
 
 ```{r mutate-select}

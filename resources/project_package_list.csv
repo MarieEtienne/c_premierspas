@@ -1,2 +1,7 @@
 repo,name,category
 cran,palmerpenguins,data
+cran,cowplot,visu
+cran,ggpubr,visu
+cran,GGally,visu
+cran,gganimate,visu
+cran,plotly,visu

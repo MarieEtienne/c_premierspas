@@ -1,10 +1,15 @@
 base
 palmerpenguins
+cowplot
+ggplot2
+ggpubr
+GGally
+gganimate
+plotly
 remotes
 usethis
 devtools
 tidyverse
-ggplot2
 tibble
 tidyr
 readr

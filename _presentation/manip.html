@@ -548,6 +548,37 @@ mutate(SamaresEq_readr, Disp = Surface / Poids)
 template: manip_tidy 
 ## Opérations sur les variables (les colonnes)
 
+### Renommer des variables
+
+**rename** : pour ajouter une colonne 
+
+
+```r
+SamaresEq_readr %&gt;% 
+  rename( Surf = Surface, long = Longueur, larg = Largeur)
+```
+
+```
+## # A tibble: 2,380 x 9
+##     Site NomSite Distance Arbre Poids  Surf  larg  long CircArbre
+##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+##  1     4 Gornies      6.3     1  11   0.738 0.427  2.32      18.5
+##  2     4 Gornies      6.3     1  15   0.700 0.489  2.16      18.5
+##  3     4 Gornies      6.3     1  14.6 0.758 0.444  2.28      18.5
+##  4     4 Gornies      6.3     1  13.8 0.779 0.474  2.26      18.5
+##  5     4 Gornies      6.3     1  12.2 0.620 0.404  2.03      18.5
+##  6     4 Gornies      6.3     1  11.1 0.537 0.339  2.04      18.5
+##  7     4 Gornies      6.3     1  14.2 0.676 0.422  2.23      18.5
+##  8     4 Gornies      6.3     1  15.6 0.708 0.452  2.15      18.5
+##  9     4 Gornies      6.3     1  15.1 0.613 0.377  2.15      18.5
+## 10     4 Gornies      6.3     1  13.3 0.756 0.447  2.15      18.5
+## # … with 2,370 more rows
+```
+
+---
+template: manip_tidy 
+## Opérations sur les variables (les colonnes)
+
 ### Combiner des commandes
 
 
