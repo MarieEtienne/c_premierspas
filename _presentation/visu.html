@@ -53,8 +53,7 @@ template: intro
 &lt;br&gt;
 
 &lt;audio controls&gt;
-  &lt;source src="resources/audio/2020_10_27_Constance_Par_Jupiter.mp3" type="audio/mpeg"&gt;
-  &lt;source src="2020_10_27_Constance_Par_Jupiter" type="audio/ogg"/&gt;
+  &lt;source src="../resources/audio/2020_10_27_Constance_Par_Jupiter.mp3" type="audio/ogg"/&gt;
 &lt;/audio&gt;
 
 ---
@@ -62,7 +61,7 @@ template: intro
 
 ## Un exemple inspirant : le réchauffement climatique en une image 
 
-&lt;img src="../resources/figs/lemonde_rechauffement.png" width="849" height="50%" /&gt;
+&lt;img src="../resources/figs/lemonde_rechauffement.png" width="46%" style="display: block; margin: auto;" /&gt;
 
 
 [Extrait du journal Le Monde le 3 janvier 2020](https://www.lemonde.fr/les-decodeurs/article/2020/01/03/2019-est-la-troisieme-annee-la-plus-chaude-en-france-visualisez-la-hausse-dans-votre-ville_6024699_4355770.html?xtor=CS2-33281034-%5BKW%5D-%5Bgratuit%5D-%5Barticleacquisition%5D&amp;utm_campaign=keywee_acquisition&amp;utm_medium=PaidSocial&amp;utm_source=Facebook&amp;kwp_0=1527732&amp;kwp_4=4629376&amp;kwp_1=1961091)
@@ -79,7 +78,7 @@ template: intro
 
 - [Le pourcentage de fumeurs aux Pays-Bas](https://viz.wtf/image/630887965804150786)
 
-&lt;img src="../resources/figs/smockers.png" width="1312" height="50%" /&gt;
+&lt;img src="../resources/figs/smockers.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -91,7 +90,7 @@ count: false
 - [Le Tumblr WTFViz](https://viz.wtf/)
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 
-&lt;img src="../resources/figs/corona_gf.png" width="1836" height="50%" /&gt;
+&lt;img src="../resources/figs/corona_gf.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -104,7 +103,7 @@ count: false
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 - [Le coronavirus par Jean Castex](https://www.ouest-france.fr/sante/virus/coronavirus/covid-19-couvre-feu-que-voulaient-dire-les-droles-de-graphiques-montres-par-jean-castex-7016245)
 
-&lt;img src="../resources/figs/corona_j_castex.png" width="1115" height="50%" /&gt;
+&lt;img src="../resources/figs/corona_j_castex.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 template: intro 
@@ -139,7 +138,7 @@ template: intro
 - [Don’t cha wish your ggplot had colours like me?](https://www.dataembassy.co.nz/Liza-colours-in-R#22)
 - [Valoriser ses données avec R](https://mtes-mct.github.io/parcours-r/m5/) (formation du  Ministere de la Transition Écologique et Solidaire (MTES)  et du Ministère de la Cohésion des Territoires et des relations avec les collectivités territoriales (MCTRCT))
 
-&lt;img src="visu_files/figure-html/graph_bib-1.png" height="150px" /&gt;
+&lt;img src="visu_files/figure-html/graph_bib-1.png" width="250px" height="150px" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -169,11 +168,11 @@ gg stands for Grammar of Graphics  and  ggplot2  is *based on the Grammar of Gra
 *The combination of these independent components are what make up a graphic.*  .
 
 
-For coherence, we will make use of the `tidyverse` suite. 
 
 
 ```r
 library(tidyverse)
+library(ggplot2)
 ```
 
 
@@ -256,13 +255,362 @@ penguins %&gt;%
 
 
 ---
- 
-# Simple plots 
+name: simple
+# Des graphiques simples
 
 ---
-name: scatter_slide
-## A scatter plot
+template: simple
+## Un histogramme
 
+*pour visualiser la distribution des valeurs*. L'ordonnée porte sur les comptages dans chaque classe de valeurs.
+
+
+
+
+
+
+```r
+penguins %&gt;%
+  ggplot() + 
+  aes(x = bill_l) + 
+  geom_histogram() 
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_bin).
+```
+
+&lt;img src="visu_files/figure-html/simple_hist-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+count: false
+ 
+
+.panel1-simple_hist-auto[
+
+```r
+*penguins
+```
+]
+ 
+.panel2-simple_hist-auto[
+
+```
+## # A tibble: 344 x 8
+##    species island    bill_l bill_d flip_l    bm sex     year
+##    &lt;fct&gt;   &lt;fct&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;int&gt;
+##  1 Adelie  Torgersen   39.1   18.7    181  3750 male    2007
+##  2 Adelie  Torgersen   39.5   17.4    186  3800 female  2007
+##  3 Adelie  Torgersen   40.3   18      195  3250 female  2007
+##  4 Adelie  Torgersen   NA     NA       NA    NA &lt;NA&gt;    2007
+##  5 Adelie  Torgersen   36.7   19.3    193  3450 female  2007
+##  6 Adelie  Torgersen   39.3   20.6    190  3650 male    2007
+##  7 Adelie  Torgersen   38.9   17.8    181  3625 female  2007
+##  8 Adelie  Torgersen   39.2   19.6    195  4675 male    2007
+##  9 Adelie  Torgersen   34.1   18.1    193  3475 &lt;NA&gt;    2007
+## 10 Adelie  Torgersen   42     20.2    190  4250 &lt;NA&gt;    2007
+## # … with 334 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simple_hist-auto[
+
+```r
+penguins %&gt;%
+* ggplot()
+```
+]
+ 
+.panel2-simple_hist-auto[
+&lt;img src="visu_files/figure-html/simple_hist_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simple_hist-auto[
+
+```r
+penguins %&gt;%
+  ggplot() +
+* aes(x = bill_l)
+```
+]
+ 
+.panel2-simple_hist-auto[
+&lt;img src="visu_files/figure-html/simple_hist_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simple_hist-auto[
+
+```r
+penguins %&gt;%
+  ggplot() +
+  aes(x = bill_l) +
+* geom_histogram()
+```
+]
+ 
+.panel2-simple_hist-auto[
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_bin).
+```
+
+&lt;img src="visu_files/figure-html/simple_hist_auto_04_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+&lt;style&gt;
+.panel1-simple_hist-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-simple_hist-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-simple_hist-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+template: simple
+## Un histogramme
+
+pour visualiser la distribution des valeurs. L'ordonnée porte sur la fréquence dans chaque classe de valeurs.
+
+
+
+---
+
+count: false
+ 
+
+.panel1-simple_hist_dens-auto[
+
+```r
+*penguins
+```
+]
+ 
+.panel2-simple_hist_dens-auto[
+
+```
+## # A tibble: 344 x 8
+##    species island    bill_l bill_d flip_l    bm sex     year
+##    &lt;fct&gt;   &lt;fct&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;int&gt;
+##  1 Adelie  Torgersen   39.1   18.7    181  3750 male    2007
+##  2 Adelie  Torgersen   39.5   17.4    186  3800 female  2007
+##  3 Adelie  Torgersen   40.3   18      195  3250 female  2007
+##  4 Adelie  Torgersen   NA     NA       NA    NA &lt;NA&gt;    2007
+##  5 Adelie  Torgersen   36.7   19.3    193  3450 female  2007
+##  6 Adelie  Torgersen   39.3   20.6    190  3650 male    2007
+##  7 Adelie  Torgersen   38.9   17.8    181  3625 female  2007
+##  8 Adelie  Torgersen   39.2   19.6    195  4675 male    2007
+##  9 Adelie  Torgersen   34.1   18.1    193  3475 &lt;NA&gt;    2007
+## 10 Adelie  Torgersen   42     20.2    190  4250 &lt;NA&gt;    2007
+## # … with 334 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simple_hist_dens-auto[
+
+```r
+penguins %&gt;%
+* ggplot()
+```
+]
+ 
+.panel2-simple_hist_dens-auto[
+&lt;img src="visu_files/figure-html/simple_hist_dens_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simple_hist_dens-auto[
+
+```r
+penguins %&gt;%
+  ggplot() +
+* aes(x = bill_l)
+```
+]
+ 
+.panel2-simple_hist_dens-auto[
+&lt;img src="visu_files/figure-html/simple_hist_dens_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simple_hist_dens-auto[
+
+```r
+penguins %&gt;%
+  ggplot() +
+  aes(x = bill_l) +
+* geom_histogram()
+```
+]
+ 
+.panel2-simple_hist_dens-auto[
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_bin).
+```
+
+&lt;img src="visu_files/figure-html/simple_hist_dens_auto_04_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simple_hist_dens-auto[
+
+```r
+penguins %&gt;%
+  ggplot() +
+  aes(x = bill_l) +
+  geom_histogram() +
+* aes(y = ..density..)
+```
+]
+ 
+.panel2-simple_hist_dens-auto[
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_bin).
+```
+
+&lt;img src="visu_files/figure-html/simple_hist_dens_auto_05_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+&lt;style&gt;
+.panel1-simple_hist_dens-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-simple_hist_dens-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-simple_hist_dens-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+---
+template: simple
+## Un histogramme
+
+pour visualiser la distribution des valeurs. L'ordonnée porte sur la fréquence dans chaque classe de valeurs.
+
+
+```r
+penguins %&gt;%
+  ggplot() + 
+  geom_histogram(aes(x= bill_l, y = ..density..))
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_bin).
+```
+
+&lt;img src="visu_files/figure-html/simple_hist_dens_simple-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+---
+template: simple
+
+## Un nuage de points (scatter plot)
+
+*pour  visualiser le lien entre deux variables quantitatives*.
+
+
+
+
+```r
+penguins %&gt;% 
+  ggplot() + 
+  aes( x= bill_l, y=bill_d) + 
+  geom_point()
+```
+
+```
+## Warning: Removed 2 rows containing missing values (geom_point).
+```
+
+&lt;img src="visu_files/figure-html/simple_scatter-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -310,7 +658,7 @@ penguins %&gt;%
 ]
  
 .panel2-simple_scatter-auto[
-![](visu_files/figure-html/simple_scatter_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/simple_scatter_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -327,7 +675,7 @@ penguins %&gt;%
 ]
  
 .panel2-simple_scatter-auto[
-![](visu_files/figure-html/simple_scatter_auto_03_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/simple_scatter_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -350,7 +698,7 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/simple_scatter_auto_04_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/simple_scatter_auto_04_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -383,10 +731,151 @@ penguins %&gt;%
 
 
 ---
-template: scatter_slide
-count: false
+template: simple
 
-## with colors 
+## Des boîtes à moustache 
+
+pour visualiser le lien entre une variable qualitative et une variable quantitative
+
+
+
+```r
+penguins %&gt;% 
+  ggplot() + 
+  aes( x= species, y=bill_d) + 
+  geom_boxplot()
+```
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_boxplot).
+```
+
+&lt;img src="visu_files/figure-html/simple_boxplot-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+---
+
+count: false
+ 
+
+.panel1-simple_boxplot-auto[
+
+```r
+*penguins
+```
+]
+ 
+.panel2-simple_boxplot-auto[
+
+```
+## # A tibble: 344 x 8
+##    species island    bill_l bill_d flip_l    bm sex     year
+##    &lt;fct&gt;   &lt;fct&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;int&gt;
+##  1 Adelie  Torgersen   39.1   18.7    181  3750 male    2007
+##  2 Adelie  Torgersen   39.5   17.4    186  3800 female  2007
+##  3 Adelie  Torgersen   40.3   18      195  3250 female  2007
+##  4 Adelie  Torgersen   NA     NA       NA    NA &lt;NA&gt;    2007
+##  5 Adelie  Torgersen   36.7   19.3    193  3450 female  2007
+##  6 Adelie  Torgersen   39.3   20.6    190  3650 male    2007
+##  7 Adelie  Torgersen   38.9   17.8    181  3625 female  2007
+##  8 Adelie  Torgersen   39.2   19.6    195  4675 male    2007
+##  9 Adelie  Torgersen   34.1   18.1    193  3475 &lt;NA&gt;    2007
+## 10 Adelie  Torgersen   42     20.2    190  4250 &lt;NA&gt;    2007
+## # … with 334 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-simple_boxplot-auto[
+
+```r
+penguins %&gt;%
+* ggplot()
+```
+]
+ 
+.panel2-simple_boxplot-auto[
+&lt;img src="visu_files/figure-html/simple_boxplot_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simple_boxplot-auto[
+
+```r
+penguins %&gt;%
+  ggplot() +
+* aes( x= species, y=bill_d)
+```
+]
+ 
+.panel2-simple_boxplot-auto[
+&lt;img src="visu_files/figure-html/simple_boxplot_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-simple_boxplot-auto[
+
+```r
+penguins %&gt;%
+  ggplot() +
+  aes( x= species, y=bill_d) +
+* geom_boxplot()
+```
+]
+ 
+.panel2-simple_boxplot-auto[
+
+```
+## Warning: Removed 2 rows containing non-finite values (stat_boxplot).
+```
+
+&lt;img src="visu_files/figure-html/simple_boxplot_auto_04_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+&lt;style&gt;
+.panel1-simple_boxplot-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-simple_boxplot-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-simple_boxplot-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+name: color
+# Enrichir les graphiques avec la couleur
+
+---
+template: color
+## Ajouter une information de groupes sur un nuage de points
 
 
 
@@ -411,7 +900,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_plot_species_user_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_plot_species_user_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -435,7 +924,7 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_plot_species_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_plot_species_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -464,6 +953,13 @@ penguins %&gt;%
   font-size: 80%
 }
 &lt;/style&gt;
+
+
+
+---
+template: color
+## Ajouter une information de groupes sur un histogramme
+
 
 
 
@@ -505,7 +1001,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_viridis_auto_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_viridis_auto_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -526,7 +1022,7 @@ gg +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_viridis_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_viridis_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -594,7 +1090,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_wesanderson_auto_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_wesanderson_auto_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -615,7 +1111,7 @@ gg +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_wesanderson_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_wesanderson_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -677,7 +1173,7 @@ penguins %&gt;% ggplot() +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-&lt;img src="visu_files/figure-html/exo_relation_cor-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/exo_relation_cor-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -721,7 +1217,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_labels_auto_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_labels_auto_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -742,7 +1238,7 @@ gg  +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_labels_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_labels_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -764,7 +1260,7 @@ gg  +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_labels_auto_03_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_labels_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -787,7 +1283,7 @@ gg  +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_labels_auto_04_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_labels_auto_04_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -861,7 +1357,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_themelight_user_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_themelight_user_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -885,7 +1381,7 @@ gg  +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_themelight_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_themelight_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -953,7 +1449,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_thememinimal_user_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_thememinimal_user_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -982,7 +1478,7 @@ gg + scale_color_manual(values = color_darj) +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_thememinimal_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_thememinimal_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -1048,7 +1544,7 @@ The default theme might not be the best option
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-&lt;img src="visu_files/figure-html/preset_theme-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/preset_theme-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1070,7 +1566,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_below_auto_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_below_auto_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1091,7 +1587,7 @@ gg +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/scatter_below_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/scatter_below_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -1142,7 +1638,7 @@ gg +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-&lt;img src="visu_files/figure-html/scatter_within-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/scatter_within-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1164,7 +1660,7 @@ gg + theme(legend.position=c(.9, .6),
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-&lt;img src="visu_files/figure-html/scatter_custom-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/scatter_custom-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 template: scatter_label
@@ -1199,7 +1695,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/stat_info_lm_auto_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/stat_info_lm_auto_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1228,7 +1724,7 @@ gg +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/stat_info_lm_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/stat_info_lm_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1266,7 +1762,7 @@ gg +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/stat_info_lm_auto_03_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/stat_info_lm_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -1330,7 +1826,7 @@ penguins %&gt;% ggplot() +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-&lt;img src="visu_files/figure-html/exo_relation_cor2-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/exo_relation_cor2-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1363,7 +1859,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/theme_setup_user_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/theme_setup_user_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1386,7 +1882,7 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/theme_setup_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/theme_setup_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -1462,7 +1958,7 @@ theme_update(legend.position="bottom")
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/theme_setup_2_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/theme_setup_2_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -1525,14 +2021,14 @@ Add the color according to species and use the `Zissou1` palette from `wesanders
 count: false
  
 
-.panel1-color_hist_cor-auto[
+.panel1-color_hist_cor_comp-auto[
 
 ```r
 *penguins
 ```
 ]
  
-.panel2-color_hist_cor-auto[
+.panel2-color_hist_cor_comp-auto[
 
 ```
 ## # A tibble: 344 x 8
@@ -1556,7 +2052,7 @@ count: false
 count: false
  
 
-.panel1-color_hist_cor-auto[
+.panel1-color_hist_cor_comp-auto[
 
 ```r
 penguins %&gt;%
@@ -1564,7 +2060,7 @@ penguins %&gt;%
 ```
 ]
  
-.panel2-color_hist_cor-auto[
+.panel2-color_hist_cor_comp-auto[
 
 ```
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
@@ -1574,14 +2070,14 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_bin).
 ```
 
-![](visu_files/figure-html/color_hist_cor_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_cor_comp_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 count: false
  
 
-.panel1-color_hist_cor-auto[
+.panel1-color_hist_cor_comp-auto[
 
 ```r
 penguins %&gt;%
@@ -1590,7 +2086,7 @@ penguins %&gt;%
 ```
 ]
  
-.panel2-color_hist_cor-auto[
+.panel2-color_hist_cor_comp-auto[
 
 ```
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
@@ -1600,14 +2096,14 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_bin).
 ```
 
-![](visu_files/figure-html/color_hist_cor_auto_03_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_cor_comp_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 count: false
  
 
-.panel1-color_hist_cor-auto[
+.panel1-color_hist_cor_comp-auto[
 
 ```r
 penguins %&gt;%
@@ -1617,7 +2113,7 @@ penguins %&gt;%
 ```
 ]
  
-.panel2-color_hist_cor-auto[
+.panel2-color_hist_cor_comp-auto[
 
 ```
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
@@ -1627,11 +2123,11 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_bin).
 ```
 
-![](visu_files/figure-html/color_hist_cor_auto_04_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_cor_comp_auto_04_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
-.panel1-color_hist_cor-auto {
+.panel1-color_hist_cor_comp-auto {
   color: black;
   width: 38.6060606060606%;
   hight: 32%;
@@ -1639,7 +2135,7 @@ penguins %&gt;%
   padding-left: 1%;
   font-size: 80%
 }
-.panel2-color_hist_cor-auto {
+.panel2-color_hist_cor_comp-auto {
   color: black;
   width: 59.3939393939394%;
   hight: 32%;
@@ -1647,7 +2143,7 @@ penguins %&gt;%
   padding-left: 1%;
   font-size: 80%
 }
-.panel3-color_hist_cor-auto {
+.panel3-color_hist_cor_comp-auto {
   color: black;
   width: NA%;
   hight: 33%;
@@ -1716,7 +2212,7 @@ penguins %&gt;%
 ]
  
 .panel2-color_hist_facet-auto[
-![](visu_files/figure-html/color_hist_facet_auto_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_facet_auto_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1742,7 +2238,7 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_bin).
 ```
 
-![](visu_files/figure-html/color_hist_facet_auto_03_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_facet_auto_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1769,7 +2265,7 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_bin).
 ```
 
-![](visu_files/figure-html/color_hist_facet_auto_04_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_facet_auto_04_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1797,7 +2293,7 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_bin).
 ```
 
-![](visu_files/figure-html/color_hist_facet_auto_05_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_facet_auto_05_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1826,7 +2322,7 @@ penguins %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_bin).
 ```
 
-![](visu_files/figure-html/color_hist_facet_auto_06_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_facet_auto_06_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -1906,7 +2402,7 @@ count: false
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-![](visu_files/figure-html/color_hist_dens_cor_user_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_dens_cor_user_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1939,7 +2435,7 @@ count: false
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-![](visu_files/figure-html/color_hist_dens_cor_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_dens_cor_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1973,7 +2469,7 @@ count: false
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-![](visu_files/figure-html/color_hist_dens_cor_user_03_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_hist_dens_cor_user_03_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -2026,7 +2522,7 @@ count: false
 ## Warning: Removed 2 rows containing non-finite values (stat_boxplot).
 ```
 
-&lt;img src="visu_files/figure-html/color_boxplot-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/color_boxplot-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -2051,7 +2547,7 @@ count: false
 ## Warning: Removed 2 rows containing non-finite values (stat_ydensity).
 ```
 
-![](visu_files/figure-html/color_boxplot_2_user_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_boxplot_2_user_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -2074,7 +2570,7 @@ count: false
 ## Warning: Removed 2 rows containing non-finite values (stat_ydensity).
 ```
 
-![](visu_files/figure-html/color_boxplot_2_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_boxplot_2_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -2134,7 +2630,7 @@ count: false
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/color_boxplot_3_user_01_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_boxplot_3_user_01_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -2162,7 +2658,7 @@ penguins %&gt;%  ggplot() + aes(x = species,  y = bill_l) +
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](visu_files/figure-html/color_boxplot_3_user_02_output-1.png)&lt;!-- --&gt;
+&lt;img src="visu_files/figure-html/color_boxplot_3_user_02_output-1.png" width="50%" style="display: block; margin: auto;" /&gt;
 ]
 
 &lt;style&gt;
@@ -2213,7 +2709,7 @@ penguins %&gt;%  mutate(mu = bill_l * bill_d) %&gt;%
 ## Warning: Removed 2 rows containing non-finite values (stat_boxplot).
 ```
 
-&lt;img src="visu_files/figure-html/color_boxplot_sup_sub-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/color_boxplot_sup_sub-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -2238,7 +2734,7 @@ gg_p1
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-&lt;img src="visu_files/figure-html/ggpubr_p1-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/ggpubr_p1-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -2268,7 +2764,7 @@ gg_p2
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-&lt;img src="visu_files/figure-html/ggpubr_p2-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/ggpubr_p2-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -2297,7 +2793,7 @@ ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1)
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-&lt;img src="visu_files/figure-html/ggpubr_p3-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/ggpubr_p3-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 template: useful_package
@@ -2326,7 +2822,7 @@ ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1, common.legend = TRUE)
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-&lt;img src="visu_files/figure-html/ggpubr_p4-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/ggpubr_p4-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 name: bivariate_explore 
@@ -2413,7 +2909,7 @@ scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) + theme(text
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-&lt;img src="visu_files/figure-html/ggpairs-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/ggpairs-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 template: bivariate_explore
@@ -2493,7 +2989,7 @@ penguins %&gt;% ggpairs(columns = c(1,3,4,5), mapping = aes(col = species),
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-&lt;img src="visu_files/figure-html/ggpairs_fancy-1.png" width="60%" /&gt;
+&lt;img src="visu_files/figure-html/ggpairs_fancy-1.png" width="60%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -2515,178 +3011,6 @@ gg  +
   theme(legend.position="bottom") 
 ```
 
-```
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-
-## Warning: Removed 1 rows containing missing values (geom_point).
-```
-
-```
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-
-## Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-&lt;img src="visu_files/figure-html/ani_final-1.gif" width="60%" /&gt;
-
 
 ---
 name: plotly
@@ -2702,8 +3026,8 @@ library(plotly)
 gg  %&gt;%  ggplotly()
 ```
 
-<div id="htmlwidget-188c4bcfb243bed760bb" style="width:288px;height:360px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-188c4bcfb243bed760bb">{"x":{"data":[{"x":[39.1,39.5,40.3,null,36.7,39.3,38.9,39.2,34.1,42,37.8,37.8,41.1,38.6,34.6,36.6,38.7,42.5,34.4,46,37.8,37.7,35.9,38.2,38.8,35.3,40.6,40.5,37.9,40.5,39.5,37.2,39.5,40.9,36.4,39.2,38.8,42.2,37.6,39.8,36.5,40.8,36,44.1,37,39.6,41.1,37.5,36,42.3,39.6,40.1,35,42,34.5,41.4,39,40.6,36.5,37.6,35.7,41.3,37.6,41.1,36.4,41.6,35.5,41.1,35.9,41.8,33.5,39.7,39.6,45.8,35.5,42.8,40.9,37.2,36.2,42.1,34.6,42.9,36.7,35.1,37.3,41.3,36.3,36.9,38.3,38.9,35.7,41.1,34,39.6,36.2,40.8,38.1,40.3,33.1,43.2,35,41,37.7,37.8,37.9,39.7,38.6,38.2,38.1,43.2,38.1,45.6,39.7,42.2,39.6,42.7,38.6,37.3,35.7,41.1,36.2,37.7,40.2,41.4,35.2,40.6,38.8,41.5,39,44.1,38.5,43.1,36.8,37.5,38.1,41.1,35.6,40.2,37,39.7,40.2,40.6,32.1,40.7,37.3,39,39.2,36.6,36,37.8,36,41.5],"y":[18.7,17.4,18,null,19.3,20.6,17.8,19.6,18.1,20.2,17.1,17.3,17.6,21.2,21.1,17.8,19,20.7,18.4,21.5,18.3,18.7,19.2,18.1,17.2,18.9,18.6,17.9,18.6,18.9,16.7,18.1,17.8,18.9,17,21.1,20,18.5,19.3,19.1,18,18.4,18.5,19.7,16.9,18.8,19,18.9,17.9,21.2,17.7,18.9,17.9,19.5,18.1,18.6,17.5,18.8,16.6,19.1,16.9,21.1,17,18.2,17.1,18,16.2,19.1,16.6,19.4,19,18.4,17.2,18.9,17.5,18.5,16.8,19.4,16.1,19.1,17.2,17.6,18.8,19.4,17.8,20.3,19.5,18.6,19.2,18.8,18,18.1,17.1,18.1,17.3,18.9,18.6,18.5,16.1,18.5,17.9,20,16,20,18.6,18.9,17.2,20,17,19,16.5,20.3,17.7,19.5,20.7,18.3,17,20.5,17,18.6,17.2,19.8,17,18.5,15.9,19,17.6,18.3,17.1,18,17.9,19.2,18.5,18.5,17.6,17.5,17.5,20.1,16.5,17.9,17.1,17.2,15.5,17,16.8,18.7,18.6,18.4,17.8,18.1,17.1,18.5],"text":["species: Adelie<br />bill_l: 39.1<br />bill_d: 18.7","species: Adelie<br />bill_l: 39.5<br />bill_d: 17.4","species: Adelie<br />bill_l: 40.3<br />bill_d: 18.0","species: Adelie<br />bill_l:   NA<br />bill_d:   NA","species: Adelie<br />bill_l: 36.7<br />bill_d: 19.3","species: Adelie<br />bill_l: 39.3<br />bill_d: 20.6","species: Adelie<br />bill_l: 38.9<br />bill_d: 17.8","species: Adelie<br />bill_l: 39.2<br />bill_d: 19.6","species: Adelie<br />bill_l: 34.1<br />bill_d: 18.1","species: Adelie<br />bill_l: 42.0<br />bill_d: 20.2","species: Adelie<br />bill_l: 37.8<br />bill_d: 17.1","species: Adelie<br />bill_l: 37.8<br />bill_d: 17.3","species: Adelie<br />bill_l: 41.1<br />bill_d: 17.6","species: Adelie<br />bill_l: 38.6<br />bill_d: 21.2","species: Adelie<br />bill_l: 34.6<br />bill_d: 21.1","species: Adelie<br />bill_l: 36.6<br />bill_d: 17.8","species: Adelie<br />bill_l: 38.7<br />bill_d: 19.0","species: Adelie<br />bill_l: 42.5<br />bill_d: 20.7","species: Adelie<br />bill_l: 34.4<br />bill_d: 18.4","species: Adelie<br />bill_l: 46.0<br />bill_d: 21.5","species: Adelie<br />bill_l: 37.8<br />bill_d: 18.3","species: Adelie<br />bill_l: 37.7<br />bill_d: 18.7","species: Adelie<br />bill_l: 35.9<br />bill_d: 19.2","species: Adelie<br />bill_l: 38.2<br />bill_d: 18.1","species: Adelie<br />bill_l: 38.8<br />bill_d: 17.2","species: Adelie<br />bill_l: 35.3<br />bill_d: 18.9","species: Adelie<br />bill_l: 40.6<br />bill_d: 18.6","species: Adelie<br />bill_l: 40.5<br />bill_d: 17.9","species: Adelie<br />bill_l: 37.9<br />bill_d: 18.6","species: Adelie<br />bill_l: 40.5<br />bill_d: 18.9","species: Adelie<br />bill_l: 39.5<br />bill_d: 16.7","species: Adelie<br />bill_l: 37.2<br />bill_d: 18.1","species: Adelie<br />bill_l: 39.5<br />bill_d: 17.8","species: Adelie<br />bill_l: 40.9<br />bill_d: 18.9","species: Adelie<br />bill_l: 36.4<br />bill_d: 17.0","species: Adelie<br />bill_l: 39.2<br />bill_d: 21.1","species: Adelie<br />bill_l: 38.8<br />bill_d: 20.0","species: Adelie<br />bill_l: 42.2<br />bill_d: 18.5","species: Adelie<br />bill_l: 37.6<br />bill_d: 19.3","species: Adelie<br />bill_l: 39.8<br />bill_d: 19.1","species: Adelie<br />bill_l: 36.5<br />bill_d: 18.0","species: Adelie<br />bill_l: 40.8<br />bill_d: 18.4","species: Adelie<br />bill_l: 36.0<br />bill_d: 18.5","species: Adelie<br />bill_l: 44.1<br />bill_d: 19.7","species: Adelie<br />bill_l: 37.0<br />bill_d: 16.9","species: Adelie<br />bill_l: 39.6<br />bill_d: 18.8","species: Adelie<br />bill_l: 41.1<br />bill_d: 19.0","species: Adelie<br />bill_l: 37.5<br />bill_d: 18.9","species: Adelie<br />bill_l: 36.0<br />bill_d: 17.9","species: Adelie<br />bill_l: 42.3<br />bill_d: 21.2","species: Adelie<br />bill_l: 39.6<br />bill_d: 17.7","species: Adelie<br />bill_l: 40.1<br />bill_d: 18.9","species: Adelie<br />bill_l: 35.0<br />bill_d: 17.9","species: Adelie<br />bill_l: 42.0<br />bill_d: 19.5","species: Adelie<br />bill_l: 34.5<br />bill_d: 18.1","species: Adelie<br />bill_l: 41.4<br />bill_d: 18.6","species: Adelie<br />bill_l: 39.0<br />bill_d: 17.5","species: Adelie<br />bill_l: 40.6<br />bill_d: 18.8","species: Adelie<br />bill_l: 36.5<br />bill_d: 16.6","species: Adelie<br />bill_l: 37.6<br />bill_d: 19.1","species: Adelie<br />bill_l: 35.7<br />bill_d: 16.9","species: Adelie<br />bill_l: 41.3<br />bill_d: 21.1","species: Adelie<br />bill_l: 37.6<br />bill_d: 17.0","species: Adelie<br />bill_l: 41.1<br />bill_d: 18.2","species: Adelie<br />bill_l: 36.4<br />bill_d: 17.1","species: Adelie<br />bill_l: 41.6<br />bill_d: 18.0","species: Adelie<br />bill_l: 35.5<br />bill_d: 16.2","species: Adelie<br />bill_l: 41.1<br />bill_d: 19.1","species: Adelie<br />bill_l: 35.9<br />bill_d: 16.6","species: Adelie<br />bill_l: 41.8<br />bill_d: 19.4","species: Adelie<br />bill_l: 33.5<br />bill_d: 19.0","species: Adelie<br />bill_l: 39.7<br />bill_d: 18.4","species: Adelie<br />bill_l: 39.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 45.8<br />bill_d: 18.9","species: Adelie<br />bill_l: 35.5<br />bill_d: 17.5","species: Adelie<br />bill_l: 42.8<br />bill_d: 18.5","species: Adelie<br />bill_l: 40.9<br />bill_d: 16.8","species: Adelie<br />bill_l: 37.2<br />bill_d: 19.4","species: Adelie<br />bill_l: 36.2<br />bill_d: 16.1","species: Adelie<br />bill_l: 42.1<br />bill_d: 19.1","species: Adelie<br />bill_l: 34.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 42.9<br />bill_d: 17.6","species: Adelie<br />bill_l: 36.7<br />bill_d: 18.8","species: Adelie<br />bill_l: 35.1<br />bill_d: 19.4","species: Adelie<br />bill_l: 37.3<br />bill_d: 17.8","species: Adelie<br />bill_l: 41.3<br />bill_d: 20.3","species: Adelie<br />bill_l: 36.3<br />bill_d: 19.5","species: Adelie<br />bill_l: 36.9<br />bill_d: 18.6","species: Adelie<br />bill_l: 38.3<br />bill_d: 19.2","species: Adelie<br />bill_l: 38.9<br />bill_d: 18.8","species: Adelie<br />bill_l: 35.7<br />bill_d: 18.0","species: Adelie<br />bill_l: 41.1<br />bill_d: 18.1","species: Adelie<br />bill_l: 34.0<br />bill_d: 17.1","species: Adelie<br />bill_l: 39.6<br />bill_d: 18.1","species: Adelie<br />bill_l: 36.2<br />bill_d: 17.3","species: Adelie<br />bill_l: 40.8<br />bill_d: 18.9","species: Adelie<br />bill_l: 38.1<br />bill_d: 18.6","species: Adelie<br />bill_l: 40.3<br />bill_d: 18.5","species: Adelie<br />bill_l: 33.1<br />bill_d: 16.1","species: Adelie<br />bill_l: 43.2<br />bill_d: 18.5","species: Adelie<br />bill_l: 35.0<br />bill_d: 17.9","species: Adelie<br />bill_l: 41.0<br />bill_d: 20.0","species: Adelie<br />bill_l: 37.7<br />bill_d: 16.0","species: Adelie<br />bill_l: 37.8<br />bill_d: 20.0","species: Adelie<br />bill_l: 37.9<br />bill_d: 18.6","species: Adelie<br />bill_l: 39.7<br />bill_d: 18.9","species: Adelie<br />bill_l: 38.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 38.2<br />bill_d: 20.0","species: Adelie<br />bill_l: 38.1<br />bill_d: 17.0","species: Adelie<br />bill_l: 43.2<br />bill_d: 19.0","species: Adelie<br />bill_l: 38.1<br />bill_d: 16.5","species: Adelie<br />bill_l: 45.6<br />bill_d: 20.3","species: Adelie<br />bill_l: 39.7<br />bill_d: 17.7","species: Adelie<br />bill_l: 42.2<br />bill_d: 19.5","species: Adelie<br />bill_l: 39.6<br />bill_d: 20.7","species: Adelie<br />bill_l: 42.7<br />bill_d: 18.3","species: Adelie<br />bill_l: 38.6<br />bill_d: 17.0","species: Adelie<br />bill_l: 37.3<br />bill_d: 20.5","species: Adelie<br />bill_l: 35.7<br />bill_d: 17.0","species: Adelie<br />bill_l: 41.1<br />bill_d: 18.6","species: Adelie<br />bill_l: 36.2<br />bill_d: 17.2","species: Adelie<br />bill_l: 37.7<br />bill_d: 19.8","species: Adelie<br />bill_l: 40.2<br />bill_d: 17.0","species: Adelie<br />bill_l: 41.4<br />bill_d: 18.5","species: Adelie<br />bill_l: 35.2<br />bill_d: 15.9","species: Adelie<br />bill_l: 40.6<br />bill_d: 19.0","species: Adelie<br />bill_l: 38.8<br />bill_d: 17.6","species: Adelie<br />bill_l: 41.5<br />bill_d: 18.3","species: Adelie<br />bill_l: 39.0<br />bill_d: 17.1","species: Adelie<br />bill_l: 44.1<br />bill_d: 18.0","species: Adelie<br />bill_l: 38.5<br />bill_d: 17.9","species: Adelie<br />bill_l: 43.1<br />bill_d: 19.2","species: Adelie<br />bill_l: 36.8<br />bill_d: 18.5","species: Adelie<br />bill_l: 37.5<br />bill_d: 18.5","species: Adelie<br />bill_l: 38.1<br />bill_d: 17.6","species: Adelie<br />bill_l: 41.1<br />bill_d: 17.5","species: Adelie<br />bill_l: 35.6<br />bill_d: 17.5","species: Adelie<br />bill_l: 40.2<br />bill_d: 20.1","species: Adelie<br />bill_l: 37.0<br />bill_d: 16.5","species: Adelie<br />bill_l: 39.7<br />bill_d: 17.9","species: Adelie<br />bill_l: 40.2<br />bill_d: 17.1","species: Adelie<br />bill_l: 40.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 32.1<br />bill_d: 15.5","species: Adelie<br />bill_l: 40.7<br />bill_d: 17.0","species: Adelie<br />bill_l: 37.3<br />bill_d: 16.8","species: Adelie<br />bill_l: 39.0<br />bill_d: 18.7","species: Adelie<br />bill_l: 39.2<br />bill_d: 18.6","species: Adelie<br />bill_l: 36.6<br />bill_d: 18.4","species: Adelie<br />bill_l: 36.0<br />bill_d: 17.8","species: Adelie<br />bill_l: 37.8<br />bill_d: 18.1","species: Adelie<br />bill_l: 36.0<br />bill_d: 17.1","species: Adelie<br />bill_l: 41.5<br />bill_d: 18.5"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(255,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(255,0,0,1)"}},"hoveron":"points","name":"Adelie","legendgroup":"Adelie","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[46.5,50,51.3,45.4,52.7,45.2,46.1,51.3,46,51.3,46.6,51.7,47,52,45.9,50.5,50.3,58,46.4,49.2,42.4,48.5,43.2,50.6,46.7,52,50.5,49.5,46.4,52.8,40.9,54.2,42.5,51,49.7,47.5,47.6,52,46.9,53.5,49,46.2,50.9,45.5,50.9,50.8,50.1,49,51.5,49.8,48.1,51.4,45.7,50.7,42.5,52.2,45.2,49.3,50.2,45.6,51.9,46.8,45.7,55.8,43.5,49.6,50.8,50.2],"y":[17.9,19.5,19.2,18.7,19.8,17.8,18.2,18.2,18.9,19.9,17.8,20.3,17.3,18.1,17.1,19.6,20,17.8,18.6,18.2,17.3,17.5,16.6,19.4,17.9,19,18.4,19,17.8,20,16.6,20.8,16.7,18.8,18.6,16.8,18.3,20.7,16.6,19.9,19.5,17.5,19.1,17,17.9,18.5,17.9,19.6,18.7,17.3,16.4,19,17.3,19.7,17.3,18.8,16.6,19.9,18.8,19.4,19.5,16.5,17,19.8,18.1,18.2,19,18.7],"text":["species: Chinstrap<br />bill_l: 46.5<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 50.0<br />bill_d: 19.5","species: Chinstrap<br />bill_l: 51.3<br />bill_d: 19.2","species: Chinstrap<br />bill_l: 45.4<br />bill_d: 18.7","species: Chinstrap<br />bill_l: 52.7<br />bill_d: 19.8","species: Chinstrap<br />bill_l: 45.2<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 46.1<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 51.3<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 46.0<br />bill_d: 18.9","species: Chinstrap<br />bill_l: 51.3<br />bill_d: 19.9","species: Chinstrap<br />bill_l: 46.6<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 51.7<br />bill_d: 20.3","species: Chinstrap<br />bill_l: 47.0<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 52.0<br />bill_d: 18.1","species: Chinstrap<br />bill_l: 45.9<br />bill_d: 17.1","species: Chinstrap<br />bill_l: 50.5<br />bill_d: 19.6","species: Chinstrap<br />bill_l: 50.3<br />bill_d: 20.0","species: Chinstrap<br />bill_l: 58.0<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 46.4<br />bill_d: 18.6","species: Chinstrap<br />bill_l: 49.2<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 42.4<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 48.5<br />bill_d: 17.5","species: Chinstrap<br />bill_l: 43.2<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 50.6<br />bill_d: 19.4","species: Chinstrap<br />bill_l: 46.7<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 52.0<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 50.5<br />bill_d: 18.4","species: Chinstrap<br />bill_l: 49.5<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 46.4<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 52.8<br />bill_d: 20.0","species: Chinstrap<br />bill_l: 40.9<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 54.2<br />bill_d: 20.8","species: Chinstrap<br />bill_l: 42.5<br />bill_d: 16.7","species: Chinstrap<br />bill_l: 51.0<br />bill_d: 18.8","species: Chinstrap<br />bill_l: 49.7<br />bill_d: 18.6","species: Chinstrap<br />bill_l: 47.5<br />bill_d: 16.8","species: Chinstrap<br />bill_l: 47.6<br />bill_d: 18.3","species: Chinstrap<br />bill_l: 52.0<br />bill_d: 20.7","species: Chinstrap<br />bill_l: 46.9<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 53.5<br />bill_d: 19.9","species: Chinstrap<br />bill_l: 49.0<br />bill_d: 19.5","species: Chinstrap<br />bill_l: 46.2<br />bill_d: 17.5","species: Chinstrap<br />bill_l: 50.9<br />bill_d: 19.1","species: Chinstrap<br />bill_l: 45.5<br />bill_d: 17.0","species: Chinstrap<br />bill_l: 50.9<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 50.8<br />bill_d: 18.5","species: Chinstrap<br />bill_l: 50.1<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 49.0<br />bill_d: 19.6","species: Chinstrap<br />bill_l: 51.5<br />bill_d: 18.7","species: Chinstrap<br />bill_l: 49.8<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 48.1<br />bill_d: 16.4","species: Chinstrap<br />bill_l: 51.4<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 45.7<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 50.7<br />bill_d: 19.7","species: Chinstrap<br />bill_l: 42.5<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 52.2<br />bill_d: 18.8","species: Chinstrap<br />bill_l: 45.2<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 49.3<br />bill_d: 19.9","species: Chinstrap<br />bill_l: 50.2<br />bill_d: 18.8","species: Chinstrap<br />bill_l: 45.6<br />bill_d: 19.4","species: Chinstrap<br />bill_l: 51.9<br />bill_d: 19.5","species: Chinstrap<br />bill_l: 46.8<br />bill_d: 16.5","species: Chinstrap<br />bill_l: 45.7<br />bill_d: 17.0","species: Chinstrap<br />bill_l: 55.8<br />bill_d: 19.8","species: Chinstrap<br />bill_l: 43.5<br />bill_d: 18.1","species: Chinstrap<br />bill_l: 49.6<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 50.8<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 50.2<br />bill_d: 18.7"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,160,138,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,160,138,1)"}},"hoveron":"points","name":"Chinstrap","legendgroup":"Chinstrap","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[46.1,50,48.7,50,47.6,46.5,45.4,46.7,43.3,46.8,40.9,49,45.5,48.4,45.8,49.3,42,49.2,46.2,48.7,50.2,45.1,46.5,46.3,42.9,46.1,44.5,47.8,48.2,50,47.3,42.8,45.1,59.6,49.1,48.4,42.6,44.4,44,48.7,42.7,49.6,45.3,49.6,50.5,43.6,45.5,50.5,44.9,45.2,46.6,48.5,45.1,50.1,46.5,45,43.8,45.5,43.2,50.4,45.3,46.2,45.7,54.3,45.8,49.8,46.2,49.5,43.5,50.7,47.7,46.4,48.2,46.5,46.4,48.6,47.5,51.1,45.2,45.2,49.1,52.5,47.4,50,44.9,50.8,43.4,51.3,47.5,52.1,47.5,52.2,45.5,49.5,44.5,50.8,49.4,46.9,48.4,51.1,48.5,55.9,47.2,49.1,47.3,46.8,41.7,53.4,43.3,48.1,50.5,49.8,43.5,51.5,46.2,55.1,44.5,48.8,47.2,null,46.8,50.4,45.2,49.9],"y":[13.2,16.3,14.1,15.2,14.5,13.5,14.6,15.3,13.4,15.4,13.7,16.1,13.7,14.6,14.6,15.7,13.5,15.2,14.5,15.1,14.3,14.5,14.5,15.8,13.1,15.1,14.3,15,14.3,15.3,15.3,14.2,14.5,17,14.8,16.3,13.7,17.3,13.6,15.7,13.7,16,13.7,15,15.9,13.9,13.9,15.9,13.3,15.8,14.2,14.1,14.4,15,14.4,15.4,13.9,15,14.5,15.3,13.8,14.9,13.9,15.7,14.2,16.8,14.4,16.2,14.2,15,15,15.6,15.6,14.8,15,16,14.2,16.3,13.8,16.4,14.5,15.6,14.6,15.9,13.8,17.3,14.4,14.2,14,17,15,17.1,14.5,16.1,14.7,15.7,15.8,14.6,14.4,16.5,15,17,15.5,15,13.8,16.1,14.7,15.8,14,15.1,15.2,15.9,15.2,16.3,14.1,16,15.7,16.2,13.7,null,14.3,15.7,14.8,16.1],"text":["species: Gentoo<br />bill_l: 46.1<br />bill_d: 13.2","species: Gentoo<br />bill_l: 50.0<br />bill_d: 16.3","species: Gentoo<br />bill_l: 48.7<br />bill_d: 14.1","species: Gentoo<br />bill_l: 50.0<br />bill_d: 15.2","species: Gentoo<br />bill_l: 47.6<br />bill_d: 14.5","species: Gentoo<br />bill_l: 46.5<br />bill_d: 13.5","species: Gentoo<br />bill_l: 45.4<br />bill_d: 14.6","species: Gentoo<br />bill_l: 46.7<br />bill_d: 15.3","species: Gentoo<br />bill_l: 43.3<br />bill_d: 13.4","species: Gentoo<br />bill_l: 46.8<br />bill_d: 15.4","species: Gentoo<br />bill_l: 40.9<br />bill_d: 13.7","species: Gentoo<br />bill_l: 49.0<br />bill_d: 16.1","species: Gentoo<br />bill_l: 45.5<br />bill_d: 13.7","species: Gentoo<br />bill_l: 48.4<br />bill_d: 14.6","species: Gentoo<br />bill_l: 45.8<br />bill_d: 14.6","species: Gentoo<br />bill_l: 49.3<br />bill_d: 15.7","species: Gentoo<br />bill_l: 42.0<br />bill_d: 13.5","species: Gentoo<br />bill_l: 49.2<br />bill_d: 15.2","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.5","species: Gentoo<br />bill_l: 48.7<br />bill_d: 15.1","species: Gentoo<br />bill_l: 50.2<br />bill_d: 14.3","species: Gentoo<br />bill_l: 45.1<br />bill_d: 14.5","species: Gentoo<br />bill_l: 46.5<br />bill_d: 14.5","species: Gentoo<br />bill_l: 46.3<br />bill_d: 15.8","species: Gentoo<br />bill_l: 42.9<br />bill_d: 13.1","species: Gentoo<br />bill_l: 46.1<br />bill_d: 15.1","species: Gentoo<br />bill_l: 44.5<br />bill_d: 14.3","species: Gentoo<br />bill_l: 47.8<br />bill_d: 15.0","species: Gentoo<br />bill_l: 48.2<br />bill_d: 14.3","species: Gentoo<br />bill_l: 50.0<br />bill_d: 15.3","species: Gentoo<br />bill_l: 47.3<br />bill_d: 15.3","species: Gentoo<br />bill_l: 42.8<br />bill_d: 14.2","species: Gentoo<br />bill_l: 45.1<br />bill_d: 14.5","species: Gentoo<br />bill_l: 59.6<br />bill_d: 17.0","species: Gentoo<br />bill_l: 49.1<br />bill_d: 14.8","species: Gentoo<br />bill_l: 48.4<br />bill_d: 16.3","species: Gentoo<br />bill_l: 42.6<br />bill_d: 13.7","species: Gentoo<br />bill_l: 44.4<br />bill_d: 17.3","species: Gentoo<br />bill_l: 44.0<br />bill_d: 13.6","species: Gentoo<br />bill_l: 48.7<br />bill_d: 15.7","species: Gentoo<br />bill_l: 42.7<br />bill_d: 13.7","species: Gentoo<br />bill_l: 49.6<br />bill_d: 16.0","species: Gentoo<br />bill_l: 45.3<br />bill_d: 13.7","species: Gentoo<br />bill_l: 49.6<br />bill_d: 15.0","species: Gentoo<br />bill_l: 50.5<br />bill_d: 15.9","species: Gentoo<br />bill_l: 43.6<br />bill_d: 13.9","species: Gentoo<br />bill_l: 45.5<br />bill_d: 13.9","species: Gentoo<br />bill_l: 50.5<br />bill_d: 15.9","species: Gentoo<br />bill_l: 44.9<br />bill_d: 13.3","species: Gentoo<br />bill_l: 45.2<br />bill_d: 15.8","species: Gentoo<br />bill_l: 46.6<br />bill_d: 14.2","species: Gentoo<br />bill_l: 48.5<br />bill_d: 14.1","species: Gentoo<br />bill_l: 45.1<br />bill_d: 14.4","species: Gentoo<br />bill_l: 50.1<br />bill_d: 15.0","species: Gentoo<br />bill_l: 46.5<br />bill_d: 14.4","species: Gentoo<br />bill_l: 45.0<br />bill_d: 15.4","species: Gentoo<br />bill_l: 43.8<br />bill_d: 13.9","species: Gentoo<br />bill_l: 45.5<br />bill_d: 15.0","species: Gentoo<br />bill_l: 43.2<br />bill_d: 14.5","species: Gentoo<br />bill_l: 50.4<br />bill_d: 15.3","species: Gentoo<br />bill_l: 45.3<br />bill_d: 13.8","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.9","species: Gentoo<br />bill_l: 45.7<br />bill_d: 13.9","species: Gentoo<br />bill_l: 54.3<br />bill_d: 15.7","species: Gentoo<br />bill_l: 45.8<br />bill_d: 14.2","species: Gentoo<br />bill_l: 49.8<br />bill_d: 16.8","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.4","species: Gentoo<br />bill_l: 49.5<br />bill_d: 16.2","species: Gentoo<br />bill_l: 43.5<br />bill_d: 14.2","species: Gentoo<br />bill_l: 50.7<br />bill_d: 15.0","species: Gentoo<br />bill_l: 47.7<br />bill_d: 15.0","species: Gentoo<br />bill_l: 46.4<br />bill_d: 15.6","species: Gentoo<br />bill_l: 48.2<br />bill_d: 15.6","species: Gentoo<br />bill_l: 46.5<br />bill_d: 14.8","species: Gentoo<br />bill_l: 46.4<br />bill_d: 15.0","species: Gentoo<br />bill_l: 48.6<br />bill_d: 16.0","species: Gentoo<br />bill_l: 47.5<br />bill_d: 14.2","species: Gentoo<br />bill_l: 51.1<br />bill_d: 16.3","species: Gentoo<br />bill_l: 45.2<br />bill_d: 13.8","species: Gentoo<br />bill_l: 45.2<br />bill_d: 16.4","species: Gentoo<br />bill_l: 49.1<br />bill_d: 14.5","species: Gentoo<br />bill_l: 52.5<br />bill_d: 15.6","species: Gentoo<br />bill_l: 47.4<br />bill_d: 14.6","species: Gentoo<br />bill_l: 50.0<br />bill_d: 15.9","species: Gentoo<br />bill_l: 44.9<br />bill_d: 13.8","species: Gentoo<br />bill_l: 50.8<br />bill_d: 17.3","species: Gentoo<br />bill_l: 43.4<br />bill_d: 14.4","species: Gentoo<br />bill_l: 51.3<br />bill_d: 14.2","species: Gentoo<br />bill_l: 47.5<br />bill_d: 14.0","species: Gentoo<br />bill_l: 52.1<br />bill_d: 17.0","species: Gentoo<br />bill_l: 47.5<br />bill_d: 15.0","species: Gentoo<br />bill_l: 52.2<br />bill_d: 17.1","species: Gentoo<br />bill_l: 45.5<br />bill_d: 14.5","species: Gentoo<br />bill_l: 49.5<br />bill_d: 16.1","species: Gentoo<br />bill_l: 44.5<br />bill_d: 14.7","species: Gentoo<br />bill_l: 50.8<br />bill_d: 15.7","species: Gentoo<br />bill_l: 49.4<br />bill_d: 15.8","species: Gentoo<br />bill_l: 46.9<br />bill_d: 14.6","species: Gentoo<br />bill_l: 48.4<br />bill_d: 14.4","species: Gentoo<br />bill_l: 51.1<br />bill_d: 16.5","species: Gentoo<br />bill_l: 48.5<br />bill_d: 15.0","species: Gentoo<br />bill_l: 55.9<br />bill_d: 17.0","species: Gentoo<br />bill_l: 47.2<br />bill_d: 15.5","species: Gentoo<br />bill_l: 49.1<br />bill_d: 15.0","species: Gentoo<br />bill_l: 47.3<br />bill_d: 13.8","species: Gentoo<br />bill_l: 46.8<br />bill_d: 16.1","species: Gentoo<br />bill_l: 41.7<br />bill_d: 14.7","species: Gentoo<br />bill_l: 53.4<br />bill_d: 15.8","species: Gentoo<br />bill_l: 43.3<br />bill_d: 14.0","species: Gentoo<br />bill_l: 48.1<br />bill_d: 15.1","species: Gentoo<br />bill_l: 50.5<br />bill_d: 15.2","species: Gentoo<br />bill_l: 49.8<br />bill_d: 15.9","species: Gentoo<br />bill_l: 43.5<br />bill_d: 15.2","species: Gentoo<br />bill_l: 51.5<br />bill_d: 16.3","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.1","species: Gentoo<br />bill_l: 55.1<br />bill_d: 16.0","species: Gentoo<br />bill_l: 44.5<br />bill_d: 15.7","species: Gentoo<br />bill_l: 48.8<br />bill_d: 16.2","species: Gentoo<br />bill_l: 47.2<br />bill_d: 13.7","species: Gentoo<br />bill_l:   NA<br />bill_d:   NA","species: Gentoo<br />bill_l: 46.8<br />bill_d: 14.3","species: Gentoo<br />bill_l: 50.4<br />bill_d: 15.7","species: Gentoo<br />bill_l: 45.2<br />bill_d: 14.8","species: Gentoo<br />bill_l: 49.9<br />bill_d: 16.1"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(242,173,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(242,173,0,1)"}},"hoveron":"points","name":"Gentoo","legendgroup":"Gentoo","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":21.8447488584475,"r":7.30593607305936,"b":35.7990867579909,"l":48.9497716894977},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[30.725,60.975],"tickmode":"array","ticktext":["40","50","60"],"tickvals":[40,50,60],"categoryorder":"array","categoryarray":["40","50","60"],"nticks":null,"ticks":"outside","tickcolor":"rgba(179,179,179,1)","ticklen":3.65296803652968,"tickwidth":0.33208800332088,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(222,222,222,1)","gridwidth":0.33208800332088,"zeroline":false,"anchor":"y","title":{"text":"Bill length in mm","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[12.68,21.92],"tickmode":"array","ticktext":["15.0","17.5","20.0"],"tickvals":[15,17.5,20],"categoryorder":"array","categoryarray":["15.0","17.5","20.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(179,179,179,1)","ticklen":3.65296803652968,"tickwidth":0.33208800332088,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(222,222,222,1)","gridwidth":0.33208800332088,"zeroline":false,"anchor":"x","title":{"text":"Bill depth in mm","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(179,179,179,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.913385826771654},"annotations":[{"text":"Species","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"1526714fca0":{"colour":{},"x":{},"y":{},"type":"scatter"}},"cur_data":"1526714fca0","visdat":{"1526714fca0":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-7dbb567687b569917b42" style="width:50%;height:360px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7dbb567687b569917b42">{"x":{"data":[{"x":[39.1,39.5,40.3,null,36.7,39.3,38.9,39.2,34.1,42,37.8,37.8,41.1,38.6,34.6,36.6,38.7,42.5,34.4,46,37.8,37.7,35.9,38.2,38.8,35.3,40.6,40.5,37.9,40.5,39.5,37.2,39.5,40.9,36.4,39.2,38.8,42.2,37.6,39.8,36.5,40.8,36,44.1,37,39.6,41.1,37.5,36,42.3,39.6,40.1,35,42,34.5,41.4,39,40.6,36.5,37.6,35.7,41.3,37.6,41.1,36.4,41.6,35.5,41.1,35.9,41.8,33.5,39.7,39.6,45.8,35.5,42.8,40.9,37.2,36.2,42.1,34.6,42.9,36.7,35.1,37.3,41.3,36.3,36.9,38.3,38.9,35.7,41.1,34,39.6,36.2,40.8,38.1,40.3,33.1,43.2,35,41,37.7,37.8,37.9,39.7,38.6,38.2,38.1,43.2,38.1,45.6,39.7,42.2,39.6,42.7,38.6,37.3,35.7,41.1,36.2,37.7,40.2,41.4,35.2,40.6,38.8,41.5,39,44.1,38.5,43.1,36.8,37.5,38.1,41.1,35.6,40.2,37,39.7,40.2,40.6,32.1,40.7,37.3,39,39.2,36.6,36,37.8,36,41.5],"y":[18.7,17.4,18,null,19.3,20.6,17.8,19.6,18.1,20.2,17.1,17.3,17.6,21.2,21.1,17.8,19,20.7,18.4,21.5,18.3,18.7,19.2,18.1,17.2,18.9,18.6,17.9,18.6,18.9,16.7,18.1,17.8,18.9,17,21.1,20,18.5,19.3,19.1,18,18.4,18.5,19.7,16.9,18.8,19,18.9,17.9,21.2,17.7,18.9,17.9,19.5,18.1,18.6,17.5,18.8,16.6,19.1,16.9,21.1,17,18.2,17.1,18,16.2,19.1,16.6,19.4,19,18.4,17.2,18.9,17.5,18.5,16.8,19.4,16.1,19.1,17.2,17.6,18.8,19.4,17.8,20.3,19.5,18.6,19.2,18.8,18,18.1,17.1,18.1,17.3,18.9,18.6,18.5,16.1,18.5,17.9,20,16,20,18.6,18.9,17.2,20,17,19,16.5,20.3,17.7,19.5,20.7,18.3,17,20.5,17,18.6,17.2,19.8,17,18.5,15.9,19,17.6,18.3,17.1,18,17.9,19.2,18.5,18.5,17.6,17.5,17.5,20.1,16.5,17.9,17.1,17.2,15.5,17,16.8,18.7,18.6,18.4,17.8,18.1,17.1,18.5],"text":["species: Adelie<br />bill_l: 39.1<br />bill_d: 18.7","species: Adelie<br />bill_l: 39.5<br />bill_d: 17.4","species: Adelie<br />bill_l: 40.3<br />bill_d: 18.0","species: Adelie<br />bill_l:   NA<br />bill_d:   NA","species: Adelie<br />bill_l: 36.7<br />bill_d: 19.3","species: Adelie<br />bill_l: 39.3<br />bill_d: 20.6","species: Adelie<br />bill_l: 38.9<br />bill_d: 17.8","species: Adelie<br />bill_l: 39.2<br />bill_d: 19.6","species: Adelie<br />bill_l: 34.1<br />bill_d: 18.1","species: Adelie<br />bill_l: 42.0<br />bill_d: 20.2","species: Adelie<br />bill_l: 37.8<br />bill_d: 17.1","species: Adelie<br />bill_l: 37.8<br />bill_d: 17.3","species: Adelie<br />bill_l: 41.1<br />bill_d: 17.6","species: Adelie<br />bill_l: 38.6<br />bill_d: 21.2","species: Adelie<br />bill_l: 34.6<br />bill_d: 21.1","species: Adelie<br />bill_l: 36.6<br />bill_d: 17.8","species: Adelie<br />bill_l: 38.7<br />bill_d: 19.0","species: Adelie<br />bill_l: 42.5<br />bill_d: 20.7","species: Adelie<br />bill_l: 34.4<br />bill_d: 18.4","species: Adelie<br />bill_l: 46.0<br />bill_d: 21.5","species: Adelie<br />bill_l: 37.8<br />bill_d: 18.3","species: Adelie<br />bill_l: 37.7<br />bill_d: 18.7","species: Adelie<br />bill_l: 35.9<br />bill_d: 19.2","species: Adelie<br />bill_l: 38.2<br />bill_d: 18.1","species: Adelie<br />bill_l: 38.8<br />bill_d: 17.2","species: Adelie<br />bill_l: 35.3<br />bill_d: 18.9","species: Adelie<br />bill_l: 40.6<br />bill_d: 18.6","species: Adelie<br />bill_l: 40.5<br />bill_d: 17.9","species: Adelie<br />bill_l: 37.9<br />bill_d: 18.6","species: Adelie<br />bill_l: 40.5<br />bill_d: 18.9","species: Adelie<br />bill_l: 39.5<br />bill_d: 16.7","species: Adelie<br />bill_l: 37.2<br />bill_d: 18.1","species: Adelie<br />bill_l: 39.5<br />bill_d: 17.8","species: Adelie<br />bill_l: 40.9<br />bill_d: 18.9","species: Adelie<br />bill_l: 36.4<br />bill_d: 17.0","species: Adelie<br />bill_l: 39.2<br />bill_d: 21.1","species: Adelie<br />bill_l: 38.8<br />bill_d: 20.0","species: Adelie<br />bill_l: 42.2<br />bill_d: 18.5","species: Adelie<br />bill_l: 37.6<br />bill_d: 19.3","species: Adelie<br />bill_l: 39.8<br />bill_d: 19.1","species: Adelie<br />bill_l: 36.5<br />bill_d: 18.0","species: Adelie<br />bill_l: 40.8<br />bill_d: 18.4","species: Adelie<br />bill_l: 36.0<br />bill_d: 18.5","species: Adelie<br />bill_l: 44.1<br />bill_d: 19.7","species: Adelie<br />bill_l: 37.0<br />bill_d: 16.9","species: Adelie<br />bill_l: 39.6<br />bill_d: 18.8","species: Adelie<br />bill_l: 41.1<br />bill_d: 19.0","species: Adelie<br />bill_l: 37.5<br />bill_d: 18.9","species: Adelie<br />bill_l: 36.0<br />bill_d: 17.9","species: Adelie<br />bill_l: 42.3<br />bill_d: 21.2","species: Adelie<br />bill_l: 39.6<br />bill_d: 17.7","species: Adelie<br />bill_l: 40.1<br />bill_d: 18.9","species: Adelie<br />bill_l: 35.0<br />bill_d: 17.9","species: Adelie<br />bill_l: 42.0<br />bill_d: 19.5","species: Adelie<br />bill_l: 34.5<br />bill_d: 18.1","species: Adelie<br />bill_l: 41.4<br />bill_d: 18.6","species: Adelie<br />bill_l: 39.0<br />bill_d: 17.5","species: Adelie<br />bill_l: 40.6<br />bill_d: 18.8","species: Adelie<br />bill_l: 36.5<br />bill_d: 16.6","species: Adelie<br />bill_l: 37.6<br />bill_d: 19.1","species: Adelie<br />bill_l: 35.7<br />bill_d: 16.9","species: Adelie<br />bill_l: 41.3<br />bill_d: 21.1","species: Adelie<br />bill_l: 37.6<br />bill_d: 17.0","species: Adelie<br />bill_l: 41.1<br />bill_d: 18.2","species: Adelie<br />bill_l: 36.4<br />bill_d: 17.1","species: Adelie<br />bill_l: 41.6<br />bill_d: 18.0","species: Adelie<br />bill_l: 35.5<br />bill_d: 16.2","species: Adelie<br />bill_l: 41.1<br />bill_d: 19.1","species: Adelie<br />bill_l: 35.9<br />bill_d: 16.6","species: Adelie<br />bill_l: 41.8<br />bill_d: 19.4","species: Adelie<br />bill_l: 33.5<br />bill_d: 19.0","species: Adelie<br />bill_l: 39.7<br />bill_d: 18.4","species: Adelie<br />bill_l: 39.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 45.8<br />bill_d: 18.9","species: Adelie<br />bill_l: 35.5<br />bill_d: 17.5","species: Adelie<br />bill_l: 42.8<br />bill_d: 18.5","species: Adelie<br />bill_l: 40.9<br />bill_d: 16.8","species: Adelie<br />bill_l: 37.2<br />bill_d: 19.4","species: Adelie<br />bill_l: 36.2<br />bill_d: 16.1","species: Adelie<br />bill_l: 42.1<br />bill_d: 19.1","species: Adelie<br />bill_l: 34.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 42.9<br />bill_d: 17.6","species: Adelie<br />bill_l: 36.7<br />bill_d: 18.8","species: Adelie<br />bill_l: 35.1<br />bill_d: 19.4","species: Adelie<br />bill_l: 37.3<br />bill_d: 17.8","species: Adelie<br />bill_l: 41.3<br />bill_d: 20.3","species: Adelie<br />bill_l: 36.3<br />bill_d: 19.5","species: Adelie<br />bill_l: 36.9<br />bill_d: 18.6","species: Adelie<br />bill_l: 38.3<br />bill_d: 19.2","species: Adelie<br />bill_l: 38.9<br />bill_d: 18.8","species: Adelie<br />bill_l: 35.7<br />bill_d: 18.0","species: Adelie<br />bill_l: 41.1<br />bill_d: 18.1","species: Adelie<br />bill_l: 34.0<br />bill_d: 17.1","species: Adelie<br />bill_l: 39.6<br />bill_d: 18.1","species: Adelie<br />bill_l: 36.2<br />bill_d: 17.3","species: Adelie<br />bill_l: 40.8<br />bill_d: 18.9","species: Adelie<br />bill_l: 38.1<br />bill_d: 18.6","species: Adelie<br />bill_l: 40.3<br />bill_d: 18.5","species: Adelie<br />bill_l: 33.1<br />bill_d: 16.1","species: Adelie<br />bill_l: 43.2<br />bill_d: 18.5","species: Adelie<br />bill_l: 35.0<br />bill_d: 17.9","species: Adelie<br />bill_l: 41.0<br />bill_d: 20.0","species: Adelie<br />bill_l: 37.7<br />bill_d: 16.0","species: Adelie<br />bill_l: 37.8<br />bill_d: 20.0","species: Adelie<br />bill_l: 37.9<br />bill_d: 18.6","species: Adelie<br />bill_l: 39.7<br />bill_d: 18.9","species: Adelie<br />bill_l: 38.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 38.2<br />bill_d: 20.0","species: Adelie<br />bill_l: 38.1<br />bill_d: 17.0","species: Adelie<br />bill_l: 43.2<br />bill_d: 19.0","species: Adelie<br />bill_l: 38.1<br />bill_d: 16.5","species: Adelie<br />bill_l: 45.6<br />bill_d: 20.3","species: Adelie<br />bill_l: 39.7<br />bill_d: 17.7","species: Adelie<br />bill_l: 42.2<br />bill_d: 19.5","species: Adelie<br />bill_l: 39.6<br />bill_d: 20.7","species: Adelie<br />bill_l: 42.7<br />bill_d: 18.3","species: Adelie<br />bill_l: 38.6<br />bill_d: 17.0","species: Adelie<br />bill_l: 37.3<br />bill_d: 20.5","species: Adelie<br />bill_l: 35.7<br />bill_d: 17.0","species: Adelie<br />bill_l: 41.1<br />bill_d: 18.6","species: Adelie<br />bill_l: 36.2<br />bill_d: 17.2","species: Adelie<br />bill_l: 37.7<br />bill_d: 19.8","species: Adelie<br />bill_l: 40.2<br />bill_d: 17.0","species: Adelie<br />bill_l: 41.4<br />bill_d: 18.5","species: Adelie<br />bill_l: 35.2<br />bill_d: 15.9","species: Adelie<br />bill_l: 40.6<br />bill_d: 19.0","species: Adelie<br />bill_l: 38.8<br />bill_d: 17.6","species: Adelie<br />bill_l: 41.5<br />bill_d: 18.3","species: Adelie<br />bill_l: 39.0<br />bill_d: 17.1","species: Adelie<br />bill_l: 44.1<br />bill_d: 18.0","species: Adelie<br />bill_l: 38.5<br />bill_d: 17.9","species: Adelie<br />bill_l: 43.1<br />bill_d: 19.2","species: Adelie<br />bill_l: 36.8<br />bill_d: 18.5","species: Adelie<br />bill_l: 37.5<br />bill_d: 18.5","species: Adelie<br />bill_l: 38.1<br />bill_d: 17.6","species: Adelie<br />bill_l: 41.1<br />bill_d: 17.5","species: Adelie<br />bill_l: 35.6<br />bill_d: 17.5","species: Adelie<br />bill_l: 40.2<br />bill_d: 20.1","species: Adelie<br />bill_l: 37.0<br />bill_d: 16.5","species: Adelie<br />bill_l: 39.7<br />bill_d: 17.9","species: Adelie<br />bill_l: 40.2<br />bill_d: 17.1","species: Adelie<br />bill_l: 40.6<br />bill_d: 17.2","species: Adelie<br />bill_l: 32.1<br />bill_d: 15.5","species: Adelie<br />bill_l: 40.7<br />bill_d: 17.0","species: Adelie<br />bill_l: 37.3<br />bill_d: 16.8","species: Adelie<br />bill_l: 39.0<br />bill_d: 18.7","species: Adelie<br />bill_l: 39.2<br />bill_d: 18.6","species: Adelie<br />bill_l: 36.6<br />bill_d: 18.4","species: Adelie<br />bill_l: 36.0<br />bill_d: 17.8","species: Adelie<br />bill_l: 37.8<br />bill_d: 18.1","species: Adelie<br />bill_l: 36.0<br />bill_d: 17.1","species: Adelie<br />bill_l: 41.5<br />bill_d: 18.5"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(255,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(255,0,0,1)"}},"hoveron":"points","name":"Adelie","legendgroup":"Adelie","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[46.5,50,51.3,45.4,52.7,45.2,46.1,51.3,46,51.3,46.6,51.7,47,52,45.9,50.5,50.3,58,46.4,49.2,42.4,48.5,43.2,50.6,46.7,52,50.5,49.5,46.4,52.8,40.9,54.2,42.5,51,49.7,47.5,47.6,52,46.9,53.5,49,46.2,50.9,45.5,50.9,50.8,50.1,49,51.5,49.8,48.1,51.4,45.7,50.7,42.5,52.2,45.2,49.3,50.2,45.6,51.9,46.8,45.7,55.8,43.5,49.6,50.8,50.2],"y":[17.9,19.5,19.2,18.7,19.8,17.8,18.2,18.2,18.9,19.9,17.8,20.3,17.3,18.1,17.1,19.6,20,17.8,18.6,18.2,17.3,17.5,16.6,19.4,17.9,19,18.4,19,17.8,20,16.6,20.8,16.7,18.8,18.6,16.8,18.3,20.7,16.6,19.9,19.5,17.5,19.1,17,17.9,18.5,17.9,19.6,18.7,17.3,16.4,19,17.3,19.7,17.3,18.8,16.6,19.9,18.8,19.4,19.5,16.5,17,19.8,18.1,18.2,19,18.7],"text":["species: Chinstrap<br />bill_l: 46.5<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 50.0<br />bill_d: 19.5","species: Chinstrap<br />bill_l: 51.3<br />bill_d: 19.2","species: Chinstrap<br />bill_l: 45.4<br />bill_d: 18.7","species: Chinstrap<br />bill_l: 52.7<br />bill_d: 19.8","species: Chinstrap<br />bill_l: 45.2<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 46.1<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 51.3<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 46.0<br />bill_d: 18.9","species: Chinstrap<br />bill_l: 51.3<br />bill_d: 19.9","species: Chinstrap<br />bill_l: 46.6<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 51.7<br />bill_d: 20.3","species: Chinstrap<br />bill_l: 47.0<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 52.0<br />bill_d: 18.1","species: Chinstrap<br />bill_l: 45.9<br />bill_d: 17.1","species: Chinstrap<br />bill_l: 50.5<br />bill_d: 19.6","species: Chinstrap<br />bill_l: 50.3<br />bill_d: 20.0","species: Chinstrap<br />bill_l: 58.0<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 46.4<br />bill_d: 18.6","species: Chinstrap<br />bill_l: 49.2<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 42.4<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 48.5<br />bill_d: 17.5","species: Chinstrap<br />bill_l: 43.2<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 50.6<br />bill_d: 19.4","species: Chinstrap<br />bill_l: 46.7<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 52.0<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 50.5<br />bill_d: 18.4","species: Chinstrap<br />bill_l: 49.5<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 46.4<br />bill_d: 17.8","species: Chinstrap<br />bill_l: 52.8<br />bill_d: 20.0","species: Chinstrap<br />bill_l: 40.9<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 54.2<br />bill_d: 20.8","species: Chinstrap<br />bill_l: 42.5<br />bill_d: 16.7","species: Chinstrap<br />bill_l: 51.0<br />bill_d: 18.8","species: Chinstrap<br />bill_l: 49.7<br />bill_d: 18.6","species: Chinstrap<br />bill_l: 47.5<br />bill_d: 16.8","species: Chinstrap<br />bill_l: 47.6<br />bill_d: 18.3","species: Chinstrap<br />bill_l: 52.0<br />bill_d: 20.7","species: Chinstrap<br />bill_l: 46.9<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 53.5<br />bill_d: 19.9","species: Chinstrap<br />bill_l: 49.0<br />bill_d: 19.5","species: Chinstrap<br />bill_l: 46.2<br />bill_d: 17.5","species: Chinstrap<br />bill_l: 50.9<br />bill_d: 19.1","species: Chinstrap<br />bill_l: 45.5<br />bill_d: 17.0","species: Chinstrap<br />bill_l: 50.9<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 50.8<br />bill_d: 18.5","species: Chinstrap<br />bill_l: 50.1<br />bill_d: 17.9","species: Chinstrap<br />bill_l: 49.0<br />bill_d: 19.6","species: Chinstrap<br />bill_l: 51.5<br />bill_d: 18.7","species: Chinstrap<br />bill_l: 49.8<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 48.1<br />bill_d: 16.4","species: Chinstrap<br />bill_l: 51.4<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 45.7<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 50.7<br />bill_d: 19.7","species: Chinstrap<br />bill_l: 42.5<br />bill_d: 17.3","species: Chinstrap<br />bill_l: 52.2<br />bill_d: 18.8","species: Chinstrap<br />bill_l: 45.2<br />bill_d: 16.6","species: Chinstrap<br />bill_l: 49.3<br />bill_d: 19.9","species: Chinstrap<br />bill_l: 50.2<br />bill_d: 18.8","species: Chinstrap<br />bill_l: 45.6<br />bill_d: 19.4","species: Chinstrap<br />bill_l: 51.9<br />bill_d: 19.5","species: Chinstrap<br />bill_l: 46.8<br />bill_d: 16.5","species: Chinstrap<br />bill_l: 45.7<br />bill_d: 17.0","species: Chinstrap<br />bill_l: 55.8<br />bill_d: 19.8","species: Chinstrap<br />bill_l: 43.5<br />bill_d: 18.1","species: Chinstrap<br />bill_l: 49.6<br />bill_d: 18.2","species: Chinstrap<br />bill_l: 50.8<br />bill_d: 19.0","species: Chinstrap<br />bill_l: 50.2<br />bill_d: 18.7"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,160,138,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,160,138,1)"}},"hoveron":"points","name":"Chinstrap","legendgroup":"Chinstrap","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[46.1,50,48.7,50,47.6,46.5,45.4,46.7,43.3,46.8,40.9,49,45.5,48.4,45.8,49.3,42,49.2,46.2,48.7,50.2,45.1,46.5,46.3,42.9,46.1,44.5,47.8,48.2,50,47.3,42.8,45.1,59.6,49.1,48.4,42.6,44.4,44,48.7,42.7,49.6,45.3,49.6,50.5,43.6,45.5,50.5,44.9,45.2,46.6,48.5,45.1,50.1,46.5,45,43.8,45.5,43.2,50.4,45.3,46.2,45.7,54.3,45.8,49.8,46.2,49.5,43.5,50.7,47.7,46.4,48.2,46.5,46.4,48.6,47.5,51.1,45.2,45.2,49.1,52.5,47.4,50,44.9,50.8,43.4,51.3,47.5,52.1,47.5,52.2,45.5,49.5,44.5,50.8,49.4,46.9,48.4,51.1,48.5,55.9,47.2,49.1,47.3,46.8,41.7,53.4,43.3,48.1,50.5,49.8,43.5,51.5,46.2,55.1,44.5,48.8,47.2,null,46.8,50.4,45.2,49.9],"y":[13.2,16.3,14.1,15.2,14.5,13.5,14.6,15.3,13.4,15.4,13.7,16.1,13.7,14.6,14.6,15.7,13.5,15.2,14.5,15.1,14.3,14.5,14.5,15.8,13.1,15.1,14.3,15,14.3,15.3,15.3,14.2,14.5,17,14.8,16.3,13.7,17.3,13.6,15.7,13.7,16,13.7,15,15.9,13.9,13.9,15.9,13.3,15.8,14.2,14.1,14.4,15,14.4,15.4,13.9,15,14.5,15.3,13.8,14.9,13.9,15.7,14.2,16.8,14.4,16.2,14.2,15,15,15.6,15.6,14.8,15,16,14.2,16.3,13.8,16.4,14.5,15.6,14.6,15.9,13.8,17.3,14.4,14.2,14,17,15,17.1,14.5,16.1,14.7,15.7,15.8,14.6,14.4,16.5,15,17,15.5,15,13.8,16.1,14.7,15.8,14,15.1,15.2,15.9,15.2,16.3,14.1,16,15.7,16.2,13.7,null,14.3,15.7,14.8,16.1],"text":["species: Gentoo<br />bill_l: 46.1<br />bill_d: 13.2","species: Gentoo<br />bill_l: 50.0<br />bill_d: 16.3","species: Gentoo<br />bill_l: 48.7<br />bill_d: 14.1","species: Gentoo<br />bill_l: 50.0<br />bill_d: 15.2","species: Gentoo<br />bill_l: 47.6<br />bill_d: 14.5","species: Gentoo<br />bill_l: 46.5<br />bill_d: 13.5","species: Gentoo<br />bill_l: 45.4<br />bill_d: 14.6","species: Gentoo<br />bill_l: 46.7<br />bill_d: 15.3","species: Gentoo<br />bill_l: 43.3<br />bill_d: 13.4","species: Gentoo<br />bill_l: 46.8<br />bill_d: 15.4","species: Gentoo<br />bill_l: 40.9<br />bill_d: 13.7","species: Gentoo<br />bill_l: 49.0<br />bill_d: 16.1","species: Gentoo<br />bill_l: 45.5<br />bill_d: 13.7","species: Gentoo<br />bill_l: 48.4<br />bill_d: 14.6","species: Gentoo<br />bill_l: 45.8<br />bill_d: 14.6","species: Gentoo<br />bill_l: 49.3<br />bill_d: 15.7","species: Gentoo<br />bill_l: 42.0<br />bill_d: 13.5","species: Gentoo<br />bill_l: 49.2<br />bill_d: 15.2","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.5","species: Gentoo<br />bill_l: 48.7<br />bill_d: 15.1","species: Gentoo<br />bill_l: 50.2<br />bill_d: 14.3","species: Gentoo<br />bill_l: 45.1<br />bill_d: 14.5","species: Gentoo<br />bill_l: 46.5<br />bill_d: 14.5","species: Gentoo<br />bill_l: 46.3<br />bill_d: 15.8","species: Gentoo<br />bill_l: 42.9<br />bill_d: 13.1","species: Gentoo<br />bill_l: 46.1<br />bill_d: 15.1","species: Gentoo<br />bill_l: 44.5<br />bill_d: 14.3","species: Gentoo<br />bill_l: 47.8<br />bill_d: 15.0","species: Gentoo<br />bill_l: 48.2<br />bill_d: 14.3","species: Gentoo<br />bill_l: 50.0<br />bill_d: 15.3","species: Gentoo<br />bill_l: 47.3<br />bill_d: 15.3","species: Gentoo<br />bill_l: 42.8<br />bill_d: 14.2","species: Gentoo<br />bill_l: 45.1<br />bill_d: 14.5","species: Gentoo<br />bill_l: 59.6<br />bill_d: 17.0","species: Gentoo<br />bill_l: 49.1<br />bill_d: 14.8","species: Gentoo<br />bill_l: 48.4<br />bill_d: 16.3","species: Gentoo<br />bill_l: 42.6<br />bill_d: 13.7","species: Gentoo<br />bill_l: 44.4<br />bill_d: 17.3","species: Gentoo<br />bill_l: 44.0<br />bill_d: 13.6","species: Gentoo<br />bill_l: 48.7<br />bill_d: 15.7","species: Gentoo<br />bill_l: 42.7<br />bill_d: 13.7","species: Gentoo<br />bill_l: 49.6<br />bill_d: 16.0","species: Gentoo<br />bill_l: 45.3<br />bill_d: 13.7","species: Gentoo<br />bill_l: 49.6<br />bill_d: 15.0","species: Gentoo<br />bill_l: 50.5<br />bill_d: 15.9","species: Gentoo<br />bill_l: 43.6<br />bill_d: 13.9","species: Gentoo<br />bill_l: 45.5<br />bill_d: 13.9","species: Gentoo<br />bill_l: 50.5<br />bill_d: 15.9","species: Gentoo<br />bill_l: 44.9<br />bill_d: 13.3","species: Gentoo<br />bill_l: 45.2<br />bill_d: 15.8","species: Gentoo<br />bill_l: 46.6<br />bill_d: 14.2","species: Gentoo<br />bill_l: 48.5<br />bill_d: 14.1","species: Gentoo<br />bill_l: 45.1<br />bill_d: 14.4","species: Gentoo<br />bill_l: 50.1<br />bill_d: 15.0","species: Gentoo<br />bill_l: 46.5<br />bill_d: 14.4","species: Gentoo<br />bill_l: 45.0<br />bill_d: 15.4","species: Gentoo<br />bill_l: 43.8<br />bill_d: 13.9","species: Gentoo<br />bill_l: 45.5<br />bill_d: 15.0","species: Gentoo<br />bill_l: 43.2<br />bill_d: 14.5","species: Gentoo<br />bill_l: 50.4<br />bill_d: 15.3","species: Gentoo<br />bill_l: 45.3<br />bill_d: 13.8","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.9","species: Gentoo<br />bill_l: 45.7<br />bill_d: 13.9","species: Gentoo<br />bill_l: 54.3<br />bill_d: 15.7","species: Gentoo<br />bill_l: 45.8<br />bill_d: 14.2","species: Gentoo<br />bill_l: 49.8<br />bill_d: 16.8","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.4","species: Gentoo<br />bill_l: 49.5<br />bill_d: 16.2","species: Gentoo<br />bill_l: 43.5<br />bill_d: 14.2","species: Gentoo<br />bill_l: 50.7<br />bill_d: 15.0","species: Gentoo<br />bill_l: 47.7<br />bill_d: 15.0","species: Gentoo<br />bill_l: 46.4<br />bill_d: 15.6","species: Gentoo<br />bill_l: 48.2<br />bill_d: 15.6","species: Gentoo<br />bill_l: 46.5<br />bill_d: 14.8","species: Gentoo<br />bill_l: 46.4<br />bill_d: 15.0","species: Gentoo<br />bill_l: 48.6<br />bill_d: 16.0","species: Gentoo<br />bill_l: 47.5<br />bill_d: 14.2","species: Gentoo<br />bill_l: 51.1<br />bill_d: 16.3","species: Gentoo<br />bill_l: 45.2<br />bill_d: 13.8","species: Gentoo<br />bill_l: 45.2<br />bill_d: 16.4","species: Gentoo<br />bill_l: 49.1<br />bill_d: 14.5","species: Gentoo<br />bill_l: 52.5<br />bill_d: 15.6","species: Gentoo<br />bill_l: 47.4<br />bill_d: 14.6","species: Gentoo<br />bill_l: 50.0<br />bill_d: 15.9","species: Gentoo<br />bill_l: 44.9<br />bill_d: 13.8","species: Gentoo<br />bill_l: 50.8<br />bill_d: 17.3","species: Gentoo<br />bill_l: 43.4<br />bill_d: 14.4","species: Gentoo<br />bill_l: 51.3<br />bill_d: 14.2","species: Gentoo<br />bill_l: 47.5<br />bill_d: 14.0","species: Gentoo<br />bill_l: 52.1<br />bill_d: 17.0","species: Gentoo<br />bill_l: 47.5<br />bill_d: 15.0","species: Gentoo<br />bill_l: 52.2<br />bill_d: 17.1","species: Gentoo<br />bill_l: 45.5<br />bill_d: 14.5","species: Gentoo<br />bill_l: 49.5<br />bill_d: 16.1","species: Gentoo<br />bill_l: 44.5<br />bill_d: 14.7","species: Gentoo<br />bill_l: 50.8<br />bill_d: 15.7","species: Gentoo<br />bill_l: 49.4<br />bill_d: 15.8","species: Gentoo<br />bill_l: 46.9<br />bill_d: 14.6","species: Gentoo<br />bill_l: 48.4<br />bill_d: 14.4","species: Gentoo<br />bill_l: 51.1<br />bill_d: 16.5","species: Gentoo<br />bill_l: 48.5<br />bill_d: 15.0","species: Gentoo<br />bill_l: 55.9<br />bill_d: 17.0","species: Gentoo<br />bill_l: 47.2<br />bill_d: 15.5","species: Gentoo<br />bill_l: 49.1<br />bill_d: 15.0","species: Gentoo<br />bill_l: 47.3<br />bill_d: 13.8","species: Gentoo<br />bill_l: 46.8<br />bill_d: 16.1","species: Gentoo<br />bill_l: 41.7<br />bill_d: 14.7","species: Gentoo<br />bill_l: 53.4<br />bill_d: 15.8","species: Gentoo<br />bill_l: 43.3<br />bill_d: 14.0","species: Gentoo<br />bill_l: 48.1<br />bill_d: 15.1","species: Gentoo<br />bill_l: 50.5<br />bill_d: 15.2","species: Gentoo<br />bill_l: 49.8<br />bill_d: 15.9","species: Gentoo<br />bill_l: 43.5<br />bill_d: 15.2","species: Gentoo<br />bill_l: 51.5<br />bill_d: 16.3","species: Gentoo<br />bill_l: 46.2<br />bill_d: 14.1","species: Gentoo<br />bill_l: 55.1<br />bill_d: 16.0","species: Gentoo<br />bill_l: 44.5<br />bill_d: 15.7","species: Gentoo<br />bill_l: 48.8<br />bill_d: 16.2","species: Gentoo<br />bill_l: 47.2<br />bill_d: 13.7","species: Gentoo<br />bill_l:   NA<br />bill_d:   NA","species: Gentoo<br />bill_l: 46.8<br />bill_d: 14.3","species: Gentoo<br />bill_l: 50.4<br />bill_d: 15.7","species: Gentoo<br />bill_l: 45.2<br />bill_d: 14.8","species: Gentoo<br />bill_l: 49.9<br />bill_d: 16.1"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(242,173,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(242,173,0,1)"}},"hoveron":"points","name":"Gentoo","legendgroup":"Gentoo","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":21.8447488584475,"r":7.30593607305936,"b":35.7990867579909,"l":48.9497716894977},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[30.725,60.975],"tickmode":"array","ticktext":["40","50","60"],"tickvals":[40,50,60],"categoryorder":"array","categoryarray":["40","50","60"],"nticks":null,"ticks":"outside","tickcolor":"rgba(179,179,179,1)","ticklen":3.65296803652968,"tickwidth":0.33208800332088,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(222,222,222,1)","gridwidth":0.33208800332088,"zeroline":false,"anchor":"y","title":{"text":"Bill length in mm","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[12.68,21.92],"tickmode":"array","ticktext":["15.0","17.5","20.0"],"tickvals":[15,17.5,20],"categoryorder":"array","categoryarray":["15.0","17.5","20.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(179,179,179,1)","ticklen":3.65296803652968,"tickwidth":0.33208800332088,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(222,222,222,1)","gridwidth":0.33208800332088,"zeroline":false,"anchor":"x","title":{"text":"Bill depth in mm","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(179,179,179,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.913385826771654},"annotations":[{"text":"Species","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"1553e619649":{"colour":{},"x":{},"y":{},"type":"scatter"}},"cur_data":"1553e619649","visdat":{"1553e619649":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 
 ---
 

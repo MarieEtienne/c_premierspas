@@ -1728,7 +1728,7 @@ template: manip_tidy
 ### Exercice
 
 
-- Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
+- Pour chaque site et chaque arbre, donner le nombre de samares échantillonnés et leur poids moyen.
 - Pour chaque site, donner le nombre d'arbres échantillonnés.
 
 
@@ -1741,7 +1741,7 @@ template: manip_tidy
 ### Solution
 
 
-* Pour chaque site et chaque arbre, donner le nombre de samares échantillonés et leur poids moyen.
+* Pour chaque site et chaque arbre, donner le nombre de samares échantillonnés et leur poids moyen.
 
 
 ```r
@@ -2069,7 +2069,7 @@ template: manip_tidy
 
 **arrange**
 
-Trier par ordre croissant de largeur
+* Trier par ordre croissant de largeur
 
 
 ```r
@@ -2098,7 +2098,7 @@ template: manip_tidy
 
 **arrange**
 
-* Trier par ordre décroissant de larheur
+* Trier par ordre décroissant de largeur
 
 
 
@@ -2162,9 +2162,9 @@ template: manip_tidy
 
 ### Exercice
 * Sélectionner toutes les observations du site Gornies
-* Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais le longueur inférieure à 2.32
+* Sélectionner toutes les observations correspondantes à des largeurs supérieures à 0.45 mais de longueur inférieure à 2.32
 * Sélectionner toutes les observations qui ne proviennent ni du site `Gornies` ni du site `StEtienne`.
-* Compter pour chaque site le nombre de samares ayant une largeur inférieur à 0.37 et une longueur supérieure à 0.7
+* Compter pour chaque site le nombre de samares ayant une largeur inférieure à 0.37 et une longueur supérieure à 0.7.
 
 ---
 template: manip_tidy 
@@ -2384,17 +2384,17 @@ template: manip_tidy
 
 Créer un fichier Rmarkdown qui réalise les tâches suivantes 
 
-** Importer le jeu de données sur la [biomasse](https://marieetienne.github.io/datasets/Biomass_diversity.csv) et le stocker dans une variable biomasse_dta
+* Importer le jeu de données sur la [biomasse](https://marieetienne.github.io/datasets/Biomass_diversity.csv) et le stocker dans une variable biomasse_dta
 
-** Calculer le nombre d'années de mesures de rendement par pays et par années
+* Calculer le nombre d'années de mesures de rendement par pays et par années
 
-** Calculer le rendement moyen par pays et par année
+* Calculer le rendement moyen par pays et par année
 
-** Créer une table `biomass_france` ne contenant que les données des expériences en France
+* Créer une table `biomass_france` ne contenant que les données des expériences en France
 
-** Créer une table `biomass_france_post2005`  contenant les données des expériences en France en 2005 ou 2006 
+* Créer une table `biomass_france_post2005`  contenant les données des expériences en France en 2005 ou 2006 
 
-** (plus dur) Compter le nombre d'années de mesure par pays 
+* (plus dur) Compter le nombre d'années de mesure par pays 
 
 
 
@@ -2413,8 +2413,15 @@ Créer un fichier Rmarkdown qui réalise les tâches suivantes
 ## )
 ```
 
+```
+## `summarise()` has grouped output by 'COUNTRY'. You can override using the `.groups` argument.
+```
 
 
+
+
+
+---
 
 count: false
  
@@ -2869,6 +2876,14 @@ Une jolie visualisation de l'opération de pivotage  est disponible sur [cette p
 
 
 
+```r
+SamaresEq_readr %&gt;% 
+  select(NomSite, Arbre, Poids) %&gt;% 
+  group_by(NomSite, Arbre) %&gt;% 
+  mutate(nSamares = 1:n()) %&gt;% 
+  pivot_wider(names_from = nSamares, values_from = Poids, names_prefix = "nSam") -&gt; 
+  SamaresEq_wide
+```
 
 ---
 
@@ -3105,8 +3120,8 @@ Une jolie visualisation de l'opération de pivotage  est disponible sur [cette p
 
 
 
----
 
+---
 count: false
  
 
