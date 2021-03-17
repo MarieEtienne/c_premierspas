@@ -31,6 +31,7 @@ BibOptions(check.entries = FALSE,
            style = "markdown",
            hyperlink = FALSE,
            dashed = FALSE)
+knitr::opts_chunk$set(out.width = '50%', fig.align = 'center')
 myBib <- ReadBib('bibliography.bib', check = FALSE)
 with_sol <- TRUE ## in order to control the output
 with_course <- TRUE
@@ -56,8 +57,7 @@ template: intro
 <br>
 
 <audio controls>
-  <source src="resources/audio/2020_10_27_Constance_Par_Jupiter.mp3" type="audio/mpeg">
-  <source src="2020_10_27_Constance_Par_Jupiter" type="audio/ogg"/>
+  <source src="../resources/audio/2020_10_27_Constance_Par_Jupiter.mp3" type="audio/ogg"/>
 </audio>
 
 ---
@@ -65,7 +65,7 @@ template: intro
 
 ## Un exemple inspirant : le réchauffement climatique en une image 
 
-```{r le_monde_graph, eval = TRUE, echo = FALSE, out.height = '50%'}
+```{r le_monde_graph, eval = TRUE, echo = FALSE, out.width= '46%', fig.align = "center"}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"lemonde_rechauffement.png"))
 ```
@@ -85,7 +85,7 @@ template: intro
 
 - [Le pourcentage de fumeurs aux Pays-Bas](https://viz.wtf/image/630887965804150786)
 
-```{r smockers, eval = TRUE, echo = FALSE, out.height = '50%'}
+```{r smockers, eval = TRUE, echo = FALSE}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"smockers.png"))
 ```
@@ -100,7 +100,7 @@ count: false
 - [Le Tumblr WTFViz](https://viz.wtf/)
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 
-```{r gf, eval = TRUE, echo = FALSE, out.height = '50%'}
+```{r gf, eval = TRUE, echo = FALSE}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"corona_gf.png"))
 ```
@@ -116,7 +116,7 @@ count: false
 - [Probabilité d'infection par le coronavirus par G. Forestier](https://i.redd.it/b3vvel2xtsv51.jpg)
 - [Le coronavirus par Jean Castex](https://www.ouest-france.fr/sante/virus/coronavirus/covid-19-couvre-feu-que-voulaient-dire-les-droles-de-graphiques-montres-par-jean-castex-7016245)
 
-```{r jc, eval = TRUE, echo = FALSE, out.height = '50%'}
+```{r jc, eval = TRUE, echo = FALSE, fig.caption = 'Présentation evolution COVID19 le 14 octobre 2020 par J. Castex'}
 # All defaults
 knitr::include_graphics(file.path(course_img_dir,"corona_j_castex.png"))
 ```
@@ -154,7 +154,7 @@ template: intro
 - [Don’t cha wish your ggplot had colours like me?](https://www.dataembassy.co.nz/Liza-colours-in-R#22)
 - [Valoriser ses données avec R](https://mtes-mct.github.io/parcours-r/m5/) (formation du  Ministere de la Transition Écologique et Solidaire (MTES)  et du Ministère de la Cohésion des Territoires et des relations avec les collectivités territoriales (MCTRCT))
 
-```{r graph_bib, out.height = "150px", eval = TRUE, echo = FALSE}
+```{r graph_bib, out.height = "150px", eval = TRUE, echo = FALSE, out.width='250px'}
 book1 <- ggdraw() + draw_image("https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png")
 book2 <-  ggdraw() + draw_image("http://www.cookbook-r.com/r_graphics_cookbook.png")
 book3 <-  ggdraw() + draw_image("https://geocompr.robinlovelace.net/images/cover.png")
@@ -189,10 +189,10 @@ gg stands for Grammar of Graphics  and  ggplot2  is *based on the Grammar of Gra
 *The combination of these independent components are what make up a graphic.*  `r Citep(myBib, "ickham2016ggplot2")`.
 
 
-For coherence, we will make use of the `tidyverse` suite. 
 
 ```{r load_tidyverse, message = FALSE, eval = TRUE, echo = TRUE}
 library(tidyverse)
+library(ggplot2)
 ```
 
 
@@ -237,7 +237,6 @@ penguins %>%
 
 
 ```{r show_data_palmer, eval = TRUE, echo = TRUE}
-
 penguins %>%
   group_by(species, sex, year, island) %>%
   mutate(n = n()) %>%
@@ -247,12 +246,69 @@ penguins %>%
 
 
 ---
- 
-# Simple plots 
+name: simple
+# Des graphiques simples
 
 ---
-name: scatter_slide
-## A scatter plot
+template: simple
+## Un histogramme
+
+*pour visualiser la distribution des valeurs*. L'ordonnée porte sur les comptages dans chaque classe de valeurs.
+
+
+```{r simple_hist, eval = FALSE, echo = FALSE, out.width = '60%'}
+penguins %>%
+  ggplot() + 
+  aes(x = bill_l) + 
+  geom_histogram() 
+```
+
+
+```{r simple_hist, eval = TRUE, echo = TRUE, out.width = '30%'}
+```
+
+
+
+---
+
+`r chunk_reveal("simple_hist", break_type = "auto")`
+
+---
+template: simple
+## Un histogramme
+
+pour visualiser la distribution des valeurs. L'ordonnée porte sur la fréquence dans chaque classe de valeurs.
+
+```{r simple_hist_dens, eval = FALSE, echo = FALSE, out.width = '60%'}
+penguins %>%
+  ggplot() + 
+  aes(x = bill_l) + 
+  geom_histogram() +
+  aes(y = ..density..)
+```
+
+---
+
+`r chunk_reveal("simple_hist_dens", break_type = "auto")`
+
+
+---
+template: simple
+## Un histogramme
+
+pour visualiser la distribution des valeurs. L'ordonnée porte sur la fréquence dans chaque classe de valeurs.
+
+```{r simple_hist_dens_simple, eval = TRUE, echo = TRUE, out.width = '30%'}
+penguins %>%
+  ggplot() + 
+  geom_histogram(aes(x= bill_l, y = ..density..))
+```
+---
+template: simple
+
+## Un nuage de points (scatter plot)
+
+*pour  visualiser le lien entre deux variables quantitatives*.
 
 ```{r simple_scatter, eval = FALSE, echo = FALSE, message = FALSE}
 penguins %>% 
@@ -261,15 +317,41 @@ penguins %>%
   geom_point()
 ```
 
+```{r simple_scatter, eval = TRUE, echo = TRUE, message = FALSE, out.width = '30%'}
+```
+
+
 ---
 
 `r chunk_reveal("simple_scatter", break_type = "auto")`
 
 ---
-template: scatter_slide
-count: false
+template: simple
 
-## with colors 
+## Des boîtes à moustache 
+
+pour visualiser le lien entre une variable qualitative et une variable quantitative
+
+```{r simple_boxplot, eval = FALSE, echo = FALSE, message = FALSE}
+penguins %>% 
+  ggplot() + 
+  aes( x= species, y=bill_d) + 
+  geom_boxplot()
+```
+```{r simple_boxplot, eval = TRUE, echo = TRUE, message = FALSE, out.width = '30%'}
+```
+
+---
+
+`r chunk_reveal("simple_boxplot", break_type = "auto")`
+
+---
+name: color
+# Enrichir les graphiques avec la couleur
+
+---
+template: color
+## Ajouter une information de groupes sur un nuage de points
 
 ```{r scatter_plot_species, eval = FALSE, echo = FALSE, message = FALSE}
 penguins %>% 
@@ -282,6 +364,16 @@ penguins %>%
 ---
 
 `r chunk_reveal("scatter_plot_species", break_type = "user")`
+
+---
+template: color
+## Ajouter une information de groupes sur un histogramme
+
+
+```{r hist_color_stack, eval = FALSE, echo = FALSE, out.width = '60%'}
+penguins %>%
+  ggplot() + aes(x = bill_l, fill = species) + geom_histogram() 
+```
 
 ---
 template: scatter_slide
@@ -596,7 +688,7 @@ penguins %>%
 # Many other type of plots 
 
 
-```{r simple_hist, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r simple_hist_min, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%
   ggplot() + aes(x = bill_l) + geom_histogram(position = 'identity') +
   labs( x = 'Bill length in mm') +
@@ -620,7 +712,7 @@ Add the color according to species and use the `Zissou1` palette from `wesanders
 ---
 
 
-```{r color_hist_cor, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r color_hist_cor_comp, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%
   ggplot() + aes(x = bill_l, fill = species) + geom_histogram() +
   labs( x = 'Bill length in mm') +
@@ -628,7 +720,7 @@ penguins %>%
 ```
 
 
-`r chunk_reveal("color_hist_cor", break_type = "auto")`
+`r chunk_reveal("color_hist_cor_comp", break_type = "auto")`
 
 ---
 
@@ -831,7 +923,7 @@ name: gganimate
 The `gganimate`  package produces animated graph (html only).
 
 
-```{r ani_final, eval = T, echo = T, out.width = '60%'}
+```{r ani_final, eval = F, echo = T, out.width = '60%'}
 library(gganimate)
 gg  +
   transition_states(year)  +
