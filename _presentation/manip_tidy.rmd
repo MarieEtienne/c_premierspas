@@ -560,7 +560,6 @@ biomass_dta %>%
 ```
 
 ```{r biomass-sol1, echo = FALSE, results='hide'}
-biomass_dta <- read_csv("https://marieetienne.github.io/datasets/Biomass_diversity.csv")
 ```
 
 
