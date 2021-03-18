@@ -16,6 +16,8 @@ RUN R -e "install.packages('GGally')"
 RUN R -e "install.packages('gganimate')"
 RUN R -e "install.packages('plotly')"
 RUN R -e "install.packages('magick')"
+RUN R -e "install.packages('pagedown')"
+
 
 
 
