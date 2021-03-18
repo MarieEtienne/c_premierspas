@@ -256,7 +256,7 @@ template: simple
 *pour visualiser la distribution des valeurs*. L'ordonnée porte sur les comptages dans chaque classe de valeurs.
 
 
-```{r simple_hist, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r simple_hist, eval = FALSE, echo = FALSE }
 penguins %>%
   ggplot() + 
   aes(x = bill_l) + 
@@ -279,7 +279,7 @@ template: simple
 
 pour visualiser la distribution des valeurs. L'ordonnée porte sur la fréquence dans chaque classe de valeurs.
 
-```{r simple_hist_dens, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r simple_hist_dens, eval = FALSE, echo = FALSE }
 penguins %>%
   ggplot() + 
   aes(x = bill_l) + 
@@ -350,16 +350,16 @@ penguins %>%
 template: simple
 ## Garder un dessin pour l'enrichir plus tard
 
-```{r gg_save, eval = FALSE, echo = FALSE, message = FALSE, , out.width = '60%'}
+```{r gg_save, eval = FALSE, echo = FALSE, message = FALSE, out.height = '20%' }
 gg <- penguins %>%
   ggplot() + 
   aes(x = bill_l) + 
   geom_histogram() 
-gg
-gg + aes(y = ..density..)
+gg + 
+  aes(y = ..density..)
 ```
 
-```{r gg_save, eval = FALSE, echo = TRUE, message = FALSE, , out.width = '60%'}
+```{r gg_save, eval = FALSE, echo = TRUE, message = FALSE}  
 ```
 
 ---
@@ -372,7 +372,7 @@ gg + aes(y = ..density..)
 template: simple
 ## Garder un dessin pour l'enrichir plus tard
 
-```{r gg1_save, eval = FALSE, echo = FALSE, message = FALSE, , out.width = '60%'}
+```{r gg1_save, eval = FALSE, echo = FALSE, message = FALSE}
 gg <- penguins %>% 
   ggplot() +
   aes( x= bill_l, y=bill_d) +
@@ -382,7 +382,7 @@ gg <- gg +
 print(gg)
 ```
 
-```{r gg1_save, eval = TRUE, echo = TRUE, message = FALSE, results='hide', out.width = '60%'}
+```{r gg1_save, eval = TRUE, echo = TRUE, message = FALSE, results='hide' }
 ```
 
 ---
@@ -418,14 +418,14 @@ template: color
 ## Ajouter une information de groupes sur un histogramme
 
 
-```{r hist_color_stack, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r hist_color_stack, eval = FALSE, echo = FALSE }
 penguins %>%
   ggplot() + aes(x = bill_l, fill = species) + 
   geom_histogram() 
 ```
 
 
-```{r hist_color_stack, eval = FALSE, echo = TRUE, out.width = '60%'}
+```{r hist_color_stack, eval = FALSE, echo = TRUE }
 ```
 
 
@@ -440,14 +440,14 @@ template: color
 
 Attention les couleurs représentent la part de chaque groupe dans la barre de l'histogramme.
 
-```{r hist_color_stack, eval = TRUE, echo = TRUE, out.width = '30%'}
+```{r hist_color_stack, eval = TRUE, echo = TRUE, out.width = '20%', out.height = '30%', warning = FALSE, message=FALSE}
 ```
 
 --
 
 On peut vouloir faire 3 histogrammes différents
 
-```{r hist_color_diff, eval = FALSE, echo = FALSE, out.width = '30%'}
+```{r hist_color_diff, eval = FALSE, echo = FALSE, out.width = '20%', out.height = '30%', message=FALSE}
 penguins %>%
   ggplot() + aes(x = bill_l, fill = species) + 
   geom_histogram(position = 'identity') 
@@ -472,7 +472,7 @@ template: color
 
 ---
 
-```{r scatter_viridis, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r scatter_viridis, eval = FALSE, echo = FALSE }
 gg + 
   scale_color_viridis_d()
 ```
@@ -493,12 +493,12 @@ color_darj <- wesanderson::wes_palette(name = "Darjeeling1")
 
 
 
-```{r scatter_wesanderson, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r scatter_wesanderson, eval = FALSE, echo = FALSE }
 gg + 
   scale_color_manual(values = color_darj)
 ```
 
-```{r scatter_wesanderson, eval = FALSE, echo = TRUE, out.width = '60%'}
+```{r scatter_wesanderson, eval = FALSE, echo = TRUE }
 ```
 
 ---
@@ -515,7 +515,7 @@ template: color
 
 --
 
-```{r exo_relation_cor, eval =  FALSE, echo = with_sol, out.width = '60%'}
+```{r exo_relation_cor, eval =  FALSE, echo = with_sol }
 penguins %>% ggplot() +
   aes(x= bm, y = flip_l) + 
   geom_point() + 
@@ -546,14 +546,14 @@ template: pimp
 template: pimp
 ## Des annotations choisies
 
-```{r scatter_labels_gg, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r scatter_labels_gg, eval = TRUE, echo = TRUE }
 gg <- gg + scale_color_manual(values = color_darj) 
 ```
 
 
 ---
 
-```{r scatter_labels, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r scatter_labels, eval = FALSE, echo = FALSE }
 gg  +
   labs( x = 'Bill length in mm') +
   labs(y = 'Bill depth in mm') +
@@ -568,7 +568,7 @@ template: pimp
 ## Choisir le theme
 
 
-```{r scatter_themelight, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r scatter_themelight, eval = FALSE, echo = FALSE }
 gg  +
   labs( x = 'Bill length in mm') +
   labs(y = 'Bill depth in mm') +
@@ -576,7 +576,7 @@ gg  +
   theme_light() #BREAK
 ```
 
-```{r scatter_themelight, eval = FALSE, echo = TRUE, out.width = '60%'}
+```{r scatter_themelight, eval = FALSE, echo = TRUE }
 ```
 
 ---
@@ -591,7 +591,7 @@ count: false
 template: pimp
 ## Choisir le theme
 
-```{r scatter_thememinimal, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r scatter_thememinimal, eval = FALSE, echo = FALSE }
 gg + scale_color_manual(values = color_darj) +
   labs( x = 'Bill length in mm',  
         y = 'Bill depth in mm',  color = "Species") +
@@ -599,7 +599,7 @@ gg + scale_color_manual(values = color_darj) +
   theme_minimal() #BREAK 
 ```
 
-```{r scatter_thememinimal, eval = FALSE, echo = TRUE, out.width = '60%'}
+```{r scatter_thememinimal, eval = FALSE, echo = TRUE }
 ```
 
 ---
@@ -612,7 +612,7 @@ template: pimp
 
 Si on est heureux de notre graphique, on le garde
 
-```{r scatter_set_theme, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r scatter_set_theme, eval = TRUE, echo = TRUE }
 gg <- gg + scale_color_manual(values = color_darj) +
   labs( x = 'Bill length in mm',  y = 'Bill depth in mm',  color = "Species") +
   theme_light()
@@ -624,13 +624,13 @@ template: pimp
 
 The default theme might not be the best option
 
-```{r preset_theme, eval = TRUE, echo = FALSE, out.width = '50%'}
+```{r preset_theme, eval = TRUE, echo = FALSE, out.width = '30%', out.height = '50%'}
 gg
 ```
 
 ---
 
-```{r scatter_below, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r scatter_below, eval = FALSE, echo = FALSE }
 gg + 
   theme(legend.position="bottom")
 ```
@@ -645,7 +645,7 @@ template: pimp
 The legend position can also be specified by a vector ` c(x,y)`.  Their values should be between 0 and 1. c(0,0) corresponds to the “bottom left” and c(1,1) corresponds to the “top right” position. We may want to change the size.
 
 
-```{r scatter_within, eval = TRUE, echo = TRUE}
+```{r scatter_within, eval = TRUE, echo = TRUE, out.width = '30%', out.height = '50%'}
 gg + 
   theme(legend.position=c(.9, .6))
 ```
@@ -693,7 +693,7 @@ template: stat
 ---
 
 
-```{r stat_info_lm, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r stat_info_lm, eval = FALSE, echo = FALSE, message = FALSE, warning = FALSE}
 gg + 
   geom_smooth(method = 'lm', se = FALSE) +
   geom_smooth(method = 'loess', se = TRUE)
@@ -706,7 +706,7 @@ gg +
 
 ---
 template: stat
-## Exercise
+## Exercice
 
 * Proposer un joli graphique pour visualiser la relation entre la longueur de l'aile et le poids. 
 * Illustrer les changements potentiels au cours du temps ?
@@ -716,7 +716,7 @@ template: stat
 
 --
 
-```{r exo_relation_cor2, eval =  TRUE, echo = with_sol, out.width = '60%'}
+```{r exo_relation_cor2, eval =  TRUE, echo = with_sol, out.width = '30%', out.height = '50%', warning=FALSE, message = FALSE} 
 penguins %>% ggplot() + 
   aes(x= bm, y = flip_l, col = as_factor(year) ) + 
   geom_point() + geom_smooth(method = 'lm') +
@@ -734,7 +734,7 @@ template: autres
 ## Comparing plots
 
 
-```{r color_hist_facet, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r color_hist_facet, eval = FALSE, echo = FALSE }
 penguins %>%
   ggplot() + aes(x = bill_l, fill = species) + 
   geom_histogram() +
@@ -759,7 +759,7 @@ Change the previous graph to add a fitted density line
 
 
 
-```{r color_hist_dens_cor, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r color_hist_dens_cor, eval = FALSE, echo = FALSE }
 
  penguins %>%  ggplot() + aes(x = bill_l, y = ..density..) +
   facet_wrap(~species) + 
@@ -799,7 +799,7 @@ template: autres
 
 ## des boxplots originaux, qui font apparaître les valeurs
 
-```{r color_boxplot_3, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r color_boxplot_3, eval = FALSE, echo = FALSE }
 penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
   geom_boxplot(alpha=0.5, aes( fill = species)) +
   geom_jitter(color="black", size=0.4, alpha=0.8) +
@@ -807,21 +807,21 @@ penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
   scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) 
 ```
 
-```{r color_boxplot_3, eval = FALSE, echo = TRUE, out.width = '60%'}
+```{r color_boxplot_3, eval = FALSE, echo = TRUE }
 ```
 
 ---
 `r chunk_reveal("color_boxplot_3", break_type = "user")`
 
----
+
 
 ---
 template: autres
 
-# Handling superscript and subscript
+## Gérer les indices et les exposants
 
 
-```{r color_boxplot_sup_sub, echo = TRUE, eval = TRUE, out.width = '60%'}
+```{r color_boxplot_sup_sub, echo = TRUE, eval = TRUE, out.width = '30%', out.height = '50%'}
 penguins %>%  mutate(mu = bill_l * bill_d) %>% 
   ggplot() + aes(y= mu ) +
   geom_boxplot(alpha=0.5, aes( fill = species)) +
@@ -841,7 +841,7 @@ The `ggpubr`  package is very helpful for publication.
 ---
 template: useful_package
 
-```{r ggpubr_p1, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r ggpubr_p1, eval = TRUE, echo = TRUE, out.width = '30%', out.height = '50%' }
 gg_p1 <- gg
 gg_p1
 ``` 
@@ -851,7 +851,7 @@ gg_p1
 template: useful_package
 
 
-```{r ggpubr_p2, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r ggpubr_p2, eval = TRUE, echo = TRUE, out.width = '30%', out.height = '50%'}
 gg_p2 <- penguins %>%
   ggplot()  + aes(x = bill_l, y = ..density..) + geom_histogram(alpha=0.5, aes( fill = species)) +
    geom_density(aes(col = species)) +
@@ -865,7 +865,7 @@ gg_p2
 ---
 template: useful_package
 
-```{r ggpubr_p3, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r ggpubr_p3, eval = TRUE, echo = TRUE, out.width = '30%', out.height = '50%'}
 ##install.packages('ggpubr')
 ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1)
 ```
@@ -873,7 +873,7 @@ ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1)
 ---
 template: useful_package
 
-```{r ggpubr_p4, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r ggpubr_p4, eval = TRUE, echo = TRUE, out.width = '30%', out.height = '50%'}
 ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1, common.legend = TRUE)
 ```
 
@@ -888,7 +888,7 @@ The `GGally`  package contains plenty of very useful and nice functions
 template: bivariate_explore
 count: false
 
-```{r ggpairs, eval = TRUE, echo = TRUE}
+```{r ggpairs, eval = TRUE, echo = TRUE, message = FALSE, warning=FALSE, comment=FALSE, out.with = '40%', out.height = '30%'}
 ##install.packages('GGally')
 library(GGally)
 penguins %>% ggpairs(columns = c(1,3,4,5), mapping = aes(col = species)) +
@@ -900,7 +900,7 @@ scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) + theme(text
 template: bivariate_explore
 count: false
 
-```{r ggpairs_fancy, eval = TRUE, echo = TRUE}
+```{r ggpairs_fancy, eval = TRUE, echo = TRUE,message = FALSE, warning=FALSE, comment=FALSE, out.with = '40%', out.height = '30%'}
 penguins %>% ggpairs(columns = c(1,3,4,5), mapping = aes(col = species),
                      upper = list(continuous = wrap( "cor",size = 2)),
                      lower = list(continuous = wrap('points', size = .5))) +
@@ -917,7 +917,7 @@ name: gganimate
 The `gganimate`  package produces animated graph (html only).
 
 
-```{r ani_final, eval = F, echo = T, out.width = '60%'}
+```{r ani_final, eval = TRUE, echo = TRUE, message = FALSE, warning=FALSE, comment=FALSE, out.with = '40%', out.height = '30%'}
 library(gganimate)
 gg  +
   transition_states(year)  +
@@ -936,7 +936,7 @@ name: plotly
 The `plotly`  package produces interactive plots  (html only).
 
 
-```{r plotly, eval = T, echo = T, fig.height=5, fig.width=4}
+```{r plotly, eval = T, echo = T, , out.with = '40%', out.height = '30%'}
 library(plotly)
 gg  %>%  ggplotly()
 ```
@@ -953,6 +953,6 @@ gg  %>%  ggplotly()
 # References
 
 
-```{r refs, echo=FALSE, results="asis", eval = TRUE, cache = FALSE, out.width = '60%'}
+```{r refs, echo=FALSE, results="asis", eval = TRUE, cache = FALSE }
 PrintBibliography(myBib)
 ```
