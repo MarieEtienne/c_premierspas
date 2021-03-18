@@ -346,6 +346,51 @@ penguins %>%
 `r chunk_reveal("simple_boxplot", break_type = "auto")`
 
 ---
+
+template: simple
+## Garder un dessin pour l'enrichir plus tard
+
+```{r gg_save, eval = FALSE, echo = FALSE, message = FALSE, , out.width = '60%'}
+gg <- penguins %>%
+  ggplot() + 
+  aes(x = bill_l) + 
+  geom_histogram() 
+gg
+gg + aes(y = ..density..)
+```
+
+```{r gg_save, eval = FALSE, echo = TRUE, message = FALSE, , out.width = '60%'}
+```
+
+---
+
+`r chunk_reveal("gg_save", break_type = "auto")`
+
+
+---
+
+template: simple
+## Garder un dessin pour l'enrichir plus tard
+
+```{r gg1_save, eval = FALSE, echo = FALSE, message = FALSE, , out.width = '60%'}
+gg <- penguins %>% 
+  ggplot() +
+  aes( x= bill_l, y=bill_d) +
+  geom_point() 
+gg <- gg + 
+  aes(col = species)  
+print(gg)
+```
+
+```{r gg1_save, eval = TRUE, echo = TRUE, message = FALSE, results='hide', out.width = '60%'}
+```
+
+---
+
+`r chunk_reveal("gg1_save", break_type = "auto")`
+
+
+---
 name: color
 # Enrichir les graphiques avec la couleur
 
@@ -361,6 +406,9 @@ penguins %>%
   aes(col = species)  #BREAK
 ```
 
+```{r scatter_plot_species, eval = FALSE, echo = TRUE, message = FALSE}
+```
+
 ---
 
 `r chunk_reveal("scatter_plot_species", break_type = "user")`
@@ -372,24 +420,54 @@ template: color
 
 ```{r hist_color_stack, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%
-  ggplot() + aes(x = bill_l, fill = species) + geom_histogram() 
+  ggplot() + aes(x = bill_l, fill = species) + 
+  geom_histogram() 
 ```
+
+
+```{r hist_color_stack, eval = FALSE, echo = TRUE, out.width = '60%'}
+```
+
 
 ---
-template: scatter_slide
-count: false
+
+`r chunk_reveal("hist_color_stack", break_type = "auto")`
 
 
-```{r gg1_save, eval = TRUE, echo = TRUE, message = FALSE, , out.width = '60%'}
-gg <- penguins %>% 
-  ggplot() +
-  aes( x= bill_l, y=bill_d) +
-  geom_point() + 
-  aes(col = species)  
+---
+template: color
+## Ajouter une information de groupes sur un histogramme
+
+Attention les couleurs représentent la part de chaque groupe dans la barre de l'histogramme.
+
+```{r hist_color_stack, eval = TRUE, echo = TRUE, out.width = '30%'}
+```
+
+--
+
+On peut vouloir faire 3 histogrammes différents
+
+```{r hist_color_diff, eval = FALSE, echo = FALSE, out.width = '30%'}
+penguins %>%
+  ggplot() + aes(x = bill_l, fill = species) + 
+  geom_histogram(position = 'identity') 
 ```
 
 
-## with a color blind compliant palette
+```{r hist_color_diff, eval = FALSE, echo = TRUE, out.width = '30%'}
+```
+---
+
+`r chunk_reveal("hist_color_diff", break_type = "auto")`
+
+
+
+
+
+
+---
+template: color
+## une palette pour daltoniens
 
 
 ---
@@ -402,9 +480,7 @@ gg +
 `r chunk_reveal("scatter_viridis", break_type = "auto")`
 
 ---
-template: scatter_slide
-count: false
-
+template: color
 ##  with a color tribute to [Wes Anderson](https://en.wikipedia.org/wiki/Wes_Anderson) 
 
 Following  a Tumblr blog  [Wes Anderson Palettes](https://wesandersonpalettes.tumblr.com/), Karthik Ram proposes the [wesanderson palette](https://github.com/karthik/wesanderson) on Github.
@@ -415,57 +491,60 @@ Following  a Tumblr blog  [Wes Anderson Palettes](https://wesandersonpalettes.tu
 color_darj <- wesanderson::wes_palette(name = "Darjeeling1")
 ```
 
----
+
 
 ```{r scatter_wesanderson, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg + 
   scale_color_manual(values = color_darj)
 ```
 
+```{r scatter_wesanderson, eval = FALSE, echo = TRUE, out.width = '60%'}
+```
+
+---
 
 `r chunk_reveal("scatter_wesanderson", break_type = "auto")`
 
----
-name: scatter_anderson
-
-# A scatter plot
-
-##  with a color tribute to [Wes Anderson](https://en.wikipedia.org/wiki/Wes_Anderson) 
 
 ---
-template: scatter_anderson
-count: true
+template: color
+## Exercice
 
-### Exercise
-
-Propose a fancy graph to visualize the relation between flipper and body mass. Does this relation change over year ?
-
+* Proposer un graphique  pour visulaliser le relation entre longueur d'ailes et poids du corps. 
+* Illustrer également un potentiel effet de l'année.
 
 --
 
-```{r exo_relation_cor, eval =  TRUE, echo = with_sol, out.width = '60%'}
+```{r exo_relation_cor, eval =  FALSE, echo = with_sol, out.width = '60%'}
 penguins %>% ggplot() +
-  aes(x= bm, y = flip_l, col = as_factor(year) ) + 
+  aes(x= bm, y = flip_l) + 
   geom_point() + 
-  scale_color_manual(values = wesanderson::wes_palette(name = "Darjeeling1"))
+  aes(col = as_factor(year)) +
+  scale_color_manual(values = wesanderson::wes_palette(name = "Darjeeling1")) 
+  
 
 ```
 
+---
+`r chunk_reveal("exo_relation_cor", break_type = "auto")`
+
 
 ---
-template: scatter_slide
+name: pimp
+# Pimp my graph 
 
+---
+template: pimp
 ## Some nice color palette
 - [Inspired by Ghibli](https://github.com/ewenme/ghibli)
 - [The yarr pirate palette](https://cran.r-project.org/web/packages/yarrr/vignettes/piratepal.html)
 - [Harry Potter inspiration](https://github.com/aljrico/harrypotter)![](https://github.com/aljrico/harrypotter/blob/master/man/figures/logo.png)
 
 
----
-template: scatter_anderson
-count: true
 
-## with nice labels
+---
+template: pimp
+## Des annotations choisies
 
 ```{r scatter_labels_gg, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg <- gg + scale_color_manual(values = color_darj) 
@@ -484,24 +563,10 @@ gg  +
 `r chunk_reveal("scatter_labels", break_type = "auto")`
 
 
-
-
 ---
-name: scatter_label
+template: pimp
+## Choisir le theme
 
-# A scatter plot
-
-##  with a color tribute to [Wes Anderson](https://en.wikipedia.org/wiki/Wes_Anderson),  nice labels
-
-
-
----
-template: scatter_label
-count: true
-
-## and a pre-set general theme
-
----
 
 ```{r scatter_themelight, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg  +
@@ -511,17 +576,20 @@ gg  +
   theme_light() #BREAK
 ```
 
+```{r scatter_themelight, eval = FALSE, echo = TRUE, out.width = '60%'}
+```
 
+---
 `r chunk_reveal("scatter_themelight", break_type = "user")`
 
 ---
 template: scatter_label
 count: false
 
-## and another pre set general theme
-
 
 ---
+template: pimp
+## Choisir le theme
 
 ```{r scatter_thememinimal, eval = FALSE, echo = FALSE, out.width = '60%'}
 gg + scale_color_manual(values = color_darj) +
@@ -531,15 +599,18 @@ gg + scale_color_manual(values = color_darj) +
   theme_minimal() #BREAK 
 ```
 
+```{r scatter_thememinimal, eval = FALSE, echo = TRUE, out.width = '60%'}
+```
+
+---
 
 `r chunk_reveal("scatter_thememinimal", break_type = "user")`
 
 ---
-template: scatter_label
-count: false
+template: pimp
+## Choisir le theme
 
-## and a pre set general theme
-
+Si on est heureux de notre graphique, on le garde
 
 ```{r scatter_set_theme, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg <- gg + scale_color_manual(values = color_darj) +
@@ -548,16 +619,12 @@ gg <- gg + scale_color_manual(values = color_darj) +
 ```
 
 ---
-template: scatter_label
-count: true
-
-## and a custom  theme
+template: pimp
+## Choisir le theme
 
 The default theme might not be the best option
 
-
-
-```{r preset_theme, eval = TRUE, echo = FALSE, out.width = '60%'}
+```{r preset_theme, eval = TRUE, echo = FALSE, out.width = '50%'}
 gg
 ```
 
@@ -571,27 +638,23 @@ gg +
 `r chunk_reveal("scatter_below", break_type = "auto")`
 
 ---
-template: scatter_label
-count: false
+template: pimp
+## Choisir le theme
 
-## and a custom  theme
 
 The legend position can also be specified by a vector ` c(x,y)`.  Their values should be between 0 and 1. c(0,0) corresponds to the “bottom left” and c(1,1) corresponds to the “top right” position. We may want to change the size.
 
 
-```{r scatter_within, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r scatter_within, eval = TRUE, echo = TRUE}
 gg + 
   theme(legend.position=c(.9, .6))
 ```
 
-
 ---
-template: scatter_label
-count: false
+template: pimp
+## Choisir le theme
 
-## and a custom  theme
-
-```{r scatter_custom, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r scatter_custom, eval = TRUE, echo = TRUE}
 gg + theme(legend.position=c(.9, .6),
            text = element_text(size = 10, face = "italic"),
            axis.text.x = element_text(angle=90, hjust=1),
@@ -601,14 +664,30 @@ gg + theme(legend.position=c(.9, .6),
 ```
 
 ---
-template: scatter_label
-count: true
+template: pimp
+## Choisir le theme par défaut
 
-## and fitted statistical models
-
-```{r, eval = FALSE, echo = FALSE, out.width = '60%'}
-gg
+```{r theme_setup_2, eval = FALSE, echo = FALSE}
+theme_set(theme_light())
+theme_update(legend.position="bottom") #BREAK
+penguins %>% 
+  ggplot() +
+  aes( x= bill_l, y=bill_d, col = species) +
+  geom_point() #BREAK
 ```
+
+---
+
+`r chunk_reveal("theme_setup_2", break_type = "user")`
+
+
+---
+name: stat
+# Ajouter des résumés statistiques
+
+---
+template: stat
+## pour illustrer la relation entre 2 variables
 
 
 ---
@@ -620,19 +699,19 @@ gg +
   geom_smooth(method = 'loess', se = TRUE)
 ```
 
-
-
+---
 
 `r chunk_reveal("stat_info_lm", break_type = "auto")`
 
 
 ---
-template: scatter_anderson
-count: true
+template: stat
+## Exercise
 
-### Exercise
-
-Propose a fancy graph to visualize the relation between flipper and body mass. Does this relation change over year ?
+* Proposer un joli graphique pour visualiser la relation entre la longueur de l'aile et le poids. 
+* Illustrer les changements potentiels au cours du temps ?
+* En utilisant de belles couleurs
+* entuilisant la palette `Zissou1` du package `wesanderson`.
 
 
 --
@@ -645,88 +724,13 @@ penguins %>% ggplot() +
 
 ```
 
----
-
-# A scatter plot
-
-##  with a color tribute to [Wes Anderson](https://en.wikipedia.org/wiki/Wes_Anderson),  nice labels, nice custom theme
-
-To keep the theme preferences for all plots to come
-
-```{r theme_setup, eval = FALSE, echo = FALSE, out.width = '60%'}
-
-penguins %>% 
-  ggplot() +
-  aes( x= bill_l, y=bill_d, col = species) +
-  geom_point()  #BREAK
-
-```
 
 ---
-
-`r chunk_reveal("theme_setup", break_type = "user")`
-
-
-
-```{r theme_setup_2, eval = FALSE, echo = FALSE, out.width = '60%'}
-
-theme_set(theme_light())
-theme_update(legend.position="bottom") #BREAK
-penguins %>% 
-  ggplot() +
-  aes( x= bill_l, y=bill_d, col = species) +
-  geom_point() #BREAK
-```
-
+name: autres
+# de nombreuses autres possibilités à explorer
 
 ---
-
-`r chunk_reveal("theme_setup_2", break_type = "user")`
-
-
----
-# Many other type of plots 
-
-
-```{r simple_hist_min, eval = FALSE, echo = FALSE, out.width = '60%'}
-penguins %>%
-  ggplot() + aes(x = bill_l) + geom_histogram(position = 'identity') +
-  labs( x = 'Bill length in mm') +
-  theme_minimal()
-```
-
-
----
-
-# Many other types of plots 
-
-## Histogram - exercise
-
-Add the color according to species and use the `Zissou1` palette from `wesanderson` package.
-
-```{r color_hist,   echo = TRUE, eval = FALSE, out.width = '60%'}
- penguins %>%  ...
-```
-
-
----
-
-
-```{r color_hist_cor_comp, eval = FALSE, echo = FALSE, out.width = '60%'}
-penguins %>%
-  ggplot() + aes(x = bill_l, fill = species) + geom_histogram() +
-  labs( x = 'Bill length in mm') +
-  scale_fill_manual(values = wesanderson::wes_palette('Zissou1', n = 3)) 
-```
-
-
-`r chunk_reveal("color_hist_cor_comp", break_type = "auto")`
-
----
-
-
-# Many other types of plots 
-
+template: autres
 ## Comparing plots
 
 
@@ -746,21 +750,13 @@ penguins %>%
 `r chunk_reveal("color_hist_facet", break_type = "auto")`
 
 ---
-
-# Many other types of plots 
-
+template: autres
 ## Comparing plots - exercise
 
 
 Change the previous graph to add a fitted density line
 
-```{r color_hist_dens_ex, eval = FALSE, echo = TRUE, out.width = '60%'}
 
-penguins %>% ...
-```
-
-
----
 
 
 ```{r color_hist_dens_cor, eval = FALSE, echo = FALSE, out.width = '60%'}
@@ -774,39 +770,34 @@ penguins %>% ...
   scale_color_manual(values = wesanderson::wes_palette('Darjeeling1'))   
 
 ```
+---
 
 `r chunk_reveal("color_hist_dens_cor", break_type = "user")`
 
 
 ---
+template: autres
 
+## des boxplots originaux
 
-# Many other types of plots 
-
-## Boxplot
-
-```{r color_boxplot, eval = TRUE, echo = TRUE, out.width = '60%'}
- penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
-  geom_boxplot(alpha=0.5, aes( fill = species)) +
-  labs( y = 'Bill length in mm') + #BREAK
-  scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) +  #BREAK
-  scale_color_manual(values = wesanderson::wes_palette('Darjeeling1'))   
-```
-
----
-
-```{r color_boxplot_2, eval = FALSE, echo = FALSE, out.width = '60%'}
+```{r color_boxplot_2, eval = FALSE, echo = FALSE}
  penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
   geom_violin(alpha=0.5, aes( fill = species)) +
   labs( y = 'Bill length in mm') + #BREAK
   scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) 
 ```
-
+```{r color_boxplot_2, eval = FALSE, echo = TRUE}
+```
+---
 
 `r chunk_reveal("color_boxplot_2", break_type = "user")`
 
 ---
 
+---
+template: autres
+
+## des boxplots originaux, qui font apparaître les valeurs
 
 ```{r color_boxplot_3, eval = FALSE, echo = FALSE, out.width = '60%'}
 penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
@@ -816,10 +807,16 @@ penguins %>%  ggplot() + aes(x = species,  y = bill_l) +
   scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) 
 ```
 
+```{r color_boxplot_3, eval = FALSE, echo = TRUE, out.width = '60%'}
+```
+
+---
 `r chunk_reveal("color_boxplot_3", break_type = "user")`
 
 ---
 
+---
+template: autres
 
 # Handling superscript and subscript
 
@@ -843,7 +840,6 @@ The `ggpubr`  package is very helpful for publication.
 
 ---
 template: useful_package
-count: false
 
 ```{r ggpubr_p1, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg_p1 <- gg
@@ -853,7 +849,7 @@ gg_p1
 
 ---
 template: useful_package
-count: false
+
 
 ```{r ggpubr_p2, eval = TRUE, echo = TRUE, out.width = '60%'}
 gg_p2 <- penguins %>%
@@ -868,7 +864,6 @@ gg_p2
 
 ---
 template: useful_package
-count: false
 
 ```{r ggpubr_p3, eval = TRUE, echo = TRUE, out.width = '60%'}
 ##install.packages('ggpubr')
@@ -877,7 +872,6 @@ ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1)
 
 ---
 template: useful_package
-count: false
 
 ```{r ggpubr_p4, eval = TRUE, echo = TRUE, out.width = '60%'}
 ggpubr::ggarrange(gg_p1, gg_p2, nrow=2, ncol = 1, common.legend = TRUE)
@@ -894,7 +888,7 @@ The `GGally`  package contains plenty of very useful and nice functions
 template: bivariate_explore
 count: false
 
-```{r ggpairs, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r ggpairs, eval = TRUE, echo = TRUE}
 ##install.packages('GGally')
 library(GGally)
 penguins %>% ggpairs(columns = c(1,3,4,5), mapping = aes(col = species)) +
@@ -906,7 +900,7 @@ scale_fill_manual(values = wesanderson::wes_palette('Darjeeling1')) + theme(text
 template: bivariate_explore
 count: false
 
-```{r ggpairs_fancy, eval = TRUE, echo = TRUE, out.width = '60%'}
+```{r ggpairs_fancy, eval = TRUE, echo = TRUE}
 penguins %>% ggpairs(columns = c(1,3,4,5), mapping = aes(col = species),
                      upper = list(continuous = wrap( "cor",size = 2)),
                      lower = list(continuous = wrap('points', size = .5))) +
