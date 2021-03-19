@@ -31,7 +31,7 @@ BibOptions(check.entries = FALSE,
            style = "markdown",
            hyperlink = FALSE,
            dashed = FALSE)
-knitr::opts_chunk$set(out.width = '50%', fig.align = 'center')
+knitr::opts_chunk$set(out.width = '40%', fig.align = 'center', cache = TRUE)
 myBib <- ReadBib('bibliography.bib', check = FALSE)
 with_sol <- TRUE ## in order to control the output
 with_course <- TRUE
@@ -67,10 +67,14 @@ Le modèle linéaire regroupe un ensemble de méthodes (et de modèles statistiq
 
 --
 
-Dans toutes ses approches, on cherche à comment les variations d'une grandeur d'intérêt (notée génériquement $Y$) s'explique par différentes variables explicatives.
+Dans toutes ses approches, on cherche à caractériser comment les variations d'une grandeur d'intérêt (notée génériquement $Y$) s'expliquent par différentes variables explicatives.
 
 
 ```{r ml, child = 'anova.rmd', cache = TRUE}
+```
+
+
+```{r ml, child = 'regression.rmd', cache = TRUE}
 ```
 
 ---
