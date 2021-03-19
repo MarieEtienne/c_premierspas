@@ -1,0 +1,926 @@
+
+---
+name: anova1
+
+# Analyse de la variance à 1 facteur
+
+---
+template: anova1
+## Un exemple jouet à but pédagogique
+
+On a mesuré la fréquence cardiaque de 20 femmes et 20 hommes.
+
+
+```{r datapackage, eval = TRUE, echo = FALSE, warning = FALSE}
+ggplot_save <- function(...) ggplot2::ggplot(...) 
+ggplot <- function(...) ggplot2::ggplot(...) + scale_fill_manual(values = wesanderson::wes_palette(name = "Darjeeling1")) + scale_color_manual(values = wesanderson::wes_palette(name = "Darjeeling1")) 
+#remotes::install_github('MarieEtienne/coursesdata', force = TRUE)
+```
+
+```{r freqdata, eval = TRUE, echo = c(1,2), warning = FALSE, out.width = '40%', out.height = '30%'}
+library(coursesdata) #remotes::install_github('marieetienne/coursesdata')
+data(freqdata)
+freqdata %>% ggplot() +  aes(x= Sexe, y = freqC) +  geom_boxplot(aes(fill = Sexe, col = Sexe), alpha = 0.5) + theme(legend.position = 'none')  + 
+  geom_jitter( size=0.8, alpha=0.7, width = 0.15, aes(col = as.factor(Sexe)))
+```
+
+
+--
+<p class="question"> Les hommes et les femmes ont-ils la même fréquence cardiaque au repos ?</p>
+
+---
+template: anova1
+## Cas d'étude Chauve souris
+
+- Des espèces avec différents régimes alimentaires.
+- L'écho localisation (capacité auditive) est un sens essentiel pour les insectivores.
+
+`r Citet(myBib, "hutcheon2002comparative")` ont recensé pour 63 espèces de chauves souris l'espèce, le régime alimentaire, le clade (groupe dans l'arbre phylogénétique), différentes variables morphologiques dont le volume du cerveau dédié à l'audition (AUD)
+
+```{r batsdata, eval = TRUE, echo = FALSE, out.width = '40%', out.height = '30%'}
+data(bats)
+bats %>% ggplot() + aes(x= as.factor(Diet), y = AUD) +geom_boxplot(aes(col = as.factor(Diet), fill = as.factor(Diet)), alpha = 0.5) + 
+  geom_jitter(size=0.8, alpha=0.7, width = 0.15, aes(col = as.factor(Diet)))  + 
+  theme(legend.position = 'none') + xlab('Diet')
+```
+
+--
+<p class="question"> Le volume de la partie auditive du cerveau est il lié au régime alimentaire ?</p>
+
+---
+template: anova1
+## Cadre général du modèle d'analyse de la variance à 1 facteur
+On étudie le lien entre  
+- variable quantitative notée $Y$ (la fréquence cardiaque, volume de cerveau),
+- et une variable qualitative (un facteur) pourvant prendre $I$ modalités (I=2 pour l'exemple 1 et I=4 dans l'exemple 2). 
+
+
+Les données peuvent être visualisées à l'aide d'un boxplot.
+
+
+--
+<p class="question"> La variable d'intérêt Y  est-elle en moyenne différente selon les différentes modalités ?</p>
+
+
+
+---
+template: anova1
+## Le modèle d'analyse de la variance à 1 facteur
+
+### Graphiquement 
+
+Une visualisation graphique du modèle d'analyse de la variance.
+
+<br> <br> <br> <br>
+
+
+Comment imagine-t-on le processus aléatoire qui a conduit à nos données ?
+
+
+---
+
+```{r anova_versiongraphique, eval = TRUE, echo = FALSE}
+set.seed(321)
+I <- 3
+mu <- round(1.5 * rnorm(I),2)
+effectif <- runif(n = I, min = 10, max = 30)
+fake_dta <- tibble( groupe = rep(1:I, effectif)) %>% group_by(groupe) %>% 
+  mutate(y = round(rnorm(n(), mean = mu[groupe], sd = 2),2), mean = mu[groupe] ) %>% mutate(groupe = as.factor(groupe), ord=0)  
+norm_dta <- tibble( x  = seq( min(mu) -3*2, max(mu)+ 3* 2, length.out = 100))  %>% 
+  mutate(d1 = dnorm(x, mean = mu[1], sd = 2),
+         d2 = dnorm(x, mean = mu[2], sd = 2),
+         d3 = dnorm(x, mean = mu[3], sd = 2)
+  ) %>% 
+  pivot_longer(cols = starts_with("d"), names_to = 'Groupe', values_to ='density' )%>% 
+  mutate(groupe = as.factor(as.numeric(as.factor(Groupe))))
+```
+
+```{r anova_versiongraphique_proba, out.width = '40%', out.height = '30%', echo = FALSE, eval=FALSE}
+ggplot() + 
+  xlab('y') +
+  ggtitle('Modèle M1') +
+  geom_line(data = norm_dta, aes(x= x, y = density, col = groupe)) +
+  theme(legend.position = 'none') + 
+  labs(col = 'Groupe') + #BREAK
+  geom_vline(data=fake_dta, aes(xintercept = mean, col = groupe), alpha = 0.6) +#BREAK
+  geom_point(data = fake_dta, aes(x = y, col = groupe, y=ord), size = 2, alpha = 0.7) 
+
+```
+
+`r chunk_reveal("anova_versiongraphique_proba", break_type = "user", display_type="output", width = 70)`
+---
+
+```{r anova_versiongraphique_proba2, eval = TRUE, echo = FALSE}
+ggplot() +  ggtitle('Modèle M1') +  
+  xlab('y') +
+  geom_point(data = fake_dta, aes(x = y, col = groupe, y=ord), size = 2, alpha = 0.7) + 
+  theme(legend.position = 'none') +
+  labs(col = 'Groupe') +
+  geom_line(data = norm_dta, aes(x= x, y = density, col = groupe), alpha= 0.1) +   
+  geom_vline(data=fake_dta, aes(xintercept = mean, col = groupe), alpha = 0.1) #BREAK
+```
+
+
+
+
+```{r anova_versiongraphiqueM0, eval = TRUE, echo = FALSE}
+
+mu0 <- mean(fake_dta$y)
+fake_dta <- fake_dta %>% mutate(mu0 = mu0)
+sd0 <- sd(fake_dta$y)
+norm_dta_M0 <- tibble( x  = norm_dta$x)  %>% 
+  mutate(d1 = dnorm(x, mean = mu0, sd = sd0),
+         d2 = dnorm(x, mean = mu0, sd = sd0),
+         d3 = dnorm(x, mean = mu0, sd = sd0)
+  ) %>% 
+  pivot_longer(cols = starts_with("d"), names_to = 'Groupe', values_to ='density' )%>% 
+  mutate(groupe = as.factor(as.numeric(as.factor(Groupe))))
+```
+---
+
+```{r anova_versiongraphique_proba_M0, echo = FALSE, eval = FALSE}
+ggplot() + ggtitle('Modèle M0') + 
+  xlab('y') +
+  geom_line(data = norm_dta_M0, aes(x= x, y = density, col = groupe))  +
+  theme(legend.position = 'none') + 
+  labs(col = 'Groupe') + 
+  geom_vline(data=fake_dta, aes(xintercept = mu0, col = groupe), alpha = 0.6) +#BREAK
+  geom_point(data = fake_dta, aes(x = y, col = groupe, y=ord), size = 2, alpha = 0.7)
+
+```
+
+`r chunk_reveal("anova_versiongraphique_proba_M0", break_type = "user", display_type="output", width = 70)`
+
+---
+
+
+```{r anova_versiongraphique_proba2_M0, eval = TRUE, echo = FALSE}
+ggplot() +  
+  xlab('y') +
+  ggtitle('Modèle M0')  +  
+  geom_point(data = fake_dta, aes(x = y, col = groupe, y=ord), size = 2, alpha = 0.7)  +
+  theme(legend.position = 'none') + 
+  labs(col = 'Groupe') + 
+  geom_line(data = norm_dta_M0, aes(x= x, y = density, col = groupe), alpha= 0.1) +  #BREAK
+  geom_vline(data=fake_dta, aes(xintercept = mu0, col = groupe), alpha = 0.1) #BREAK
+```
+---
+template: model
+count: false
+
+```{r anova_versiongraphique_save, eval = TRUE, echo = FALSE, out.height = '30%', out.width ='40%'}
+p_M1 <- ggplot() + 
+  xlab('y') +
+  ggtitle('Modèle M1') +
+  geom_line(data = norm_dta, aes(x= x, y = density, col = groupe), alpha = 0.6) +
+  theme(legend.position = 'none') + 
+  labs(col = 'Groupe') + #BREAK
+  geom_vline(data=fake_dta, aes(xintercept = mean, col = groupe), alpha = 0.6) +#BREAK
+  geom_point(data = fake_dta, aes(x = y, col = groupe, y=ord), size = 2, alpha = 0.7) 
+
+p_M0 <-ggplot() +  
+  xlab('y') +
+  ggtitle('Modèle M0')  +  
+  geom_point(data = fake_dta, aes(x = y, col = groupe, y=ord), size = 2, alpha = 0.7)  +
+  theme(legend.position = 'none') + 
+  labs(col = 'Groupe') + 
+  geom_line(data = norm_dta_M0, aes(x= x, y = density, col = groupe), alpha= 0.1) +  
+  geom_vline(data=fake_dta, aes(xintercept = mu0, col = groupe), alpha = 0.1) #BREAK
+ggpubr::ggarrange(p_M1, p_M0, ncol = 2)
+```
+
+
+<p class="question"> Au vu de nos données, le modèle M1 est-il plus pertinent que le modèle M0 ?</p>
+
+
+---
+name:model 
+# Analyse de la variance à 1 facteur 
+## Le modèle
+---
+template: model
+
+### Version régulière du modèle M1
+
+$$Y_{ik} \overset{ind}{\sim}\mathcal{N}(\mu_i, \sigma^2),$$
+avec 
+- $i=1,\ldots,I$ le numéro du groupe,
+- $k= 1,\ldots, n_i$ le numéro de l'individu dans le groupe $i$, 
+- $n_i$ le nombre d'individus dans le groupe $i$ et $n=\sum_i n_i$ le nombre total d'individus,
+- $\mu_i$ le comportement moyen du groupe $i$,
+- $\sigma^2$ la variance commune à tous les groupes.
+
+**Une écriture équivalente **
+
+$$Y_{ik} = \mu_{i} + E_{ik}, \quad E_{ik}\overset{ind}{\sim}\mathcal{N}(0, \sigma^2).$$
+
+**Nombre de paramètres du modèle**
+
+- $I$ paramètres de moyenne  $(\mu_1, \mu_2, \ldots, \mu_I)$; 
+- 1 paramètre de variance $\sigma^2$
+
+---
+template: model
+
+### Version régulière du modèle M1 sur l'exemple 1
+
+$$Y_{ik} \overset{ind}{\sim}\mathcal{N}(\mu_i, \sigma^2),$$
+avec  $I=2$ et  la convention $i=1$ pour les femmes et $i=2$ pour les hommes.
+
+```{r freq_anova, eval= TRUE, echo = TRUE}
+freqdata %>%group_by(Sexe) %>% summarise(n= n())
+```
+Ainsi 
+- $k=1, \ldots, n_i$, avec $n_1=20$ et $n_2=20$ et $n=40$.
+- $\mu_1$ la fréquence cardiaque moyenne des femmes et $\mu_2$ celle des hommes. 
+- $\sigma^2$ la variance commune à tous les groupes.
+
+**Nombre de paramètres**
+- 2 paramètres de moyenne
+- 1 paramètre de variance
+
+---
+template: model
+### Version singulière du modèle du modèle M1
+
+$$Y_{ik} \overset{ind}{\sim}\mathcal{N}(\mu + \alpha_i, \sigma^2),$$
+avec 
+- $i=1,\ldots,I$ le numéro du groupe,
+- $k= 1,\ldots, n_i$ le numéro de l'individu dans le groupe $i$, ( $\sum_i n_i=n$ )
+- $\mu$ un comportement moyen de référence,
+- $\alpha_i$ un effet différentiel du groupe $i$par rapport à la référence,
+- $\sigma^2$ la variance commune à tous les groupes.
+
+**Une écriture équivalente **
+
+$$Y_{ik} = \mu + \alpha_{i} + E_{ik}, \quad E_{ik}\overset{ind}{\sim}\mathcal{N}(0, \sigma^2).$$
+
+**Nombre de paramètres du modèle**
+
+- $I+1$ paramètres de moyenne $(\mu, \alpha_1, \alpha_2, \ldots, \alpha_I)$,
+- 1 paramètre de variance $\sigma^2.$
+
+--
+
+**La version dans les logiciels et celle qui se généralise à plusieurs facteurs.**
+
+---
+template: model
+### Version singulière du modèle du modèle M1 sur l'exemple 1
+
+$$Y_{ik} \overset{ind}{\sim}\mathcal{N}(\mu + \alpha_i, \sigma^2),$$
+avec 
+- $I=2$ et  la convention $i=1$ pour les femmes et $i=2$ pour les hommes.
+- $k=1, \ldots, n_i$, avec $n_1=20$ et $n_2=20$
+- $\mu$ la fréquence cardiaque moyenne de référence <a class="care"> Référence à définir </a> 
+- $\alpha_1$, l'effet différentiel d'être une femme par rapport à la différence et $\alpha_2$ l'effet différentiel d'être un homme.
+- $\sigma^2$ la variance commune à tous les groupes.
+
+
+
+**Nombre de paramètres**
+- 3 paramètres de moyenne
+- 1 paramètre de variance
+
+
+---
+template: model
+### Lien entre les deux versions du même modèle
+
+ <table style="width:100%">
+  <tr>
+    <th>Groupe</th>
+    <th>V. régulière</th>
+    <th>V. singulière</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td> $\mu_1$ </td>
+    <td> $\mu +\alpha_1$ </td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td> $\mu_2$ </td>
+    <td> $\mu +\alpha_2$ </td>
+  </tr>
+    <tr>
+    <td> </td>
+    <td>  </td>
+    <td>   </td>
+  </tr>
+  </tr>
+    <tr>
+    <td> </td>
+    <td>  </td>
+    <td>   </td>
+  </tr>
+  </tr>
+    <tr>
+    <td> </td>
+    <td>  </td>
+    <td>   </td>
+  </tr>
+    <tr>
+    <td>I</td>
+    <td> $\mu_I$ </td>
+    <td> $\mu +\alpha_I$ </td>
+  </tr>
+</table> 
+
+--
+
+<a class=care> Problème </a> : Version régulière mal définie. Le modèle dans cette version est dit <a style="font-weight:400;"> indéterminé</a>.
+
+
+--
+**Exemple**
+Si $\mu_1 =10,\ \mu_2=12,$ dans la forme singulière peut correspondre à 
+
+- $\mu =10,\ \alpha_1=0, \ \alpha_2=2,$
+- ou $\mu =0,\ \alpha_1=10, \ \alpha_2=12,$
+- ou $\mu =11,\ \alpha_1=-1, \ \alpha_2=1,$
+- ou $\mu =15,\ \alpha_1=-5, \ \alpha_2=-3,$
+- $\ldots$
+
+
+--
+<a class=care> Solution </a> : Choisir une contrainte. Par défaut dans R, $\alpha_1=0$. La référence est le comportement du groupe 1. 
+
+
+
+---
+template: model
+### Version singulière du modèle du modèle M1 en intégrant la contrainte par défaut
+
+
+
+$$Y_{ik} = \mu + \alpha_{i} + E_{ik}, \quad E_{ik}\overset{ind}{\sim}\mathcal{N}(0, \sigma^2).$$
+
+avec 
+- $i=1,\ldots,I$ le numéro du groupe,
+- $k= 1,\ldots, n_i$ le numéro de l'individu dans le groupe $i$, ($\sum_i n_i = n$ nombre total d'individus)
+- $\mu$ un comportement moyen de référence <a class=care> c'est celui du groupe 1</a>
+- $\alpha_1=0$  la contrainte choisie, $\alpha_1$ n'est plus un paramètre d'intérêt.
+- $\alpha_i, i\geq 2$ un effet différentiel du groupe $i$par rapport à la référence(i.e. le groupe 1)
+- $\sigma^2$ la variance commune à tous les groupes.
+
+
+**Nombre de paramètres du modèle**
+
+- $I$ paramètres de moyenne $(\mu,  \alpha_2, \ldots, \alpha_I)$,
+- 1 paramètre de variance $\sigma^2.$
+
+---
+template: model
+### Version singulière du modèle du modèle M1 sur l'exemple 1  en intégrant la contrainte par défaut
+
+$$Y_{ik} \overset{ind}{\sim}\mathcal{N}(\mu + \alpha_i, \sigma^2),$$
+avec 
+- $I=2$ et  la convention $i=1$ pour les femmes et $i=2$ pour les hommes.
+- $k=1, \ldots, n_i$, avec $n_1=20$ et $n_2=20$
+- $\mu$ la fréquence cardiaque moyenne des femmesei 
+- $\alpha_1$, l'effet différentiel d'être une femme par rapport à la différence et $\alpha_2$ l'effet différentiel d'être un homme.
+- $\sigma^2$ la variance commune à tous les groupes.
+
+
+
+**Nombre de paramètres**
+- 3 paramètres de moyenne
+- 1 paramètre de variance
+
+
+---
+name: parametre
+# Analyse de la variance à 1 facteur 
+## Etude des paramètres du modèle
+
+---
+template: parametre
+### Quelques précisions de notations et de vocabulaires
+
+- Les données observées (les valeurs prises par la variable $Y$ ) : $\bf{y}=(y_{11}, y_{12}, \ldots, y_{I n_I}).$ 
+
+- En refaisant la même expérience, on obtiendrait d'autres valeurs (liées au choi d'individus différents par exemple, ou mesuré un autre jour, ...), on va noter $Y_{ik}$ la variable aléatoire qui décrit la loi des valeurs possibles pour l'individu k du groupe i.   
+
+<br>
+<a class=care> les minuscules notent des valeurs, les majuscules des variables aléatoires. </a>
+<br>
+
+--
+
+Les paramètres du modèle  sont inconnus. Ils sont notés par des lettres grecques $\bf{\theta}$, $\mu, \alpha, \dots$. 
+
+
+On veut en donner une estimation à partir des données observées ( $\bf{y}$). Les estimations des paramètres sont notées par les mêmes lettres décorées d'un chapeau $\bf{\hat{\theta}}, \hat{\mu}, \hat{\alpha}, \dots$.  
+
+
+L'estimateur d'un paramètre est la variable aléatoire correspondante. Il sera noté en majuscule avec une lettre latine. Par exemple, l'etimateur de $\theta$ sera noté $T$, l'estimateur de $\mu$ sera noté $M$ et l'estimateur de $\alpha_1$ sera noté $A_1$.
+
+
+
+---
+template: parametre
+###Estimation des paramètres du modèle version régulière
+
+$$Y_{ik} = \mu_i + E_{ik}, \quad E_{ik}\overset{ind}{\sim}\mathcal{N}(0,\sigma^2).$$
+
+**Estimation**
+
+$\mu_i$ représente le comportement moyen de l'ensemble des individus du groupe $i$.  On peut l'estimer par $\hat{\mu}_i = \frac{1}{n_i}\sum_{k=1}^{n_i} y_{ik}$
+
+--
+
+**Estimateur** 
+
+L'estimateur de $\mu_i$ est donc défini par $M_i= \frac{1}{n_i}\sum_{k=1}^{n_i} Y_{ik},$  c'est une variable aléatoire
+
+--
+
+dont on connaît la loi ([cf cours master pour plus de détails](https://marieetienne.github.io/linear_model/anova.html#38) )
+
+$$M_i \sim\mathcal{N}\left(\mu_i, \frac{\sigma^2}{n_i}\right).$$
+
+
+---
+template: parametre
+### Estimation des paramètres du modèle version singulière avec la contrainte par défaut
+
+$$Y_{ik} = \mu + \alpha_i + E_{ik}, \quad E_{ik}\overset{ind}{\sim}\mathcal{N}(0,\sigma^2).$$
+
+**Estimation**
+
+- $\mu$ représente le comportement moyen du groupe 1 (groupe de référence) : $\hat{\mu} = \frac{1}{n_1}\sum_{k=1}^{n_1} y_{1k}$
+--
+
+- $\mu + \alpha_i = \mu_i$, donc  $\alpha_i = \mu_i -\mu$ ,représente l'effet différentiel du groupe i par rapport au groupe de référence.  $\hat{\alpha_i} = \frac{1}{n_i}\sum_{k=1}^{n_i} y_{1k} - \hat{\mu}$
+
+--
+
+**Estimateur **
+
+L'estimateur de $\mu$ est donc défini par $M= \frac{1}{n_1}\sum_{k=1}^{n_1} Y_{1k}.$  
+
+$$M \sim\mathcal{N}\left(\mu, \frac{\sigma^2}{n_1}\right).$$
+
+--
+
+L'estimateur de $\alpha_i$ est donc défini par $A_i= \frac{1}{n_i}\sum_{k=1}^{n_i} Y_{ik} - \frac{1}{n_1}\sum_{k=1}^{n_1} Y_{1k}.$
+
+$$A_i \sim\mathcal{N}\left(\alpha_i, \sigma^2\left(\frac{1}{n_i} + \frac{1}{n_1}\right) \right).$$
+
+
+---
+template: parametre
+### Estimation des paramètres pour l'exemple 1.
+
+** Ce qu'on doit trouver ** 
+
+$$\hat{\mu} =\frac{1}{20}\sum_{k=1}^{20} y_{1k}, \quad \hat{\alpha}_2 =\frac{1}{20}\sum_{k=1}^{20} y_{2k} - \frac{1}{20}\sum_{k=1}^{20} y_{1k}$$
+
+```{r estim_par1,  echo = TRUE, eval = TRUE}
+freqdata %>% group_by(Sexe) %>% summarise(m = mean(freqC), n= n())
+```
+```{r estim_par1_save, eval = TRUE}
+resM1 <- freqdata %>% group_by(Sexe) %>% summarise(m = mean(freqC), n= n()) %>% 
+  mutate(ecart = m -lag(m))
+```
+
+
+--
+
+$\hat{\mu} =$ `r resM1$m[1]` et $\hat{\alpha}_2=$ `r resM1$m[2] - resM1$m[1]`. 
+
+
+---
+template: parametre
+### Estimation des paramètres pour l'exemple 1.
+
+**Ce qu'on doit trouver**
+
+$\hat{\mu} =$ `r resM1$m[1]` et $\hat{\alpha}_2=$ `r resM1$m[2] - resM1$m[1]`. 
+
+--
+
+
+**Estimer avec R**
+
+```{r estim_par_lm, echo = TRUE, eval = TRUE}
+M1 <- lm(freqC ~ Sexe, data = freqdata)
+summary(M1)$coefficients
+```
+
+---
+count: false
+template: parametre
+### Estimation des paramètres pour l'exemple 1.
+
+```{r estim_par_lm_2, echo = TRUE, eval = TRUE}
+M1 <- lm(freqC ~ Sexe, data = freqdata)
+summary(M1)
+```
+
+```{r estim_par_lm_3, echo = FALSE, eval = TRUE}
+sigma_hat <- summary(M1)$sigma
+```
+
+---
+name: modcomp
+# Analyse de la variance à 1 facteur
+## Test du modèle complet
+
+---
+template: modcomp
+
+On veut répondre à la question
+<p class="question"> Les hommes et les femmes ont-ils la même fréquence cardiaque au repos ?</p>
+
+--
+<p class="question"> La variable d'intérêt Y  est-elle en moyenne différente selon les différentes modalités ?</p>
+
+--
+
+```{r rappel_MO_M1, eval = TRUE,fig.width = 14, fig.height=8, echo = FALSE }
+ggpubr::ggarrange(p_M1, p_M0, ncol = 2)
+```
+
+
+
+---
+template: modcomp
+### Rappel exemple fréquence cardiaque (exemple 1)
+
+On a mesuré la fréquence cardiaque de 20 femmes et 20 hommes.
+
+
+
+```{r freqdata2, ref.label='freqdata', eval = TRUE, warning = FALSE, results ='markup', echo = FALSE}
+```
+
+
+--
+<p class="question"> Les hommes et les femmes ont-ils la même fréquence cardiaque au repos ?</p>
+
+---
+template: modcomp
+### Rappel exemple fréquence cardiaque (exemple 1)
+
+
+<p class="question"> Les hommes et les femmes ont-ils la même fréquence cardiaque au repos ?</p>
+
+
+Autrement dit
+
+
+```{r freqdata_graphia_anova, eval = TRUE, warning = FALSE, results ='markup', echo = FALSE}
+freq_p_M <- ggplot(data = freqdata) + geom_point(aes(x=freqC, y =0, col = Sexe), alpha = 0.5)
+
+freq_p_M1 <- freq_p_M +   stat_function(fun = dnorm, n = 101, args = list(mean = resM1$m[1], sd = sigma_hat ), col =  "#FF0000") +
+  stat_function(fun = dnorm, n = 101, args = list(mean = resM1$m[2], sd = sigma_hat ), col =  "#00A08A") +
+  geom_vline(aes(xintercept = resM1$m[1] ), col =  "#FF0000") +
+  geom_vline(aes(xintercept = resM1$m[2] ), col =  "#00A08A") 
+M0 <- lm(freqC~1, data = freqdata)
+freq_p_M0 <- freq_p_M +   stat_function(fun = dnorm, n = 101, args = list(mean = coef(M0), sd = summary(M0)$sigma ), col =  "#FF0000") +
+ stat_function(fun = dnorm, n = 101, args = list(mean = coef(M0), sd = summary(M0)$sigma ),  col =  "#00A08A") +
+  geom_vline(aes(xintercept =  coef(M0)), col= "#FF0000") +
+  geom_vline(aes(xintercept =  coef(M0) ), col =  "#00A08A")  + theme(legend.position =  'bottom' )
+ggpubr::ggarrange(freq_p_M1, freq_p_M0, common.legend = TRUE)
+```
+
+---
+template: modcomp
+
+```{r rappel_MO_M1, eval = TRUE,fig.width = 14, fig.height=8, echo = FALSE }
+```
+
+---
+template: modcomp
+## Test de l'existence d'un effet
+
+
+<p class="question"> Le comportement moyen de la variable $Y$ est il différent selon les différentes modalités de la variable explicative ?</p>
+
+--
+
+Deux modèles possibles
+$$M1 : Y_{ik} = \mu  + \alpha_i + E_{ik},\quad  M0: Y_{ik} = \mu  + E_{ik}$$
+
+<p class="question"> Le modèle M1 est il plus pertinent que le modèle M0?</p>
+
+
+---
+template: modcomp
+### Mesurer la variabilité expliquée par le modèle M1
+
+--
+
+**Variabilité totale dans les données = Variabilité résiduelle dans le modèle $M_0$**
+
+$$RSS_{0, obs} = \sum_{i=1}^{I} \sum_{k=1}^{n_i} (y_{ik} - \bar{y})^2 = \sum_{i=1}^{I} \sum_{k=1}^{n_i} (y_{ik} - \hat{y}_{ik}^{(0)})^2.$$ 
+--
+
+**Variabilité résiduelle dans le modèle $M_1$**
+
+$$RSS_{1, obs} = \sum_{i=1}^{I} \sum_{k=1}^{n_i}  ( y_{ik} - (\hat{\mu} +\hat{\alpha}_i))^2 = \sum_{i=1}^{I} \sum_{k=1}^{n_i}  ( y_{ik} - \hat{y}_{ik}^{(1)})^2.$$ 
+--
+
+**Variabilité expliquée par le modèle $M_1$**
+
+$$SCM = SS_{M1,obs} =  RSS_{0, obs} - RSS_{1, obs}.$$ 
+C'est la quantité de variabilité expliquée par les différences entre les I populations.
+
+--
+
+<p class=care> Si la variabilité expliquée par le modèle $M1$ est grande, on gagne à considérer des ppopulations différentes <p>
+
+On a mis en évidence des différences entre les populations.
+
+
+---
+template: modcomp
+### Calcul de RSS sur l'exemple 1
+
+A la main :
+
+
+
+```{r rss, eval = TRUE, echo = FALSE, results='hide'}
+freqdata %>%  mutate(m= mean(freqC)) %>% #BREAK
+  mutate( Ehat = freqC - m) %>% #BREAK
+  mutate( E2hat = Ehat^2) %>% #BREAK
+  summarise(RSSM1 =sum(E2hat)) %>% 
+  as.numeric()-> RSSM0#BREAK
+freqdata %>% group_by(Sexe) %>% 
+  mutate(m= mean(freqC)) %>% #BREAK
+  mutate( Ehat = freqC - m) %>% #BREAK 
+  mutate( E2hat = Ehat^2) %>% #BREAK
+  ungroup() %>% #BREAK
+  summarise(RSSM1 =sum(E2hat)) %>% 
+  as.numeric()->  RSSM1 #BREAK
+RSSM0
+RSSM1
+SSM <- RSSM0 - RSSM1 #BREAK
+SSM #BREAK
+```
+
+---
+
+
+`r chunk_reveal("rss", break_type = "user")`
+
+
+```{r rss_cache,  eval = TRUE, echo = FALSE}
+freqdata %>% group_by(Sexe) %>%
+  mutate(m= mean(freqC)) %>% 
+  mutate( Ehat = freqC - m) %>% 
+  mutate( E2hat = Ehat^2) %>% 
+  ungroup() %>% 
+  summarise(RSSM1 =sum(E2hat)) -> 
+  RSSM1
+freqdata %>%  mutate(m= mean(freqC)) %>% 
+  mutate( Ehat = freqC - m) %>% 
+  mutate( E2hat = Ehat^2) %>% 
+  summarise(RSSM1 =sum(E2hat)) -> 
+  RSSM0
+SSM <- as.numeric(RSSM0 - RSSM1)
+```
+
+---
+template: modcomp
+### Calcul de RSS sur l'exemple 1
+
+
+```{r SCM,  echo = TRUE, eval = TRUE, highlight = 1:2}
+M1 <- lm(freqC ~ Sexe, data= freqdata)
+M0 <- lm(freqC ~ 1, data= freqdata)
+anova(M0, M1)
+```
+
+
+
+---
+template: modcomp
+### Quand décider si $SS_{M1, obs}$ est grande ?  
+
+
+--
+C'est le rôle du test statistique.
+
+--
+
+Idée de démarche:
+
+- Décrire quelle gamme de valeurs pourrait prendre SSM dans le cas où il n'y pas de différence entre les groupes 
+- Comparer avec ce qu'on constate sur nos données
+    - Si c'est comparable, pas de raison de penser qu'il y a des différences entre les groupes,
+    - Si c'est surprenant, les groupes sont vraisemblablement différentes.
+
+--
+
+On veut décrire comment varie $SS_{M1, obs}$ dans la situation où il n"y a pas de différence entre les groupes.
+
+On travaille donc sous l'hypothèse 
+$$H_0 =\left \lbrace \mbox{Pas de différence entre les groupes }\right\rbrace$$
+
+--
+
+$$H_0 =\left \lbrace  \mbox{pour tout }i, \alpha_i =0  \right\rbrace$$
+
+--
+
+$$H_0 =\left \lbrace  M1 \mbox{ est équivalent à } M0 \right\rbrace.$$
+
+---
+template: modcomp
+### Hypothèses du test
+
+On va donc opposer une hypothèse de travail $H_0$ contre une hypothèse alternative $H_1$. $H_0$ peut donc prendre différentes formes:
+
+
+$$\begin{align} 
+H_0 & =\left \lbrace \mbox{Pas de différence entre les groupes }\right\rbrace\\
+    & =\left \lbrace  \mbox{pour tout }i, \alpha_i =0  \right\rbrace\\
+    & =\left \lbrace  M1 \mbox{ est équivalent à } M0 \right\rbrace.
+\end{align}$$
+
+$H_1$ prend les formes équivalentes suivantes
+
+$$\begin{align} 
+H_1 & =\left \lbrace \mbox{Au moins 1 groupe est différent des autres}\right\rbrace\\
+    & =\left \lbrace  \mbox{Il existe un }i, \alpha_i  \ne 0  \right\rbrace\\
+    & =\left \lbrace  M1 \mbox{ est préférable à } M0 \right\rbrace.
+\end{align}$$
+
+---
+template: modcomp
+### Loi de la statistique de test sous $H_0$
+
+
+Il faut être capable de décrire quelles sont les valeurs possibles de $SS_{M1, obs}$, pour ceci il faut connaitre la loi de la variable aléatoire $SS_{M1}$.
+
+-
+On peut montrer que sous $H_0$,  
+
+$$\frac{SS_{M1}}{\sigma^2} \underset{H_0}{\sim}\chi^2(I-1)$$  
+
+--
+Mais $\sigma^2$ est inconnu, on a envie de le remplacer par son estimateur $RSS / (n-I).$
+
+--
+
+
+<p class=question> 
+Sous $H_0$, 
+$$F= \frac{\frac{SS_{M1}}{I-1}}{\frac{RSS}{n-I}} \underset{H_0}{\sim}\mathcal{F}(I-1, n-I)$$  
+</p>
+
+
+
+
+---
+template: modcomp
+### Loi de la statistique de test sous $H_0$ - graphiquement
+
+Sous $H_0$ la loi de distribution de $F$ est 
+
+```{r p_value, eval = TRUE, echo = FALSE}
+tibble(x = seq(0, 10, length.out = 2001)) %>% 
+  mutate(y = df(x, df1 = 4, df= 38)) -> chi_dta
+Fobs <- 1
+chi_dta %>% filter(x> Fobs) %>% add_row(x=100,y = 0) %>%  add_row(x=Fobs, y =0)  %>% 
+  add_row(x=Fobs, y =df(Fobs, df1 = 4, df= 38)) %>% arrange(x,y)  -> chi_dta_poly
+```
+
+
+```{r pvalue_graphique, eval = FALSE, echo = FALSE}
+ggplot(data  = chi_dta) + xlab('y') + ylab('density') + geom_line(aes(x=x, y=y)) + #BREAK
+  annotate("text", x = Fobs- 0.5, y = 0.05, label = "Fobs", col = 'red')+  geom_vline(aes(xintercept = Fobs), col = 'red') + #BREAK
+  geom_polygon(data = chi_dta_poly,  aes(x=x, y= y), alpha = 0.3) + xlim(c(0, max(chi_dta$x))) 
+
+```
+
+---
+
+`r chunk_reveal("pvalue_graphique", break_type = "user", display_type="output")`
+
+---
+template: modcomp
+
+### Proabilité critique
+
+La probabilité critique ( p-value en anglais) est définie par 
+
+$$ \mathbb{P}(F> F_{obs} \vert H_0)$$
+
+--
+
+Grossièrement dit, c'est la,probabilité d'observer Fobs ou des valeurs encore plus extrèmes sous $H_0$.
+
+--
+
+On va rejeter $H_0$ lorsque la probabilité critique est faible (typiquement inférieure à 5%). La valeur de la statistique de test observée est peu compatible avec l'hypothèse $H_0$. On ne croit pas à $H_0$.
+
+
+---
+template: modcomp
+### Déclinaison sur l'exemple Fréquence cardiaque
+
+
+```{r anova_FC_F, echo = TRUE, eval =TRUE}
+
+anova(M0,M1)
+
+```
+
+--
+
+
+```{r pvalue_graphique-ex_FC, eval = TRUE, echo = FALSE, out.width = '60%', fig.height=6, fig.width = 12}
+Fobs <- anova(M0,M1)$F[2]
+chi_dta %>% filter(x> Fobs) %>% add_row(x=100,y = 0) %>%  add_row(x=Fobs, y =0)  %>% 
+  add_row(x=Fobs, y =df(Fobs, df1 = 4, df= 38)) %>% arrange(x,y)  -> chi_dta_poly
+ggplot(data  = chi_dta) + xlab('y') + ylab('density') + geom_line(aes(x=x, y=y)) + 
+  annotate("text", x = Fobs + 0.5 , y = 0.05, label = "Fobs", col = 'red') +
+  geom_vline(aes(xintercept = Fobs), col = 'red') +
+  geom_polygon(data = chi_dta_poly,  aes(x=x, y= y), alpha = 0.3) + xlim(c(0, max(chi_dta$x))) 
+```
+---
+template: modcomp
+### Exercice sur l'exemple chauve souris
+
+
+### Pouvez vous répondre à la question 
+
+<a class=question> Y a-t-il un effet du régime alimentaire sur le volume de la partie auditive du cerveau ? </a>
+
+```{r install_package_data, echo = TRUE, eval = FALSE}
+install.packages('remotes')
+remotes::install_github('marieetienne/coursesdata')
+data(bats)
+```
+
+
+
+---
+name: test_param
+# Analyse de la variance à 1 facteur
+## Test sur un paramètre
+
+---
+template: test_param
+### Réflexion sur le sens de ce test
+
+$$Y_{ik} = \mu +\alpha_i + E_{ik}, \quad i=1,\ldots I,\ k=1,\ldots, n_i.$$
+Par défaut, R propose pour chaque coefficient le test de l'hypothèse $H_0\ :\ \left\lbrace\mbox{ le coefficient est nul } \right\rbrace$. 
+
+--
+
+Que signifie ce test ?
+
+- pour $\mu$
+- pour $\alpha_i$
+
+--
+
+<a class=care> Attention, le sens de ce test dépend  de la contrainte choisie </p>
+
+
+Pour plus de détail sur les tests sur des paramètres se reporter au [cours en ligne](https://marieetienne.github.io/linearmodel.html)
+* extension à plus que 1 facteur
+
+
+---
+# Analyse de la variance à 1 facteur
+## Démarche complète d'analyse à partir de l'exemple des chauves souris
+
+Une question initiale :  Le volume auditif dépend il de régime alimentaire. 
+- Représenter les données en fonction des questions qu'on se pose.
+- Ecrire le modèle 
+- Traduire la question en 1 ou plusieurs tests statistiques
+- Apporter une réponse concrète
+
+  
+---
+# Analyse de la variance à 1 facteur
+## Bilan sur le modèle d'analyse de la variance à 1 facteur
+
+
+### But 
+Etudier le lien entre une variable quantitative (la fréquence cardiaque) et un facteur (le Sexe).
+
+### Le modèle 
+$$Y_{ik} = \mu + \alpha_i + E_{ik}$$
+avec $\mu$ le comportement de référence et $\alpha_i$ l'effet différentiel du groupe $i$  par rapport à la référence. 
+
+La référence est définie par la contrainte choisie. R par défaut choisit la contrainte $\alpha_1=0$, ce qui place le groupe 1 comme groupe de référence.
+
+### Tests
+Pour comparer des modèles ( pour tester un potentiel effet du facteur),
+
+Sur un  paramètre  pvaut une valeur donnée (par défaut R teste systématiquement si un paramètre vaut 0)
+- on doit vérifier que les hypothèses de modélisation ne sont pas trop fausses.
+
+
+
+
+
+
