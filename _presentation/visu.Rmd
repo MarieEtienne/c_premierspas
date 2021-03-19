@@ -917,7 +917,7 @@ name: gganimate
 The `gganimate`  package produces animated graph (html only).
 
 
-```{r ani_final, eval = TRUE, echo = TRUE, message = FALSE, warning=FALSE, comment=FALSE, out.with = '40%', out.height = '30%'}
+```{r ani_final, eval = FALSE, echo = TRUE, message = FALSE, warning=FALSE, comment=FALSE, out.with = '40%', out.height = '30%'}
 library(gganimate)
 gg  +
   transition_states(year)  +
