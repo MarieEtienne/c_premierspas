@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: mpetienne/r-courses:0.22
+    container: mpetienne/r-courses:0.24
 
     steps:
       - name: Checkout repository and submodules
