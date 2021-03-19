@@ -1,0 +1,83 @@
+---
+title: "R : des premiers pas au modèle linéaire"
+subtitle: "Modèle linéaire"
+author: Marie-Pierre Etienne
+institute: "https://marieetienne.github.io/premierspas/"
+date: "Mars 2021"
+csl: "../resources/apa-no-doi-no-issue.csl"
+output:
+   xaringan::moon_reader:
+    css: [  'metropolis',  '../courses_tools/resources/mpe_pres.css']
+    lib_dir: libs
+    nature:
+      ratio: 16:10
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: '../courses_tools/resources/collapseoutput.js'
+    includes:
+      after_body: '../courses_tools/resources/insert-logo.html'
+---
+
+
+
+```{r setup, include = FALSE,  eval = TRUE}
+main_dir <-  '..'
+common_img_dir <- file.path(main_dir,'courses_tools','resources', 'common_figs')
+course_img_dir <- file.path(main_dir,'resources', 'figs')
+BibOptions(check.entries = FALSE,
+           bib.style = "authoryear",
+           cite.style = "alphabetic",
+           style = "markdown",
+           hyperlink = FALSE,
+           dashed = FALSE)
+knitr::opts_chunk$set(out.width = '50%', fig.align = 'center')
+myBib <- ReadBib('bibliography.bib', check = FALSE)
+with_sol <- TRUE ## in order to control the output
+with_course <- TRUE
+```
+
+
+
+name: intro
+# Introduction
+
+---
+template: intro
+
+## Des resources pour bien commencer
+
+* <img src =`r file.path(course_img_dir, "lm_agro.jpg")` alt = "Modele lineaire" width = "50" height ="75">    `r Citet(myBib, 'lm_agro')`,  [Le modèle linéaire et ses extensions](https://www.editions-ellipses.fr/accueil/3168-statistique-le-modele-lineaire-et-ses-extensions-modele-lineaire-general-modele-lineaire-generalise-modele-mixte-plans-d-experiences-niveau-c-9782340009141.html) (disponible en ligne [ici](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjp0vTc67vvAhUNtRoKHQOkD-EQFjABegQIAxAD&url=https%3A%2F%2Fhal.archives-ouvertes.fr%2Fhal-01246652&usg=AOvVaw18GmAe00cx3BqkaIQYTChm) )
+
+* Une [fiche résumé ](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjQjv6N7LvvAhWjyIUKHdZCC-UQFjAAegQIBRAD&url=https%3A%2F%2Fwww.math.univ-toulouse.fr%2F~besse%2FWikistat%2Fpdf%2Fst-m-inf-rgls-modlin.pdf&usg=AOvVaw3xIQrAYKSrLMXmyzLNP2cO)
+
+* <img src =`r file.path(course_img_dir, "lmr2.png")` alt = "Modele lineaire" width = "50" height ="75">    `r Citet(myBib, 'faraway2014linear')`, [Linear Models with R](https://julianfaraway.github.io/faraway/LMR/)
+
+* La [page du cours](https://marieetienne.github.io/linearmodel.html) que j'ai fait à distance cette année dans un module de Master en écologie 
+
+
+---
+template: intro
+
+Le modèle linéaire regroupe un ensemble de méthodes (et de modèles statistiques) qui se traitent de la même manière d'un point de vue mathématique.
+
+* Les modèles d'analyse de la variances
+* les modèles de régression simple et multiple
+* les modèles d'analyse de la covariance
+
+-- 
+
+Dans toutes ses approches, on cherche à comment les variations d'une grandeur d'intérêt (notée génériquement $Y$) s'explique par différentes variables explicatives.
+
+
+```{r ml, child = 'anova.rmd', cache = TRUE}
+```
+
+---
+
+# References
+
+
+```{r refs, echo=FALSE, results="asis", eval = TRUE, cache = FALSE }
+PrintBibliography(myBib)
+```
