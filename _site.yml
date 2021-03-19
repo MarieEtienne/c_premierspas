@@ -18,7 +18,7 @@ navbar:
       - text: "Visualisation"
         href: _presentation/visu.html
       - text: "Modele linéaire, intro"
-        href: _modelelinearei.html
+        href: _presentation/modelelineaire.html
   - text: "Les données"
     icone: fa-table
     href: http://marieetienne.github.io/data.html

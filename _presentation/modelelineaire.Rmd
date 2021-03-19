@@ -65,7 +65,7 @@ Le modèle linéaire regroupe un ensemble de méthodes (et de modèles statistiq
 * les modèles de régression simple et multiple
 * les modèles d'analyse de la covariance
 
--- 
+--
 
 Dans toutes ses approches, on cherche à comment les variations d'une grandeur d'intérêt (notée génériquement $Y$) s'explique par différentes variables explicatives.
 
