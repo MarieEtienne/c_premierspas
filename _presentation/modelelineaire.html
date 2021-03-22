@@ -416,7 +416,7 @@ template: model
 
 avec 
 - `\(i=1,\ldots,I\)` le numéro du groupe,
-- `\(k= 1,\ldots, n_i\)` le numéro de l'individu dans le groupe `\(i\)`, ($\sum_i n_i = n$ nombre total d'individus)
+- `\(k= 1,\ldots, n_i\)` le numéro de l'individu dans le groupe `\(i\)`, ( `\(\sum_i n_i = n\)` nombre total d'individus)
 - `\(\mu\)` un comportement moyen de référence &lt;a class=care&gt; c'est celui du groupe 1&lt;/a&gt;
 - `\(\alpha_1=0\)`  la contrainte choisie, `\(\alpha_1\)` n'est plus un paramètre d'intérêt.
 - `\(\alpha_i, i\geq 2\)` un effet différentiel du groupe `\(i\)`par rapport à la référence(i.e. le groupe 1)
@@ -510,7 +510,7 @@ template: parametre
 - `\(\mu\)` représente le comportement moyen du groupe 1 (groupe de référence) : `\(\hat{\mu} = \frac{1}{n_1}\sum_{k=1}^{n_1} y_{1k}\)`
 --
 
-- `\(\mu + \alpha_i = \mu_i\)`, donc  `\(\alpha_i = \mu_i -\mu\)` ,représente l'effet différentiel du groupe i par rapport au groupe de référence.  `\(\hat{\alpha_i} = \frac{1}{n_i}\sum_{k=1}^{n_i} y_{1k} - \hat{\mu}\)`
+- `\(\mu + \alpha_i = \mu_i\)`, donc  `\(\alpha_i = \mu_i -\mu\)` ,représente l'effet différentiel du groupe i par rapport au groupe de référence.  `\(\hat{\alpha_i} = \frac{1}{n_i}\sum_{k=1}^{n_i} y_{ik} - \hat{\mu}\)`
 
 --
 
@@ -708,7 +708,7 @@ C'est la quantité de variabilité expliquée par les différences entre les I p
 
 --
 
-&lt;p class=care&gt; Si la variabilité expliquée par le modèle `\(M1\)` est grande, on gagne à considérer des ppopulations différentes &lt;p&gt;
+&lt;p class=care&gt; Si la variabilité expliquée par le modèle `\(M1\)` est grande, on gagne à considérer des populations différentes &lt;p&gt;
 
 On a mis en évidence des différences entre les populations.
 
