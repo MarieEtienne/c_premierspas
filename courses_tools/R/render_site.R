@@ -11,13 +11,15 @@ source(file.path('courses_tools','R', 'load_packages.R'))
 
 
 
-filenames <- file.path('_presentation', 'modelelineaire.Rmd')
-
+filenames <- list.files('_presentation', pattern = '.Rmd',
+                        full.names = TRUE)
 system(glue::glue( 'cp resources/mpe_pres.css _presentation/.'))
 system(glue::glue( 'cp resources/*.bib _presentation/.'))
 
 
 for(f_ in filenames){
+  system(glue::glue( 'rm -rf {stringr::str_remove(f_, ".Rmd")}_cache'))
+  system(glue::glue( 'rm -rf {stringr::str_remove(f_, ".Rmd")}_files'))
   rmarkdown::render(f_)
 }
 
