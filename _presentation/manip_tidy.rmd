@@ -542,7 +542,7 @@ Créer un fichier Rmarkdown qui réalise les tâches suivantes
 
 * Importer le jeu de données sur la [biomasse](https://marieetienne.github.io/datasets/Biomass_diversity.csv) et le stocker dans une variable biomasse_dta
 
-* Calculer le nombre d'années de mesures de rendement par pays et par années
+* Calculer le nombre  de mesures de rendement par pays et par années
 
 * Calculer le rendement moyen par pays et par année
 
