@@ -711,7 +711,7 @@ template: stat
 * Proposer un joli graphique pour visualiser la relation entre la longueur de l'aile et le poids. 
 * Illustrer les changements potentiels au cours du temps ?
 * En utilisant de belles couleurs
-* entuilisant la palette `Zissou1` du package `wesanderson`.
+* en utilisant la palette `Zissou1` du package `wesanderson`.
 
 
 --
